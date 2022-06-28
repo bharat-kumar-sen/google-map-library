@@ -1,5 +1,5 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-  <i class="fa fa-shopping-bag" aria-hidden="true"></i><a class="navbar-brand" href="#">&nbsp;Shopping Mart</a>
+<nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-primary ">
+  <i class="fa fa-shopping-bag ml-5" aria-hidden="true"></i><a class="navbar-brand ml-1" href="/home">&nbsp;Shopping Mart</a>
 
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
@@ -7,15 +7,21 @@
   <div class="collapse navbar-collapse" id="navbarText">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item active">
-        <a class="nav-link" href="#">Home<span class="sr-only">(current)</span></a>
+        <a class="nav-link" href="/home">Home<span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">User Profile</a>
+        <a class="nav-link" href="/user-profile">User Profile</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="/products">Products</a>
       </li>
     </ul>
+    <form class="d-flex p-2">
+      <div class="input-group">
+          <input type="text" class="form-control" placeholder="Search">
+          <button type="button" class="btn btn-secondary"><i class="fa fa-search"></i></button>
+      </div>
+  </form>
     <span class="navbar-text">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
@@ -24,7 +30,7 @@
           </div>
         </li>
         <li class="nav-item">
-          <div class="p-1 mr-2">
+          <div class="p-1 mr-5">
             <button class="nav-item btn btn-light" [routerLink]="'/login'">Login</button>
           </div>
         </li>
@@ -34,32 +40,24 @@
 </nav>
 
 <router-outlet></router-outlet>
-<br> <br> <br> <br> <br>
+<br>
+
 <div class="d-flex justify-content-between py-2 my-2 border-top border-primary"></div>
 <div class="container">
   <footer class="py-5">
     <div class="row">
       <div class="col-2">
-        <h5>Section</h5>
+        <h5><u>ABOUT</u></h5>
         <ul class="nav flex-column">
           <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Home</a></li>
-          <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Features</a></li>
-          <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Pricing</a></li>
-          <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">FAQs</a></li>
-          <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">About</a></li>
+          <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">User Profile</a></li>
+          <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Products</a></li>
+          <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Careers</a></li>
+          <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">ShoppingMart Stories</a></li>
         </ul>
       </div>
 
-      <div class="col-2">
-        <h5>Section</h5>
-        <ul class="nav flex-column">
-          <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Home</a></li>
-          <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Features</a></li>
-          <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Pricing</a></li>
-          <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">FAQs</a></li>
-          <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">About</a></li>
-        </ul>
-      </div>
+
 
       <div class="col-2">
         <h5>Section</h5>

@@ -11,7 +11,14 @@ const routes: Routes = [
  },
   {path: 'products',
 loadChildren: ()=> import('./products/products.module').then( (mod)=> mod.ProductsModule)
-}
+},
+  {path: 'home',
+ loadChildren: ()=> import('./home/home.module').then( (mod)=> mod.HomeModule)
+},
+  {path: 'user-profile',
+ loadChildren: ()=> import('./user-profile/user-profile.module').then( (mod)=> mod.UserProfileModule)
+
+  }
 
 ];
 
