@@ -1,0 +1,115 @@
+<div class="app-body">
+  <main class="main d-flex align-items-center min-h">
+    <div class="container mt-5 p-2">
+      <div class="row justify-content-center">
+        <div class="col-lg-6 col-md-8">
+          <div class="card position-relative">
+            <div class="card-body p-4">
+              <div class="d-flex custom-border">
+                <span class="secondary-bg"></span>
+                <span class="primary-bg"></span>
+                <span class="secondary-bg"></span>
+                <span class="primary-bg"></span>
+              </div>
+              <h1 class="text-center">Register</h1>
+              <p class="text-muted text-center">Create your account</p>
+
+              <div class="mb-3">
+                <div class="input-group">
+                  <span class="input-group-text">
+
+                    <i class="icon-user"></i>
+                  </span>
+                  <input class="form-control" characterOnly name="firstName"
+                    type="text" placeholder="First name" autocomplete="off">
+                </div>
+              </div>
+              <div class="mb-3">
+                <div class="input-group">
+                  <span class="input-group-text">
+
+                    <i class="icon-user"></i>
+                  </span>
+                  <input type="text" characterOnly class="form-control" name="lastName"
+                   placeholder="Last name" autocomplete="off">
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <div class="input-group">
+                  <span class="input-group-text"></span>
+                  <input class="form-control" name="email" type="email"
+                    placeholder="Email" autocomplete="off">
+                </div>
+
+              </div>
+
+              <div class="mb-3">
+                <div class="input-group">
+                  <span class="input-group-text">
+                    <i class="icon-phone"></i>
+                  </span>
+                  <input type="text" numbersOnly class="form-control" maxlength="10" name="phoneNumber"
+                     placeholder="Contact number" autocomplete="off">
+                </div>
+
+              </div>
+
+              <div class="mb-3">
+                <div class="input-group">
+                  <span class="input-group-text">
+                    <i class="icon-lock"></i>
+                  </span>
+                  <input type="password" class="form-control" name="password" placeholder="Password"maxlength="10">
+                </div>
+
+              </div>
+
+              <div class="mb-3">
+                <div class="input-group">
+                  <span class="input-group-text">
+
+                    <i class="icon-lock"></i>
+                  </span>
+                  <input type="password" class="form-control" name="confirm_password" placeholder="Repeat password">
+                </div>
+
+              </div>
+
+
+
+              <div class="row mb-3">
+                <div class="col-form-label col-sm-3 pt-0">Gender <span>*</span>:</div>
+                <div class="col-sm-9">
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input " type="radio" name="gender" id="inlineRadio1" value="male">
+                    <label class="form-check-label" for="inlineRadio1">Male</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="gender" id="inlineRadio2" value="female">
+                    <label class="form-check-label" for="inlineRadio2">Female</label>
+                  </div>
+                </div>
+              </div>
+
+
+
+              <div class="d-grid">
+                <button class="btn btn-primary" type="button">Signup</button>
+
+              </div>
+              <div class="text-center mt-20 ">
+                <a href="#" [routerLink]="['/login']">Already have an
+                  account!</a>
+                <!--<div clas="row">
+                  <pre [innerHtml]="signupInfo | json"></pre> -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+  </main>
+</div>
+
