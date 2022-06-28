@@ -21,7 +21,7 @@
                     <i class="fa fa-user"></i>
                   </span>
                   <input class="form-control" characterOnly name="firstName"
-                    type="text" placeholder="First name" autocomplete="off">
+                    type="text" placeholder="First name" autocomplete="off" [(ngModel)] = "signup.firstName" required>
                 </div>
               </div>
               <div class="mb-3">
@@ -31,7 +31,7 @@
                     <i class="fa fa-user"></i>
                   </span>
                   <input type="text" characterOnly class="form-control" name="lastName"
-                   placeholder="Last name" autocomplete="off">
+                   placeholder="Last name" autocomplete="off" [(ngModel)] = "signup.lastName" required>
                 </div>
               </div>
 
@@ -41,7 +41,7 @@
                    <b>@</b>
                   </span>
                   <input class="form-control" name="email" type="email"
-                    placeholder="Email" autocomplete="off">
+                    placeholder="Email" autocomplete="off" [(ngModel)] = "signup.email">
                 </div>
 
               </div>
@@ -52,7 +52,7 @@
                     <i class="fa fa-phone"></i>
                   </span>
                   <input type="text" numbersOnly class="form-control" maxlength="10" name="phoneNumber"
-                     placeholder="Contact number" autocomplete="off">
+                     placeholder="Contact number" autocomplete="off" [(ngModel)] = "signup.contact">
                 </div>
 
               </div>
@@ -62,7 +62,7 @@
                   <span class="input-group-text">
                     <i class="fa fa-lock"></i>
                   </span>
-                  <input type="password" class="form-control" name="password" placeholder="Password"maxlength="10">
+                  <input type="password" class="form-control" name="password" placeholder="Password"maxlength="10" [(ngModel)] = "signup.password">
                 </div>
 
               </div>
@@ -73,7 +73,7 @@
 
                     <i class="fa fa-lock"></i>
                   </span>
-                  <input type="password" class="form-control" name="confirm_password" placeholder="Repeat password">
+                  <input type="password" class="form-control" name="confirm_password" placeholder="Repeat password" [(ngModel)] = "signup.repeat">
                 </div>
 
               </div>
@@ -84,11 +84,11 @@
                 <div class="col-form-label col-sm-3 pt-0">Gender <span>*</span>:</div>
                 <div class="col-sm-9">
                   <div class="form-check form-check-inline">
-                    <input class="form-check-input " type="radio" name="gender" id="inlineRadio1" value="male" checked="checked">
+                    <input class="form-check-input " type="radio" name="gender" id="inlineRadio1" value="male" [(ngModel)]="signup.gender" checked="checked">
                     <label class="form-check-label" for="inlineRadio1">Male</label>
                   </div>
                   <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="gender" id="inlineRadio2" value="female">
+                    <input class="form-check-input" type="radio" name="gender" id="inlineRadio2" value="female" [(ngModel)]="signup.gender">
                     <label class="form-check-label" for="inlineRadio2">Female</label>
                   </div>
                 </div>
@@ -103,8 +103,8 @@
               <div class="text-center mt-20 ">
                 <a href="#" [routerLink]="['/login']">Already have an
                   account!</a>
-                <!--<div clas="row">
-                  <pre [innerHtml]="signupInfo | json"></pre> -->
+
+                  <pre [innerHtml]="signup | json"></pre>
                 </div>
               </div>
             </div>

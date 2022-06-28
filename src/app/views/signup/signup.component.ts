@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { signupUser } from './modules/signup.model';
 
 @Component({
   selector: 'app-signup',
@@ -6,6 +7,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./signup.component.scss']
 })
 export class SignupComponent implements OnInit {
+  signup: signupUser = new signupUser();
 
   constructor() { }
 
