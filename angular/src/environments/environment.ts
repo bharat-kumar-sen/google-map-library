@@ -3,7 +3,20 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  baseUrl: 'http://localhost:3000/',
+  // baseUrl: '/',
+  cookieToken: 'ang1qazNodexsw2tra',
+  cookieExpirationTime: 10,
+  uploadsFolder: {
+    profile: 'profile',
+  },
+  jwtTokenKey: 'angNodeTraining_JwtTken',
+  currentUserKey: 'angNodeTraining_currentUser',
+  role: {
+    userRole: 'user',
+    adminRole: 'admin',
+  },
 };
 
 /*
