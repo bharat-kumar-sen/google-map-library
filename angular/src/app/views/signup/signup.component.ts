@@ -70,4 +70,8 @@ export class SignupComponent implements OnInit {
   get formError() {
     return this.signupForm.controls;
   }
+  onsubmit() {
+    console.log(this.signupForm.value);
+    this.signupForm.reset();
+  }
 }
