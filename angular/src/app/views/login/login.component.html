@@ -37,7 +37,7 @@
                 </div>
                 <div class="row text-center">
                   <div class="col-12">
-                    <button class="nav-item btn btn-primary" [disabled]="!login.email  || !login.password">Login</button>
+                    <button class="nav-item btn btn-primary" (click)="doLogin()" [disabled]="!login.email  || !login.password">Login</button>
                   </div>
                 </div>
               </div>

@@ -17,7 +17,7 @@ export class AlertService {
                     this.keepAfterRouteChange = false;
                 } else {
                     // clear alert
-                    this.subject.next();
+                    this.subject.next('');
                 }
             }
         });
@@ -49,6 +49,6 @@ export class AlertService {
     }
 
     clear() {
-        this.subject.next();
+        this.subject.next('');
     }
 }
