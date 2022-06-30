@@ -17,6 +17,7 @@ export class ApiService {
   constructor(private httpClient: HttpClient) { }
 
   post(url: string, param?: any): Observable<any> {
+    console.log(param, url)
     const apiURL = this.apiBase + url;
     return this.httpClient
       .post(apiURL, param, { withCredentials: true })

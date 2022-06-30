@@ -41,13 +41,17 @@ export class LoginComponent implements OnInit {
   //login with Api
   doLogin() {
     let loginPostData = this.login;
-    this.toastr.info('error msg', 'testing msg')
     this.spinner.show();
+    this.toastr.info('error msg', 'testing msg')
     if(loginPostData.remember) {
       this.jwtService.setCookie(environment.cookieToken,loginPostData);
     } else {
       this.jwtService.deleteCookie(environment.cookieToken);
     }
-
+    this.usersService.doSignUp(loginPostData).subscribe(
+      (data: any) => {
+        this.spinner.hide();
+      }
+    )
    }
 }

@@ -7,6 +7,11 @@ import {
   FormArray,
   FormControl,
 } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
+import { GlobalService, AlertService, UsersService } from '../../shared-ui';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { Router } from '@angular/router';
+
 declare var $: any;
 
 @Component({
@@ -18,7 +23,13 @@ export class SignupComponent implements OnInit {
   /**signup: signupUser = new signupUser(); **/
   signupForm: any = new FormGroup({});
 
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder,
+    private toastr: ToastrService,
+    private router: Router,
+    private globalService: GlobalService,
+    private spinner: NgxSpinnerService,
+    private usersService: UsersService
+    ) {}
 
   ngOnInit(): void {
     this.userFormValidation();
@@ -113,4 +124,8 @@ export class SignupComponent implements OnInit {
       });
     }, 5000);
   } */
+
+  doSignUp() {
+
+  }
 }
