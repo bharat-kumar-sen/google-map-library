@@ -58,8 +58,8 @@
                   </div>
                   <p class="alert alert-danger mt-1"
                     *ngIf="formError.email.invalid && (formError.email.dirty || formError.email.touched) ">
-                    <span *ngIf="formError.email.errors.required">email Required.</span>
-                    <span *ngIf="formError.email.errors.pattern">Should be of correct pattern.</span>
+                    <span *ngIf="formError.email.errors.required">Email Required.</span>
+                    <span *ngIf="formError.email.errors.pattern">Enter valid email.</span>
 
                   </p>
                 </div>
@@ -120,13 +120,13 @@
                   <div class="col-form-label col-sm-3 pt-0">Gender <span>*</span>:</div>
                   <div class="col-sm-9">
                     <div class="form-check form-check-inline">
-                      <input class="form-check-input " type="radio" name="gender" id="inlineRadio1" value="male"
-                        checked="checked">
-                      <label class="form-check-label" for="inlineRadio1" formControlName="gender">Male</label>
+                      <input class="form-check-input " type="radio" name="gender" id="genderMale" value="male"
+                        formControlName="gender">
+                      <label class="form-check-label" for="genderMale">Male</label>
                     </div>
                     <div class="form-check form-check-inline">
-                      <input class="form-check-input" type="radio" name="gender" id="inlineRadio2" value="female">
-                      <label class="form-check-label" for="inlineRadio2" formControlName="gender">Female</label>
+                      <input class="form-check-input" type="radio" name="gender" formControlName="gender"id="genderFemale" value="female">
+                      <label class="form-check-label" for="genderFemale" >Female</label>
                     </div>
                   </div>
                 </div>
