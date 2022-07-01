@@ -8,7 +8,6 @@ var MapObj, map, map2x, zoom = 1.8;
 function binitializeMAP() {
   if (google.maps) {
     map = new google.maps.Map(document.getElementById('google_map'), {
-      initMap: true,
       // styles: mapStyles,
       zoom: zoom,
       center: {
