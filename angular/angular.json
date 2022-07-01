@@ -38,7 +38,8 @@
             "scripts": [
               "node_modules/bootstrap/dist/js/bootstrap.js",
               "src/assets/js/jquery.min.js",
-              "src/assets/js/map.js"
+              "src/assets/js/b-map.js",
+              "src/assets/js/MapLibrary.js"
             ]
           },
           "configurations": {
