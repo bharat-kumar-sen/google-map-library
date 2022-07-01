@@ -1,5 +1,5 @@
 <!--Navabr-->
-<nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark ">
+<nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
   <div class="container">
     <i class="fa fa-map-marker text-white fs-2 p-2" aria-hidden="true"></i><a class="navbar-brand ml-1"
       href="/home">&nbsp;GOOGLE MAP Training</a>
@@ -13,15 +13,32 @@
 
     <span class="navbar-text">
       <ul class="navbar-nav mr-auto float-right">
-
-        <li class="nav-item">
-          <a class="nav-link" [routerLink]="['/bharat']" routerLinkActive="router-link-active">Bharat</a>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" [routerLink]="['/bharat']" routerLinkActive="router-link-active" id="navbarDropdown1" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Bharat
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item" [routerLink]="['/bharat/add-map-marker']">Add Map Marker</a></li>
+            <li><a class="dropdown-item" [routerLink]="['/bharat/add-map-marker']">Show markers from db.</a></li>
+          </ul>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" [routerLink]="['/shireen']" routerLinkActive="router-link-active">Shireen</a>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" [routerLink]="['/shireen']" routerLinkActive="router-link-active" id="navbarDropdown2" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Shireen
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item" [routerLink]="['/bharat/add-map-marker']">Add Map Marker</a></li>
+            <li><a class="dropdown-item" [routerLink]="['/bharat/add-map-marker']">Show markers from db.</a></li>
+          </ul>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" [routerLink]="['/rajat']" routerLinkActive="router-link-active">Rajat</a>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" [routerLink]="['/rajat']" routerLinkActive="router-link-active" id="navbarDropdown3" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Rajat
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item" [routerLink]="['/bharat/add-map-marker']">Add Map Marker</a></li>
+            <li><a class="dropdown-item" [routerLink]="['/bharat/add-map-marker']">Show markers from db.</a></li>
+          </ul>
         </li>
       </ul>
     </span>
