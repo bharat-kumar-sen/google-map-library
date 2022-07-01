@@ -5,9 +5,9 @@ var MapObj, map, map2x, zoom = 1.8;
 // var base_url = '';
 
 
-function initializeMAP() {
+function binitializeMAP() {
   if (google.maps) {
-    map = new google.maps.Map(document.getElementById('Map_canvas'), {
+    map = new google.maps.Map(document.getElementById('google_map'), {
       initMap: true,
       // styles: mapStyles,
       zoom: zoom,

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-declare function initializeMAP(): any;
+declare function binitializeMAP(): any;
 
 @Component({
   selector: 'app-show-map-marker',
@@ -12,7 +12,7 @@ export class ShowMapMarkerComponent implements OnInit {
 
   ngOnInit(): void {
     setTimeout(() => {
-      initializeMAP();
+      binitializeMAP();
     }, 2000);
   }
 }
