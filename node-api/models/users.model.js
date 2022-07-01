@@ -18,7 +18,6 @@ var DbConnect = dbConnection.db;
  */
 exports.test = (req, cb) => {
   var data = req.body;
-  console.log("data=======", data);
   DbConnect.from('marker').first().where('email', '=', data.email)
     .then((result) => {
       if (result) {
@@ -27,7 +26,6 @@ exports.test = (req, cb) => {
         cb(true, null);
       }
     }).catch((err) => {
-      console.log("err========", err);
       cb(err, null);
     });
 }
