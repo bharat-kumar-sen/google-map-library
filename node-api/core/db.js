@@ -1,13 +1,38 @@
-const mongoose = require("mongoose");
-exports.createDBConnection = () => {
-  mongoose.Promise = global.Promise;
-  const connect = mongoose.connect(
-    "mongodb://localhost:27017/angular-node-training", {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    useCreateIndex: true,
-    useFindAndModify: false,
+/**
+ * Name: database connection.
+ * @description : This file use for google cloud google cloud db connection and We use globally.
+ */
+
+const Knex = require('knex');
+
+// HERE IS START CONNECTION FOR STAGING DATABASE
+const connect = () => {
+  const config = {
+    user: 'root',
+    password: 'root',
+    database: 'google_map_library',
+    charset: 'utf8mb4',
+  };
+
+  if (
+    process.env.INSTANCE_CONNECTION_NAME &&
+    process.env.NODE_ENV === 'production'
+  ) {
+    config.socketPath = `/cloudsql/${process.env.INSTANCE_CONNECTION_NAME}`;
   }
-  );
-  return connect;
+
+  // Connect to the database
+  const knex = Knex({
+    client: 'mysql',
+    connection: config,
+  });
+  // [END gae_flex_mysql_connect]
+
+  return knex;
+};
+const db = connect();
+
+
+module.exports = {
+  db: db
 };
