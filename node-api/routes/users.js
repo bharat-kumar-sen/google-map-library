@@ -1,14 +1,15 @@
-const express = require("express");
-const router = express.Router();
-const Users = require("../controllers/usersController");
-router.post("/saveUserInfo", Users.saveUserInfo);
-router.post("/emailAlreadyExists", Users.emailAlreadyExists);
-router.post("/doSignIn", Users.doSignIn);
-router.get("/getUsersList", Users.getUsersList);
-router.post('/authentication', Users.authentication);
-router.get('/logout', Users.logout);
-router.post('/searchUserData', Users.searchUserData);
-router.post('/forgotPassword', Users.forgotPassword);
-router.post('/getUserInfo', Users.getUserInfo);
+/**
+ * Name: users route
+ * @description : Here is define Server-side all users module url
+ */
+var express = require('express');
+var router = express.Router();
 
+/** Here We are importing users.controller for the users route link to users controller*/
+const users = require('./../controllers/users.controller.js');
+router.get('/', function (req, res, next) {
+  res.send('respond with a resource');
+});
+
+router.get('/test', users.test);
 module.exports = router;

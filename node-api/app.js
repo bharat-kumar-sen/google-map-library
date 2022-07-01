@@ -8,20 +8,6 @@ var bodyParser = require('body-parser'),
 const mongoose = require('mongoose')
 var cookieParser = require("cookie-parser");
 const logger = require('morgan');
-const globalService = require("./core/globalService");
-mongoose.Promise = global.Promise;
-
-// connect to db
-var DB = require("./core/db");
-var DBConnection = DB.createDBConnection();
-DBConnection.then(
-  () => {
-    console.log("DB connection done");
-  },
-  (err) => {
-    console.log("connection failed ", err);
-  }
-);
 
 
 
@@ -52,36 +38,7 @@ app.use(
     credentials: true,
   })
 );
-// HERE WE ARE DOING AUTHORIZATION WITH API/UI WITHOUT UI WE CAN'T ACCESS OUR API. IT WILL BE CHANGE AFTER LOGIN ENV.authorization
-app.use(async (req, res) => {
-  const authorization = req.headers.authorization
-  if (authorization) {
-    const authorization = req.headers.authorization.split(" ")[1]
-    globalService.verifyToken(authorization, (verifyResp) => {
-      if (verifyResp.verify) {
-        return req.next();
-      } else {
-        return res.json({
-          status: 401,
-          error: "You are unauthorized users.",
-        });
-      }
-    });
-  } else {
-    let UnauthenticationPages = globalService.authenticationFalsePage();
-    let pageSegment = req.url.split('/');
-    const foundPages = UnauthenticationPages.find((page) => page === pageSegment[2])
-    console.log("foundPages", foundPages)
-    if (foundPages) {
-      return req.next();
-    } else {
-      return res.json({
-        status: 401,
-        error: "You are unauthorized users.",
-      });
-    }
-  }
-})
+
 
 app.use(express.urlencoded({
   extended: true
@@ -93,7 +50,6 @@ app.use(bodyParser.urlencoded({
 
 app.use("/", indexRouter);
 app.use("/users", userRouter);
-app.use('/uploadImage', require('./controllers/localFileUpload'));
 
 
 // catch 404 and forward to error handler
