@@ -36,10 +36,11 @@
               "src/styles.scss"
             ],
             "scripts": [
-              "node_modules/bootstrap/dist/js/bootstrap.js",
+              "node_modules/jquery/dist/jquery.min.js",
               "src/assets/js/jquery.min.js",
               "src/assets/js/b-map.js",
-              "src/assets/js/MapLibrary.js"
+              "src/assets/js/MapLibrary.js",
+              "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"
             ]
           },
           "configurations": {

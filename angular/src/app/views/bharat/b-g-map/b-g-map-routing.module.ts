@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { ShowMapMarkerComponent } from './show-map-marker/show-map-marker.component';
 
 const routes: Routes = [
-  { path: 'show-map-marker', component: ShowMapMarkerComponent, pathMatch: 'full' }
+  { path: 'add-map-marker', component: ShowMapMarkerComponent, pathMatch: 'full' }
 ];
 
 @NgModule({
