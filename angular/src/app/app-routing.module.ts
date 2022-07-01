@@ -7,10 +7,10 @@ const routes: Routes = [
     path: 'bharat',
     loadChildren: () => import('./views/bharat/b-g-map/b-g-map.module').then((mod) => mod.BGMapModule)
   },
-  // {
-  //   path: 'shireen',
-  //   loadChildren: () => import('./views/shireen/b-g-map/b-g-map.module').then((mod) => mod.BGMapModule)
-  // }
+  {
+    path: 'shireen',
+    loadChildren: () => import('./views/shireen/s-g-map/s-g-map.module').then((mod) => mod.SGMapModule)
+  }
 ];
 
 @NgModule({
