@@ -1,7 +1,7 @@
 var liveUser = 0;
 var liveUser2x = 0;
 
-var MapObj, map, map2x, zoom = 1.8;
+var MapObj, map, map2x, zoom = 4;
 // var base_url = '';
 
 
@@ -12,9 +12,19 @@ function sinitializeMAP() {
       // styles: mapStyles,
       zoom: zoom,
       center: {
-        lat: 52.520008,
-        lng: 13.404954
+        lat: -25.344,
+        lng: 131.031
       }
-    })
+    });
+    // The marker, positioned at Uluru
+    const marker = new google.maps.Marker({
+      position: {
+        lat: -25.344,
+        lng: 131.031
+      },
+      map: map,
+    });
   }
 }
+
+// window.sinitializeMAP = sinitializeMAP;
