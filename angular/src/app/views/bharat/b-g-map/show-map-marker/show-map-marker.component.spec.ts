@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { LoginComponent } from './login.component';
+import { ShowMapMarkerComponent } from './show-map-marker.component';
 
-describe('LoginComponent', () => {
-  let component: LoginComponent;
-  let fixture: ComponentFixture<LoginComponent>;
+describe('ShowMapMarkerComponent', () => {
+  let component: ShowMapMarkerComponent;
+  let fixture: ComponentFixture<ShowMapMarkerComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ LoginComponent ]
+      declarations: [ ShowMapMarkerComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(LoginComponent);
+    fixture = TestBed.createComponent(ShowMapMarkerComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

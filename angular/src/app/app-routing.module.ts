@@ -2,24 +2,11 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
-  {path: '', redirectTo: 'home', pathMatch: 'full'},
-  {path: 'signup',
- loadChildren: ()=> import('./views/signup/signup.module').then( (mod)=> mod.SignupModule)
-},
-  {path: 'login',
-  loadChildren: ()=> import('./views/login/login.module').then( (mod)=> mod.LoginModule)
- },
-  {path: 'products',
-loadChildren: ()=> import('./products/products.module').then( (mod)=> mod.ProductsModule)
-},
-  {path: 'home',
- loadChildren: ()=> import('./home/home.module').then( (mod)=> mod.HomeModule)
-},
-  {path: 'user-profile',
- loadChildren: ()=> import('./user-profile/user-profile.module').then( (mod)=> mod.UserProfileModule)
-
+  { path: '', redirectTo: 'bharat', pathMatch: 'full' },
+  {
+    path: 'bharat',
+    loadChildren: () => import('./views/bharat/b-g-map/b-g-map.module').then((mod) => mod.BGMapModule)
   }
-
 ];
 
 @NgModule({

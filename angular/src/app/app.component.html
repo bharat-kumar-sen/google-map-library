@@ -1,56 +1,33 @@
 <!--Navabr-->
-<nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-primary ">
-  <i class="fa fa-shopping-bag ml-5" aria-hidden="true"></i><a class="navbar-brand ml-1" href="/home">&nbsp;Shopping Mart</a>
+<nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark ">
+  <div class="container">
+    <i class="fa fa-map-marker text-white fs-2 p-2" aria-hidden="true"></i><a class="navbar-brand ml-1"
+      href="/home">&nbsp;GOOGLE MAP Training</a>
 
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <div class="collapse navbar-collapse" id="navbarText">
-    <ul class="navbar-nav mr-auto">
-      <li class="nav-item active">
-        <a class="nav-link" href="/home">Home<span class="sr-only">(current)</span></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/user-profile">User Profile</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/products">Products</a>
-      </li>
-    </ul>
-    <form class="d-flex p-2">
-      <div class="input-group">
-          <input type="text" class="form-control" placeholder="Search">
-          <button type="button" class="btn btn-secondary"><i class="fa fa-search"></i></button>
-      </div>
-  </form>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText"
+      aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarText">
+    </div>
+
     <span class="navbar-text">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+      <ul class="navbar-nav mr-auto float-right">
+
         <li class="nav-item">
-          <div class="p-1">
-            <button class="nav-item btn btn-light" [routerLink]="'/signup'"> Sign Up</button>
-          </div>
+          <a class="nav-link" [routerLink]="['/bharat']" routerLinkActive="router-link-active">Bharat</a>
         </li>
         <li class="nav-item">
-          <div class="p-1 mr-5">
-            <button class="nav-item btn btn-light" [routerLink]="'/login'">Login</button>
-          </div>
+          <a class="nav-link" [routerLink]="['/shireen']" routerLinkActive="router-link-active">Shireen</a>
         </li>
-       </ul>
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="['/rajat']" routerLinkActive="router-link-active">Rajat</a>
+        </li>
+      </ul>
     </span>
   </div>
 </nav>
-<ngx-spinner bdColor="rgba(51,51,51,0.8)"
-size="medium"
-color="#fff"
-type="ball-scale-multiple"><p style="color: rgb(255, 255, 255)" > Loading... </p></ngx-spinner>
+<ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-scale-multiple">
+  <p style="color: rgb(255, 255, 255)"> Loading... </p>
+</ngx-spinner>
 <router-outlet></router-outlet>
-
-<!--footer-->
-<footer class="text-center text-lg-start bg-primary text-muted fixed-bottom">
-  <div class="text-center p-4" style="color: white;">
-    © 2021 Copyright:
-    <a class="text-reset fw-bold" href="#">ShoppingMart.com</a>
-  </div>
-</footer>
-<!-- Footer -->
-
