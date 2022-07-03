@@ -4,8 +4,6 @@ import { SharedUiModule } from 'src/app/shared-ui';
 import { RGMapRoutingModule } from './r-g-map-routing.module';
 import { ShowMapMarkerComponent } from './show-map-marker/show-map-marker.component';
 
-
-
 @NgModule({
   declarations: [
     ShowMapMarkerComponent
