@@ -1,0 +1,32 @@
+/**
+ * Name: users Modal
+ * @description :: Server-side database query for all users action.
+ */
+
+/** Here We are importing database connection file for db connection*/
+
+var dbConnection = require('../core/db');
+var DbConnect = dbConnection.db;
+
+
+
+/**
+ * Name : getUser(): 
+ * Description : This method will find user from db for the Admin login.
+ * @param {*} req is a login credential
+ * Cb: Cb is call back function. it will return login user info.
+ */
+exports.getLocationsList = (req, cb) => {
+  // var data = req.body;
+  DbConnect.from('locations')
+    .then((result) => {
+      console.log('result ==',result);
+      if (result) {
+        cb(null, result)
+      } else {
+        cb(true, null);
+      }
+    }).catch((err) => {
+      cb(err, null);
+    });
+}

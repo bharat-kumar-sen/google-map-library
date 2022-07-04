@@ -13,6 +13,7 @@ const logger = require('morgan');
 
 var indexRouter = require("./routes/index");
 var userRouter = require("./routes/users");
+var locationsRouter = require("./routes/locations");
 const dotenv = require("dotenv");
 dotenv.config();
 
@@ -50,6 +51,7 @@ app.use(bodyParser.urlencoded({
 
 app.use("/", indexRouter);
 app.use("/users", userRouter);
+app.use("/markers", locationsRouter);
 
 
 // catch 404 and forward to error handler

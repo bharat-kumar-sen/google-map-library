@@ -8,7 +8,6 @@ const Users = require('../models/users.model.js');
 require('dotenv').config();
 var MD5 = require('md5');
 
-
 exports.test = (req, res) => {
   console.log("req==========", req.body)
   Users.test(req, (err, data) => {

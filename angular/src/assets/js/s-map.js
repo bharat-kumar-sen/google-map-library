@@ -5,21 +5,26 @@ var MapObj, map, map2x, zoom = 6;
 
 // Data for the markers consisting of a name, a LatLng and a zIndex for the
 // order in which these markers should display on top of each other.
+
+function sendLocationsLIst(markersList){
+  console.log("==============", markersList);
+}
+
 var locations = [
-  ['Indore', 22.7196, 75.8577, 'assets/images/indore.jpg', 14],
-  ['Bhopal', 23.2599, 77.4126, 'assets/images/bhopal.jpg', 13],
-  ['Raisen', 23.3327, 77.7824, 'assets/images/raisen.jpg', 12],
-  ['Ujjain', 23.1765, 75.7885, 'assets/images/ujjain.jpg', 11],
-  ['Dewas', 22.9676, 76.0534, 'assets/images/dewas.jpg', 10],
-  ['Shajapur', 23.4273, 76.2730, 'assets/images/shajapur.jpg', 9],
-  ['Jabalpur', 23.1815, 79.9864, 'assets/images/jabalpur.jpg', 8],
-  ['Raipur', 21.250000, 81.629997, 'assets/images/raipur.jpg', 7],
-  ['Mumbai', 19.0760, 72.8777, 'assets/images/mumbai.jpg', 6],
-  ['Pune', 18.5204, 73.8567, 'assets/images/pune.jpg', 5],
-  ['Agra', 27.1767, 78.0081, 'assets/images/agra.jpg', 4],
-  ['Delhi', 28.7041, 77.1025, 'assets/images/delhi.jpg', 3],
-  ['Jaipur', 26.9124, 75.7873, 'assets/images/jaipur.jpg', 2],
-  ['Bengaluru', 12.9716, 77.5946, 'assets/images/banglore.jpg', 1],
+  ['Indore', 22.7196, 75.8577, 'assets/marker/indore.jpg', 14],
+  ['Bhopal', 23.2599, 77.4126, 'assets/marker/bhopal.jpg', 13],
+  ['Raisen', 23.3327, 77.7824, 'assets/marker/raisen.jpg', 12],
+  ['Ujjain', 23.1765, 75.7885, 'assets/marker/ujjain.jpg', 11],
+  ['Dewas', 22.9676, 76.0534, 'assets/marker/dewas.jpg', 10],
+  ['Shajapur', 23.4273, 76.2730, 'assets/marker/shajapur.jpg', 9],
+  ['Jabalpur', 23.1815, 79.9864, 'assets/marker/jabalpur.jpg', 8],
+  ['Raipur', 21.250000, 81.629997, 'assets/marker/raipur.jpg', 7],
+  ['Mumbai', 19.0760, 72.8777, 'assets/marker/mumbai.jpg', 6],
+  ['Pune', 18.5204, 73.8567, 'assets/marker/pune.jpg', 5],
+  ['Agra', 27.1767, 78.0081, 'assets/marker/agra.jpg', 4],
+  ['Delhi', 28.7041, 77.1025, 'assets/marker/delhi.jpg', 3],
+  ['Jaipur', 26.9124, 75.7873, 'assets/marker/jaipur.jpg', 2],
+  ['Bengaluru', 12.9716, 77.5946, 'assets/marker/banglore.jpg', 1],
 ];
 
 function sinitializeMAP() {
