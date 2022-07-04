@@ -13,6 +13,7 @@ export class ShowMapMarkerComponent implements OnInit {
   ngOnInit(): void {
     setTimeout(() => {
       rinitializeMAP();
+      console.log("testingggggggggggg")
     }, 2000);
   }
 
