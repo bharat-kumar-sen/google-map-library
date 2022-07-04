@@ -40,5 +40,12 @@ export const jsonData = {
       profession: 'singer',
       rs: '80,000',
     },
+  ],
+
+  locations: [
+    ['Indore', 22.7196, 75.8577],
+    ['Bhopal', 23.2599, 77.4126,],
+    ['Dawas', 22.9676, 76.0534],
+    ['Ujjain', 23.1765, 75.7885],
   ]
 }

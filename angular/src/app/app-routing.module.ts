@@ -10,6 +10,10 @@ const routes: Routes = [
   {
     path: 'shireen',
     loadChildren: () => import('./views/shireen/s-g-map/s-g-map.module').then((mod) => mod.SGMapModule)
+  },
+  {
+    path: 'rajat',
+    loadChildren: () => import('./views/rajat/r-g-map/r-g-map.module').then((mod) => mod.RGMapModule)
   }
 ];
 
