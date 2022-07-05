@@ -9,7 +9,7 @@ const Knex = require('knex');
 const connect = () => {
   const config = {
     user: 'root',
-    password: '',
+    password: 'root',
     database: 'google_map_library',
     charset: 'utf8mb4',
   };
