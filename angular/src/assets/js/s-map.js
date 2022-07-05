@@ -6,11 +6,11 @@ var MapObj, map, map2x, zoom = 6;
 // Data for the markers consisting of a name, a LatLng and a zIndex for the
 // order in which these markers should display on top of each other.
 
-function sendLocationsLIst(locationsList) {
-  // console.log("==============", locationsList);
+function sendLocationsLIst(locations) {
+  console.log("locations === ",locations);
 }
 
-var locations = [
+var staticlocations = [
   { Id: 1, location_name: 'Indore', location_lat: 22.7196, location_lng: 75.8577, marker_image: '/assets/marker/indore.jpg', title: "Indore Location" },
   { Id: 2, location_name: 'Bhopal', location_lat: 23.2599, location_lng: 77.4126, marker_image: '/assets/marker/bhopal.jpg', title: "Bhopal" },
   { Id: 3, location_name: 'Raisen', location_lat: 23.3327, location_lng: 77.7824, marker_image: '/assets/marker/raisen.jpg', title: "Raisen" },
@@ -42,7 +42,6 @@ function sinitializeMAP() {
 }
 
 function setMarkers(map) {
-
   // Display multiple markers on a map
   var infowindow = new google.maps.InfoWindow(), marker, i;
 
@@ -60,7 +59,7 @@ function setMarkers(map) {
   };
 
   // Loop through our array of markers & place each one on the map
-  var finalArray = locations.map(function (obj) {
+  var finalArray = staticlocations.map(function (obj) {
     image.url = obj.marker_image
     marker = new google.maps.Marker({
       position: new google.maps.LatLng(obj.location_lat, obj.location_lng),
@@ -84,7 +83,7 @@ function setMarkers(map) {
 
 
 // using array of arrray statis data
-/* var locations = [
+/* var staticlocations = [
   ['Indore', 22.7196, 75.8577, 'assets/marker/indore.jpg', 14],
   ['Bhopal', 23.2599, 77.4126, 'assets/marker/bhopal.jpg', 13],
   ['Raisen', 23.3327, 77.7824, 'assets/marker/raisen.jpg', 12],
@@ -102,21 +101,21 @@ function setMarkers(map) {
 ]; */
 
 /*   // Loop through our array of markers & place each one on the map
-  for (i = 0; i < locations.length; i++) {
-    image.url = locations[i][3]
+  for (i = 0; i < staticlocations.length; i++) {
+    image.url = staticlocations[i][3]
     marker = new google.maps.Marker({
-      position: new google.maps.LatLng(locations[i][1], locations[i][2]),
+      position: new google.maps.LatLng(staticlocations[i][1], staticlocations[i][2]),
       map: map,
-      title: locations[i][0],
+      title: staticlocations[i][0],
       // shape: shape,
-      // icon: locations[i][3],
+      // icon: staticlocations[i][3],
       icon: image,
     });
 
     // Each marker to have an info window,This event listener calls addMarker() when the map is clicked.
     google.maps.event.addListener(marker, 'click', (function (marker, i) {
       return function () {
-        infowindow.setContent(locations[i][0]);
+        infowindow.setContent(staticlocations[i][0]);
         infowindow.open(map, marker);
       }
     })(marker, i));
