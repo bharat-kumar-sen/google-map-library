@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { MapMarkerService } from '../../../../shared-ui';
 declare function sinitializeMAP(): any;
-declare function sendLocationsLIst(param?:any): any;
+declare function sendLocationsLIst(param?: any): any;
 
 @Component({
   selector: 'app-show-map-marker',
@@ -13,13 +14,21 @@ declare function sendLocationsLIst(param?:any): any;
 export class ShowMapMarkerComponent implements OnInit {
 
   locationsList: any[] = [];
-
+  type: any = ''
   constructor(
     private mapmarkerService: MapMarkerService,
     private spinner: NgxSpinnerService,
     private toastr: ToastrService,
+    private activatedRoute: ActivatedRoute,
+    private router: Router
   ) {
-    this.getLocationsList();
+    // console.log('this.activatedRoute.snapshot.params', this.activatedRoute.snapshot.paramMap.get('type'));
+    this.type = this.activatedRoute.snapshot.paramMap.get('type');
+    if (this.type && this.type === 'staticMarkers') {
+      sendLocationsLIst('staticMarkers');
+    } else if (this.type && this.type === 'dbMarkers') {
+      this.getLocationsList();
+    }
   }
 
   ngOnInit(): void {
@@ -48,5 +57,3 @@ export class ShowMapMarkerComponent implements OnInit {
   }
 
 }
-
-
