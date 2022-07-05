@@ -65,7 +65,6 @@ export class MapMarkerService {
   }
 
   public getLocationsList(): Observable<any> {
-    console.log('getfuction call');
     return this.apiService.get(`${this.markers}/getLocationsList`).pipe(
       map((data) => {
         return data;

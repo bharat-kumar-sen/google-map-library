@@ -12,7 +12,7 @@ declare function sendLocationsLIst(param?:any): any;
 })
 export class ShowMapMarkerComponent implements OnInit {
 
-  markersList: any[] = [];
+  locationsList: any[] = [];
 
   constructor(
     private mapmarkerService: MapMarkerService,
@@ -33,9 +33,9 @@ export class ShowMapMarkerComponent implements OnInit {
       next: (dataRes: any) => {
         this.spinner.show();
         if (dataRes.status === 200) {
-          this.markersList = dataRes.data;
-          console.log("markersList", this.markersList);
-          sendLocationsLIst(this.markersList);
+          this.locationsList = dataRes.data;
+          // console.log("locationsList", this.locationsList);
+          sendLocationsLIst(this.locationsList);
           this.spinner.hide();
         }
       },
