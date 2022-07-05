@@ -8,4 +8,8 @@ import { Component } from '@angular/core';
 export class AppComponent {
   title = 'shopping-website';
   loadingLabel: string = "Loading... Please Wait.";
+  menuType: any = {
+    staticMarker: 'staticMarker',
+    dbMarker: 'dbMarker',
+  }
 }
