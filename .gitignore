@@ -1,2 +1,3 @@
-/node/node_modules
+/node-api/node_modules
 /angular/node_modules
+/node-api/core/db.js
