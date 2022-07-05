@@ -3,7 +3,8 @@ import { RouterModule, Routes } from '@angular/router';
 import { ShowMapMarkerComponent } from './show-map-marker/show-map-marker.component';
 
 const routes: Routes = [
-  { path: 'add-map-marker/:type', component: ShowMapMarkerComponent, pathMatch: 'full' }
+  { path: 'add-map-marker/:type', component: ShowMapMarkerComponent, pathMatch: 'full' },
+  { path: 'add-db-marker/:type', component: ShowMapMarkerComponent, pathMatch: 'full' }
 ];
 
 // const routes: Routes = [

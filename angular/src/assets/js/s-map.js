@@ -5,9 +5,16 @@ var MapObj, map, map2x, zoom = 6;
 
 // Data for the markers consisting of a name, a LatLng and a zIndex for the
 // order in which these markers should display on top of each other.
+var locationsMarkers;
 
 function sendLocationsLIst(locations) {
-  console.log("locations === ",locations);
+  if (locations === 'staticMarkers') {
+    locationsMarkers = staticlocations;
+    console.log("locationsMarkers staticMarkers === 1 ", locationsMarkers);
+  } else {
+    locationsMarkers = locations;
+    console.log("locationsMarkers DbMarkers === 2 ", locationsMarkers);
+  }
 }
 
 var staticlocations = [
@@ -59,7 +66,7 @@ function setMarkers(map) {
   };
 
   // Loop through our array of markers & place each one on the map
-  var finalArray = staticlocations.map(function (obj) {
+  var finalArray = locationsMarkers.map(function (obj) {
     image.url = obj.marker_image
     marker = new google.maps.Marker({
       position: new google.maps.LatLng(obj.location_lat, obj.location_lng),
