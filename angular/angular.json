@@ -40,6 +40,7 @@
               "src/assets/js/jquery.min.js",
               "src/assets/js/b-map.js",
               "src/assets/js/s-map.js",
+              "src/assets/js/r-map.js",
               "src/assets/js/MapLibrary.js",
               "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"
             ]
