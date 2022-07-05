@@ -1,5 +1,5 @@
-var liveUser = 0;
-var liveUser2x = 0;
+// var liveUser = 0;
+// var liveUser2x = 0;
 
 var MapObj, map, map2x, zoom = 1.8;
 // var base_url = '';

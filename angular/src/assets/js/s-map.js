@@ -1,5 +1,5 @@
-var liveUser = 0;
-var liveUser2x = 0;
+// var liveUser = 0;
+// var liveUser2x = 0;
 
 var MapObj, map, map2x, zoom = 6;
 
@@ -10,21 +10,118 @@ function sendLocationsLIst(locationsList) {
   // console.log("==============", locationsList);
 }
 
-var locations = [
-  { Id: 1, location_name: 'Indore', location_lat: 22.7196, location_lng: 75.8577, marker_image: '/assets/marker/indore.jpg', title: "Indore Location" },
-  { Id: 2, location_name: 'Bhopal', location_lat: 23.2599, location_lng: 77.4126, marker_image: '/assets/marker/bhopal.jpg', title: "Bhopal" },
-  { Id: 3, location_name: 'Raisen', location_lat: 23.3327, location_lng: 77.7824, marker_image: '/assets/marker/raisen.jpg', title: "Raisen" },
-  { Id: 4, location_name: 'Ujjain', location_lat: 23.1765, location_lng: 75.7885, marker_image: '/assets/marker/ujjain.jpg', title: "Ujjain" },
-  { Id: 5, location_name: 'Dewas', location_lat: 22.9676, location_lng: 76.0534, marker_image: '/assets/marker/dewas.jpg', title: "Dewas" },
-  { Id: 6, location_name: 'Shajapur', location_lat: 23.4273, location_lng: 76.273, marker_image: '/assets/marker/shajapur.jpg', title: "Shajapur" },
-  { Id: 7, location_name: 'Jabalpur', location_lat: 23.1815, location_lng: 79.9864, marker_image: '/assets/marker/jabalpur.jpg', title: "Jabalpur" },
-  { Id: 8, location_name: 'Raipur', location_lat: 21.25, location_lng: 81.63, marker_image: '/assets/marker/raipur.jpg', title: "Raipur" },
-  { Id: 9, location_name: 'Mumbai', location_lat: 18.5204, location_lng: 73.8567, marker_image: '/assets/marker/mumbai.jpg', title: "Mumbai" },
-  { Id: 10, location_name: 'Pune', location_lat: 18.5204, location_lng: 73.8567, marker_image: '/assets/marker/pune.jpg', title: "Pune" },
-  { Id: 11, location_name: 'Agra', location_lat: 27.1767, location_lng: 78.0081, marker_image: '/assets/marker/agra.jpg', title: "Agra" },
-  { Id: 12, location_name: 'Delhi', location_lat: 28.7041, location_lng: 77.1025, marker_image: '/assets/marker/delhi.jpg', title: "Delhi" },
-  { Id: 13, location_name: 'Jaipur', location_lat: 26.9124, location_lng: 75.7873, marker_image: '/assets/marker/jaipur.jpg', title: "Jaipur" },
-  { Id: 14, location_name: 'Bengaluru', location_lat: 12.9716, location_lng: 77.5946, marker_image: '/assets/marker/banglore.jpg', title: "Bengaluru" }
+var locations = [{
+    Id: 1,
+    location_name: 'Indore',
+    location_lat: 22.7196,
+    location_lng: 75.8577,
+    marker_image: '/assets/marker/indore.jpg',
+    title: "Indore Location"
+  },
+  {
+    Id: 2,
+    location_name: 'Bhopal',
+    location_lat: 23.2599,
+    location_lng: 77.4126,
+    marker_image: '/assets/marker/bhopal.jpg',
+    title: "Bhopal"
+  },
+  {
+    Id: 3,
+    location_name: 'Raisen',
+    location_lat: 23.3327,
+    location_lng: 77.7824,
+    marker_image: '/assets/marker/raisen.jpg',
+    title: "Raisen"
+  },
+  {
+    Id: 4,
+    location_name: 'Ujjain',
+    location_lat: 23.1765,
+    location_lng: 75.7885,
+    marker_image: '/assets/marker/ujjain.jpg',
+    title: "Ujjain"
+  },
+  {
+    Id: 5,
+    location_name: 'Dewas',
+    location_lat: 22.9676,
+    location_lng: 76.0534,
+    marker_image: '/assets/marker/dewas.jpg',
+    title: "Dewas"
+  },
+  {
+    Id: 6,
+    location_name: 'Shajapur',
+    location_lat: 23.4273,
+    location_lng: 76.273,
+    marker_image: '/assets/marker/shajapur.jpg',
+    title: "Shajapur"
+  },
+  {
+    Id: 7,
+    location_name: 'Jabalpur',
+    location_lat: 23.1815,
+    location_lng: 79.9864,
+    marker_image: '/assets/marker/jabalpur.jpg',
+    title: "Jabalpur"
+  },
+  {
+    Id: 8,
+    location_name: 'Raipur',
+    location_lat: 21.25,
+    location_lng: 81.63,
+    marker_image: '/assets/marker/raipur.jpg',
+    title: "Raipur"
+  },
+  {
+    Id: 9,
+    location_name: 'Mumbai',
+    location_lat: 18.5204,
+    location_lng: 73.8567,
+    marker_image: '/assets/marker/mumbai.jpg',
+    title: "Mumbai"
+  },
+  {
+    Id: 10,
+    location_name: 'Pune',
+    location_lat: 18.5204,
+    location_lng: 73.8567,
+    marker_image: '/assets/marker/pune.jpg',
+    title: "Pune"
+  },
+  {
+    Id: 11,
+    location_name: 'Agra',
+    location_lat: 27.1767,
+    location_lng: 78.0081,
+    marker_image: '/assets/marker/agra.jpg',
+    title: "Agra"
+  },
+  {
+    Id: 12,
+    location_name: 'Delhi',
+    location_lat: 28.7041,
+    location_lng: 77.1025,
+    marker_image: '/assets/marker/delhi.jpg',
+    title: "Delhi"
+  },
+  {
+    Id: 13,
+    location_name: 'Jaipur',
+    location_lat: 26.9124,
+    location_lng: 75.7873,
+    marker_image: '/assets/marker/jaipur.jpg',
+    title: "Jaipur"
+  },
+  {
+    Id: 14,
+    location_name: 'Bengaluru',
+    location_lat: 12.9716,
+    location_lng: 77.5946,
+    marker_image: '/assets/marker/banglore.jpg',
+    title: "Bengaluru"
+  }
 ];
 
 function sinitializeMAP() {
@@ -32,7 +129,7 @@ function sinitializeMAP() {
     map = new google.maps.Map(document.getElementById('google_map'), {
       // styles: mapStyles,
       zoom: zoom,
-      center: new google.maps.LatLng(22.7196, 75.8577),// The marker, positioned at indore
+      center: new google.maps.LatLng(22.7196, 75.8577), // The marker, positioned at indore
       mapTypeId: google.maps.MapTypeId.ROADMAP
       /*mapTypeId: google.maps.MapTypeId.TERRAIN,
             mapTypeControl: false */
@@ -44,7 +141,8 @@ function sinitializeMAP() {
 function setMarkers(map) {
 
   // Display multiple markers on a map
-  var infowindow = new google.maps.InfoWindow(), marker, i;
+  var infowindow = new google.maps.InfoWindow(),
+    marker, i;
 
   const shape = {
     coords: [1, 1, 1, 20, 18, 20, 18, 1],
