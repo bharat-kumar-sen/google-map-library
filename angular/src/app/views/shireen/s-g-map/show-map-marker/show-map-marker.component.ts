@@ -22,11 +22,11 @@ export class ShowMapMarkerComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private router: Router
   ) {
-    // console.log('this.activatedRoute.snapshot.params',this.activatedRoute.snapshot.paramMap.get('type'));
+    // console.log('this.activatedRoute.snapshot.params', this.activatedRoute.snapshot.paramMap.get('type'));
     this.type = this.activatedRoute.snapshot.paramMap.get('type');
-    if (this.type && this.type === 'staticMarker') {
-      sendLocationsLIst('staticMarker');
-    } else {
+    if (this.type && this.type === 'staticMarkers') {
+      sendLocationsLIst('staticMarkers');
+    } else if (this.type && this.type === 'dbMarkers') {
       this.getLocationsList();
     }
   }
@@ -57,5 +57,3 @@ export class ShowMapMarkerComponent implements OnInit {
   }
 
 }
-
-
