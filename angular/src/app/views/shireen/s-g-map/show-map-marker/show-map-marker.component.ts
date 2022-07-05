@@ -3,7 +3,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { MapMarkerService } from '../../../../shared-ui';
 declare function sinitializeMAP(): any;
-declare function sendLocationsLIst(param?:any): any;
+declare function sendLocationsLIst(param?: any): any;
 
 @Component({
   selector: 'app-show-map-marker',
