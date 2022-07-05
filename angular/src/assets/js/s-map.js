@@ -19,6 +19,30 @@ var staticlocations = [
   { Id: 10, location_name: 'United Kingdom', location_lat: 49.238740, location_lng: -2.173634, marker_image: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png', title: "United Kingdom" },
 ];
 
+  // Info Window Content
+  const contentString =
+  '<div id="content">' +
+  '<div id="siteNotice">' +
+  "</div>" +
+  '<h1 id="firstHeading" class="firstHeading">Uluru</h1>' +
+  '<div id="bodyContent">' +
+  "<p><b>Uluru</b>, also referred to as <b>Ayers Rock</b>, is a large " +
+  "sandstone rock formation in the southern part of the " +
+  "Northern Territory, central Australia. It lies 335&#160;km (208&#160;mi) " +
+  "south west of the nearest large town, Alice Springs; 450&#160;km " +
+  "(280&#160;mi) by road. Kata Tjuta and Uluru are the two major " +
+  "features of the Uluru - Kata Tjuta National Park. Uluru is " +
+  "sacred to the Pitjantjatjara and Yankunytjatjara, the " +
+  "Aboriginal people of the area. It has many springs, waterholes, " +
+  "rock caves and ancient paintings. Uluru is listed as a World " +
+  "Heritage Site.</p>" +
+  '<p>Attribution: Uluru, <a href="https://en.wikipedia.org/w/index.php?title=Uluru&oldid=297882194">' +
+  "https://en.wikipedia.org/w/index.php?title=Uluru</a> " +
+  "(last visited June 22, 2009).</p>" +
+  "</div>" +
+  "</div>";
+
+
 function sendLocationsLIst(locations) {
   if (locations === 'staticMarkers') {
     locationsMarkers = staticlocations;
@@ -45,7 +69,11 @@ function sinitializeMAP() {
 
 function setMarkers(map) {
   // Display multiple markers on a map
-  var infowindow = new google.maps.InfoWindow(), marker, i;
+  var infowindow = new google.maps.InfoWindow(
+    /* {
+    content: contentString,
+    maxWidth: 200,} */
+    ), marker, i;
 
   const shape = {
     coords: [1, 1, 1, 20, 18, 20, 18, 1],
@@ -73,6 +101,7 @@ function setMarkers(map) {
     // Each marker to have an info window,This event listener calls addMarker() when the map is clicked.
     google.maps.event.addListener(marker, 'click', (function (marker, i) {
       return function () {
+        // infowindow.setContent(contentString);
         infowindow.setContent(obj.location_name);
         infowindow.open(map, marker);
       }
