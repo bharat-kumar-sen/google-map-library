@@ -1,12 +1,17 @@
 var liveUser = 0;
 var liveUser2x = 0;
-
+var type = '';
 var MapObj, map, map2x, zoom = 10;
-
 // Data for the markers consisting of a name, a LatLng and a zIndex for the
 // order in which these markers should display on top of each other.
 var locationsMarkers;
+
 var setCenterLatlng;
+
+var singlelocations = [
+  { Id: 1, location_name: 'Treasure Island Mall', location_lat: 22.7209, location_lng: 75.8785, marker_image: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png', title: "Treasure Island" },
+];
+
 var staticlocations = [
   { Id: 1, location_name: 'Germany', location_lat: 52.956622, location_lng: 11.223106, marker_image: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png', title: "Germany" },
   { Id: 2, location_name: 'Hamburg', location_lat: 53.55002464, location_lng: 9.999999144, marker_image: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png', title: "Hamburg" },
@@ -19,7 +24,9 @@ var staticlocations = [
   { Id: 9, location_name: 'Sweden', location_lat: 58.968180, location_lng: 16.200450, marker_image: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png', title: "Sweden" },
   { Id: 10, location_name: 'United Kingdom', location_lat: 49.238740, location_lng: -2.173634, marker_image: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png', title: "United Kingdom" },
 ];
+
 var property_img = "http://maps.marnoto.com/en/5wayscustomizeinfowindow/images/vistalegre.jpg";
+
 // Info Window Content
 const contentString =
   /* "<div style = 'width:200px;min-height:40px'>" + data.description + "</div>" */
@@ -49,12 +56,17 @@ const contentString =
   "</div>";
 
 function sendLocationsLIst(locations) {
-  if (locations === 'staticMarkers') {
+  type = locations;
+  if (locations == 'staticMarkers') {
     locationsMarkers = staticlocations;
-    setCenterLatlng = new google.maps.LatLng(52.956622,11.223106);
-  } else {
+    setCenterLatlng = new google.maps.LatLng(52.956622, 11.223106);
+  } else if (locations == 'dragDropMarker') {
+    // locationsMarkers = singlelocations;
+    setCenterLatlng = new google.maps.LatLng(22.7209, 75.8785);
+  }
+  else {
     locationsMarkers = locations;
-    setCenterLatlng = new google.maps.LatLng(22.7196,75.8577);
+    setCenterLatlng = new google.maps.LatLng(22.7196, 75.8577);
   }
 }
 
@@ -62,18 +74,22 @@ function sinitializeMAP() {
   if (google.maps) {
     map = new google.maps.Map(document.getElementById('google_map'), {
       // styles: mapStyles,
-      zoom: 6,
-      // center: new google.maps.LatLng(22.7196, 75.8577),// The marker, positioned at indore
+      zoom: 5,
       center: setCenterLatlng,
       mapTypeId: google.maps.MapTypeId.ROADMAP
-      /*mapTypeId: google.maps.MapTypeId.TERRAIN,
-            mapTypeControl: false */
+      /* mapTypeId: google.maps.MapTypeId.TERRAIN,
+         mapTypeControl: false */
     });
-    setMarkers(map);
+    if (type == 'dragDropMarker') {
+      dragDrop(map);
+    } else {
+      setMarkers(map);
+    }
   }
 }
 
 function setMarkers(map) {  // Display multiple markers on a map
+
   //Create and open InfoWindow.
   var infowindow = new google.maps.InfoWindow(
     /* {
@@ -97,15 +113,16 @@ function setMarkers(map) {  // Display multiple markers on a map
   // Loop through our array of markers & place each one on the map
   var finalArray = locationsMarkers.map(function (obj) {
     image.url = obj.marker_image
-    marker = new google.maps.Marker({
+    var marker = new google.maps.Marker({
       position: new google.maps.LatLng(obj.location_lat, obj.location_lng),
       // position: map.getCenter(),
       map: map,
       title: obj.title,
       // shape: shape,
-      animation:google.maps.Animation.DROP,
-      draggable:true,
+      animation: google.maps.Animation.DROP,
+      draggable: type == 'dragDropMarker' ? true : false,
       icon: image,//if you comment this out or delete it you will get the default pin icon.
+      optimized: false,
     });
 
     // Attach click event to the marker ,Each marker to have an info window,This event listener calls addMarker() when the map is clicked.
@@ -113,12 +130,57 @@ function setMarkers(map) {  // Display multiple markers on a map
       return function () {
         infowindow.setContent(contentString);
         // infowindow.setContent(obj.location_name);
+        // infoWindow.setContent(marker.getTitle());
         infowindow.open(map, marker);
+        /* map.panTo(this.getPosition());
+           map.setZoom(20); */
       }
     })(marker, i));
   });
 
+}
+
+//drag and drop marker to get position on map
+function dragDrop(map) {
+
+  var infowindow = new google.maps.InfoWindow();
+
+  // Place a draggable marker on the map
+  var marker = new google.maps.Marker({
+    position: setCenterLatlng,
+    map: map,
+    draggable: true,
+    animation: google.maps.Animation.DROP,
+    title: "Drag me!"
+  });
+
+  google.maps.event.addListener(marker, 'dragend', function () {
+    geocodePosition(marker.getPosition());
+  });
+
+  function geocodePosition(pos) {
+    geocoder = new google.maps.Geocoder();
+    geocoder.geocode
+      ({
+        latLng: pos
+      },
+        function (results, status) {
+          // console.log('results',results);
+          if (status == google.maps.GeocoderStatus.OK) {
+            $("#mapSearchInput").val(results[0].formatted_address);
+            $("#mapErrorMsg").hide(100);
+            infowindow.setContent(results[0].formatted_address);
+            infowindow.open(map, marker);
+          }
+          else {
+            $("#mapErrorMsg").html('Cannot determine address at this location.' + status).show(100);
+          }
+        }
+      );
+  }
+
 
 }
+
 
 // window.sinitializeMAP = sinitializeMAP;

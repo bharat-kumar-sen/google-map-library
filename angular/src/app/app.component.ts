@@ -11,5 +11,6 @@ export class AppComponent {
   menuType: any = {
     staticMarker: 'staticMarkers',
     dbMarker: 'dbMarkers',
+    dragDropMarker: 'dragDropMarker',
   }
 }
