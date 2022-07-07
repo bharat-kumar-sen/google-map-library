@@ -1,10 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, NgZone, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { MapMarkerService } from '../../../../shared-ui';
 declare function sinitializeMAP(): any;
 declare function sendLocationsLIst(param?: any): any;
+// declare function getDragDropLocation(getDraglocationAddress?: any): any;
+declare var window: any;
 
 @Component({
   selector: 'app-show-map-marker',
@@ -15,13 +17,17 @@ export class ShowMapMarkerComponent implements OnInit {
 
   locationsList: any[] = [];
   type: any = ''
+  searchResultLocation: any = ''
+
   constructor(
     private mapmarkerService: MapMarkerService,
     private spinner: NgxSpinnerService,
     private toastr: ToastrService,
     private activatedRoute: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private ngZone: NgZone,
   ) {
+
     console.log('this.activatedRoute.snapshot.params', this.activatedRoute.snapshot.paramMap.get('type'));
     this.type = this.activatedRoute.snapshot.paramMap.get('type');
     if (this.type && this.type === 'staticMarkers') {
@@ -32,11 +38,19 @@ export class ShowMapMarkerComponent implements OnInit {
       sendLocationsLIst('dragDropMarker');
     }
   }
-
+  // tslint:disable-next-line:use-life-cycle-interface
   ngOnInit(): void {
+    window['angularComponentReference'] = { component: this, zone: this.ngZone, loadAngularFunction: (searchResult: any) => this.angularFunctionCalled(searchResult), };
+
     setTimeout(() => {
       sinitializeMAP();
     }, 2000);
+  }
+
+  angularFunctionCalled(searchResult: any) {
+    console.log('Angular function is called', searchResult);
+    this.searchResultLocation = searchResult;
+
   }
 
   getLocationsList() {

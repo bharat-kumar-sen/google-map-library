@@ -14,6 +14,8 @@
     "declaration": false,
     "downlevelIteration": true,
     "experimentalDecorators": true,
+    "suppressImplicitAnyIndexErrors": true,
+    "strictNullChecks":false,
     "moduleResolution": "node",
     "importHelpers": true,
     "target": "es2020",
@@ -27,6 +29,7 @@
     "enableI18nLegacyMessageIdFormat": false,
     "strictInjectionParameters": true,
     "strictInputAccessModifiers": true,
-    "strictTemplates": true
+    "strictTemplates": true,
+    "suppressImplicitAnyIndexErrors": true
   }
 }

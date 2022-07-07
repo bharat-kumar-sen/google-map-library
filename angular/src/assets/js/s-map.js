@@ -141,12 +141,10 @@ function setMarkers(map) {  // Display multiple markers on a map
 }
 
 //drag and drop marker to get position on map
+var dragonMarker
 function dragDrop(map) {
-
-  var infowindow = new google.maps.InfoWindow();
-
   // Place a draggable marker on the map
-  var marker = new google.maps.Marker({
+  dragonMarker = new google.maps.Marker({
     position: setCenterLatlng,
     map: map,
     draggable: true,
@@ -154,32 +152,39 @@ function dragDrop(map) {
     title: "Drag me!"
   });
 
-  google.maps.event.addListener(marker, 'dragend', function () {
-    geocodePosition(marker.getPosition());
+  google.maps.event.addListener(dragonMarker, 'dragend', function () {
+    geocodePosition();
   });
+}
 
-  function geocodePosition(pos) {
-    geocoder = new google.maps.Geocoder();
-    geocoder.geocode
-      ({
-        latLng: pos
-      },
-        function (results, status) {
-          // console.log('results',results);
-          if (status == google.maps.GeocoderStatus.OK) {
-            $("#mapSearchInput").val(results[0].formatted_address);
-            $("#mapErrorMsg").hide(100);
-            infowindow.setContent(results[0].formatted_address);
-            infowindow.open(map, marker);
-          }
-          else {
-            $("#mapErrorMsg").html('Cannot determine address at this location.' + status).show(100);
-          }
+function geocodePosition() {
+  const infowindow = new google.maps.InfoWindow();
+  geocoder = new google.maps.Geocoder();
+  geocoder.geocode
+    ({
+      latLng: dragonMarker.getPosition()
+    },
+      function (results, status) {
+        // console.log('results',results);
+        if (status == google.maps.GeocoderStatus.OK) {
+          $("#mapSearchInput").val(results[0].formatted_address);
+          $("#mapErrorMsg").hide(100);
+          // infoWindow.close();
+          infowindow.setContent(results[0].formatted_address);
+          infowindow.open(map, dragonMarker);
+          console.log('results[0].formatted_address', results[0].formatted_address);
+          var searchResult = results[0].formatted_address.replace('Unnamed Road,', '');
+          callAngularFunction(searchResult);
         }
-      );
-  }
+        else {
+          $("#mapErrorMsg").html('Cannot determine address at this location.' + status).show(100);
+        }
+      }
+    );
+}
 
-
+function callAngularFunction(searchResult) {
+  window.angularComponentReference.zone.run(() => { window.angularComponentReference.loadAngularFunction(searchResult); });
 }
 
 
