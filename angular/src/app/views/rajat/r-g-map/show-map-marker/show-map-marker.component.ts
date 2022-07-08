@@ -4,7 +4,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { RMapMarkerService } from 'src/app/shared-ui/services/r-map-marker.service';
 declare function rinitializeMAP(): any;
-declare function sandLocationList(param?: any): any;
+declare function sandLocationList(param: any, data?:any): any;
 
 @Component({
   selector: 'app-show-map-marker',
@@ -22,31 +22,36 @@ export class ShowMapMarkerComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private toaster: ToastrService,
     private activatedRoute: ActivatedRoute) {
-    this.type = this.activatedRoute.snapshot.paramMap.get('rType');
-    // console.log('TYPEEEeeeeeeee',this.type);
-    if (this.type && this.type === 'rStaticMarker') {
-      sandLocationList('rStaticMarker');
-    } else if (this.type && this.type === 'rDynamicMarkers') {
-      this.getLoactionList();
-    }
+    this.activatedRoute.params.subscribe((res: any) => {
+      this.type = res.rType;
+      if (this.type && this.type === 'rStaticMarker') {
+        sandLocationList('rStaticMarker');
+      } else if (this.type && this.type === 'rDynamicMarkers') {
+        this.getLoactionList();
+      } else if (this.type && this.type === 'dragAndDropMarkers') {
+        sandLocationList('dragAndDropMarkers');
+      }
+    });
   }
 
   ngOnInit(): void {
     setTimeout(() => {
       rinitializeMAP();
-    }, 2000);
+    }, 1000);
   }
 
   getLoactionList() {
     this.rMapMarkerService.getLoactionList().subscribe({
       next: (dataRes: any) => {
-        // console.log('DDDDDDDDD',dataRes)
         if (dataRes.status === 200) {
-          this.locationList = dataRes.data;
+          setTimeout(() => {
+            sandLocationList( this.type, dataRes.data);
+          }, 2000);
         }
       },
       error: (error: any) => {
         console.log('Error', error);
+        this.toaster.error(error.message, 'Error!');
       }
     })
   }
