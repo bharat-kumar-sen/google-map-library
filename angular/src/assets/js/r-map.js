@@ -1,81 +1,36 @@
 var map;
-var locations = [
+var locations = [{
+    Id: 1,
+    location_name: 'Indore',
+    location_lat: 22.7196,
+    location_lng: 75.8577,
+    marker_image: 'https://amw-task.amwebtech.org/assets/marker/indore.jpg',
+    title: 'Indore Location'
+  },
   {
-  id: 01,
-  title: "This is Indore",
-  name: "Indore",
-  lat: 22.7196,
-  lng: 75.8577,
-  imsg: 'assets/marker/indore.jpg',
-  infoWin: '<div id="content">' +
-    '<div id="siteNotice">' +
-    "</div>" +
-    '<h1 id="firstHeading" class="firstHeading">Indore</h1>' +
-    '<div id="bodyContent">' +
-    "<p>Around 600 BCE, Ujjain emerged as the political, commercial and cultural centre of Malwa plateau. The ancient walled city of Ujjain was located around the Garh Kalika hill on the bank of river Kshipra, in the present-day suburban areas of the Ujjain city. This city covered an irregular pentagonal area of 0.875 km2.</p>" +
-    '<p>Attribution: Uluru, <a href="https://commons.wikimedia.org/wiki/File:Ujjain.jpg">' +
-    "https://en.wikipedia.org/w/index.php?title=Uluru</a> " +
-    "(last visited June 22, 2009).</p>" +
-    "</div>" +
-    "</div>"
-},
-{
-  id: 02,
-  title: "This is Bhopal",
-  name: "Bhopal",
-  lat: 23.2599,
-  lng: 77.4126,
-  imsg: 'assets/marker/bhopal.jpg',
-  infoWin: '<div id="content">' +
-    '<div id="siteNotice">' +
-    "</div>" +
-    '<h1 id="firstHeading" class="firstHeading">Bhopal</h1>' +
-    '<div id="bodyContent">' +
-    "<p>Around 600 BCE, Ujjain emerged as the political, commercial and cultural centre of Malwa plateau. The ancient walled city of Ujjain was located around the Garh Kalika hill on the bank of river Kshipra, in the present-day suburban areas of the Ujjain city. This city covered an irregular pentagonal area of 0.875 km2.</p>" +
-    '<p>Attribution: Uluru, <a href="https://commons.wikimedia.org/wiki/File:Ujjain.jpg">' +
-    "https://en.wikipedia.org/w/index.php?title=Uluru</a> " +
-    "(last visited June 22, 2009).</p>" +
-    "</div>" +
-    "</div>"
-},
-{
-  id: 03,
-  title: "This is Dawas",
-  name: "Dawas",
-  lat: 22.9676,
-  lng: 76.0534,
-  imsg: 'assets/marker/dewas.jpg',
-  infoWin: '<div id="content">' +
-    '<div id="siteNotice">' +
-    "</div>" +
-    '<h1 id="firstHeading" class="firstHeading">Dawas</h1>' +
-    '<div id="bodyContent">' +
-    "<p>Around 600 BCE, Ujjain emerged as the political, commercial and cultural centre of Malwa plateau. The ancient walled city of Ujjain was located around the Garh Kalika hill on the bank of river Kshipra, in the present-day suburban areas of the Ujjain city. This city covered an irregular pentagonal area of 0.875 km2.</p>" +
-    '<p>Attribution: Uluru, <a href="https://commons.wikimedia.org/wiki/File:Ujjain.jpg">' +
-    "https://en.wikipedia.org/w/index.php?title=Uluru</a> " +
-    "(last visited June 22, 2009).</p>" +
-    "</div>" +
-    "</div>"
-},
-{
-  id: 04,
-  title: "This is Ujjain",
-  name: "Ujjain",
-  lat: 23.1765,
-  lng: 75.7885,
-  imsg: 'assets/marker/ujjain.jpg',
-  infoWin: '<div id="content">' +
-    '<div id="siteNotice">' +
-    "</div>" +
-    '<h1 id="firstHeading" class="firstHeading">Ujjain</h1>' +
-    '<div id="bodyContent">' +
-    "<p>Around 600 BCE, Ujjain emerged as the political, commercial and cultural centre of Malwa plateau. The ancient walled city of Ujjain was located around the Garh Kalika hill on the bank of river Kshipra, in the present-day suburban areas of the Ujjain city. This city covered an irregular pentagonal area of 0.875 km2.</p>" +
-    '<p>Attribution: Uluru, <a href="https://commons.wikimedia.org/wiki/File:Ujjain.jpg">' +
-    "https://en.wikipedia.org/w/index.php?title=Uluru</a> " +
-    "(last visited June 22, 2009).</p>" +
-    "</div>" +
-    "</div>"
-}
+    Id: 2,
+    location_name: 'Bhopal',
+    location_lat: 23.2599,
+    location_lng: 77.4126,
+    marker_image: 'https://amw-task.amwebtech.org/assets/marker/bhopal.jpg',
+    title: 'Bhopal Location'
+  },
+  {
+    Id: 4,
+    location_name: 'Ujjain',
+    location_lat: 23.1765,
+    location_lng: 75.7885,
+    marker_image: 'https://amw-task.amwebtech.org/assets/marker/ujjain.jpg',
+    title: 'Ujjain Location'
+  },
+  {
+    Id: 5,
+    location_name: 'Dewas',
+    location_lat: 22.9676,
+    location_lng: 76.0534,
+    marker_image: 'https://amw-task.amwebtech.org/assets/marker/dewas.jpg',
+    title: 'Dewas Location'
+  },
 ];
 
 function rinitializeMAP() {
@@ -88,8 +43,6 @@ function rinitializeMAP() {
     customMarker(locations);
   }
 }
-
-
 
 function customMarker(locations) {
   console.log("locations", )
@@ -104,13 +57,13 @@ function customMarker(locations) {
   };
 
   var finalArray = locations.map(function (obj) {
-    cityImage.url = obj.imsg
+    cityImage.url = obj.marker_image
     marker = new google.maps.Marker({
-      position: new google.maps.LatLng(obj.lat, obj.lng),
+      position: new google.maps.LatLng(obj.location_lat, obj.location_lng),
       map: map,
       title: obj.title,
       icon: cityImage,
-      // animation: google.maps.Animation.BOUNCE,
+      animation: google.maps.Animation.BOUNCE,
     });
     google.maps.event.addListener(marker, 'click', (function (marker, i) {
       return function () {
@@ -121,10 +74,8 @@ function customMarker(locations) {
   });
 }
 
-
 function sandLocationList(type, locations) {
-  if(locations) {
-    customMarker(locations)
+  if (locations) {
+    customMarker(locations);
   }
-
 }

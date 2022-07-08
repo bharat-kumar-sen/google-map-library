@@ -37,7 +37,7 @@ export class ShowMapMarkerComponent implements OnInit {
   ngOnInit(): void {
     setTimeout(() => {
       rinitializeMAP();
-    }, 1000);
+    }, 3000);
   }
 
   getLoactionList() {
