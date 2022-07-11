@@ -63,7 +63,8 @@ function customMarker(locations) {
       map: map,
       title: obj.title,
       icon: cityImage,
-      animation: google.maps.Animation.BOUNCE,
+      // draggable: true
+      // animation: google.maps.Animation.BOUNCE,
     });
     google.maps.event.addListener(marker, 'click', (function (marker, i) {
       return function () {
