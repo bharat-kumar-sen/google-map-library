@@ -3,8 +3,8 @@ import { ActivatedRoute } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { RMapMarkerService } from 'src/app/shared-ui/services/r-map-marker.service';
-declare function rinitializeMAP(): any;
-declare function sandLocationList(param: any, data?:any): any;
+declare function rinitializeMAP(type: any, location?: any): any;
+// declare function sandLocationList(param: any, data?: any): any;
 
 @Component({
   selector: 'app-show-map-marker',
@@ -24,20 +24,29 @@ export class ShowMapMarkerComponent implements OnInit {
     private activatedRoute: ActivatedRoute) {
     this.activatedRoute.params.subscribe((res: any) => {
       this.type = res.rType;
-      if (this.type && this.type === 'rStaticMarker') {
-        sandLocationList('rStaticMarker');
-      } else if (this.type && this.type === 'rDynamicMarkers') {
+      console.log('First Init=======', this.type);
+      if (this.type === 'rStaticMarkers') {
+        console.log('Rajat-Static Markers')
+        this.loadMap();
+      } else if (this.type === 'rDynamicMarkers') {
+        console.log('Rajat-Dynamic Markers')
         this.getLoactionList();
-      } else if (this.type && this.type === 'dragAndDropMarkers') {
-        sandLocationList('dragAndDropMarkers');
+      } else if (this.type === 'rInfoWindoMarkers') {
+        console.log('Rajat-InfoWindo Markers')
+        this.loadMap();
+      } else if (this.type === 'rDragAndDropMarkers') {
+        console.log('Rajat-DragAndDrop Markers')
+        this.loadMap();
       }
     });
   }
 
-  ngOnInit(): void {
+  ngOnInit(): void { }
+
+  loadMap() {
     setTimeout(() => {
-      rinitializeMAP();
-    }, 3000);
+      rinitializeMAP(this.type, location);
+    }, 100);
   }
 
   getLoactionList() {
@@ -45,8 +54,9 @@ export class ShowMapMarkerComponent implements OnInit {
       next: (dataRes: any) => {
         if (dataRes.status === 200) {
           setTimeout(() => {
-            sandLocationList( this.type, dataRes.data);
-          }, 2000);
+          rinitializeMAP(this.type, dataRes.data);
+          }, 500);
+          console.log('Checking Dynamic data=========', dataRes.data);
         }
       },
       error: (error: any) => {

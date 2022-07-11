@@ -1,82 +1,175 @@
 var map;
-var locations = [{
+
+var staticLocations = [{
     Id: 1,
-    location_name: 'Indore',
-    location_lat: 22.7196,
-    location_lng: 75.8577,
+    location_name: 'Smith Center',
+    location_lat: 39.779823,
+    location_lng: 98.787064,
     marker_image: 'https://amw-task.amwebtech.org/assets/marker/indore.jpg',
-    title: 'Indore Location'
+    title: 'Smith Center Location'
   },
   {
     Id: 2,
-    location_name: 'Bhopal',
-    location_lat: 23.2599,
-    location_lng: 77.4126,
+    location_name: 'Chicago',
+    location_lat: 41.8781,
+    location_lng: 87.6298,
     marker_image: 'https://amw-task.amwebtech.org/assets/marker/bhopal.jpg',
-    title: 'Bhopal Location'
+    title: 'Chicago Location'
   },
   {
     Id: 4,
-    location_name: 'Ujjain',
-    location_lat: 23.1765,
-    location_lng: 75.7885,
+    location_name: 'San Diego',
+    location_lat: 32.7157,
+    location_lng: 117.1611,
     marker_image: 'https://amw-task.amwebtech.org/assets/marker/ujjain.jpg',
-    title: 'Ujjain Location'
+    title: 'San Diego Location'
   },
   {
     Id: 5,
-    location_name: 'Dewas',
-    location_lat: 22.9676,
-    location_lng: 76.0534,
+    location_name: 'San Francisco',
+    location_lat: 37.7749,
+    location_lng: 122.4194,
     marker_image: 'https://amw-task.amwebtech.org/assets/marker/dewas.jpg',
-    title: 'Dewas Location'
+    title: 'San Francisco Location'
   },
 ];
 
-function rinitializeMAP() {
-  let zoom = 8;
+var infoWindoMarkers = [{
+    Id: 6,
+    location_name: 'France',
+    location_lat: 46.552664,
+    location_lng: 2.422229,
+    marker_image: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png',
+    title: "France"
+  },
+  {
+    Id: 7,
+    location_name: 'Poland',
+    location_lat: 51.624980,
+    location_lng: 20.816150,
+    marker_image: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png',
+    title: "Poland"
+  },
+  {
+    Id: 8,
+    location_name: 'Switzerland',
+    location_lat: 47.361750,
+    location_lng: 7.508110,
+    marker_image: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png',
+    title: "Switzerland"
+  },
+  {
+    Id: 9,
+    location_name: 'Sweden',
+    location_lat: 58.968180,
+    location_lng: 16.200450,
+    marker_image: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png',
+    title: "Sweden"
+  },
+  {
+    Id: 10,
+    location_name: 'United Kingdom',
+    location_lat: 49.238740,
+    location_lng: -2.173634,
+    marker_image: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png',
+    title: "United Kingdom"
+  },
+]
+
+var infoWindo =
+  '<div id="content">' +
+  '<div class="map_info_wrapper">' +
+  '<a href="">' +
+  '<div class="img_wrapper">' + '<img src="http://maps.marnoto.com/en/5wayscustomizeinfowindow/images/vistalegre.jpg">' + '</div>' +
+  '</a>' + '</div>' +
+  '<h5 id="title">Heading</h5>' +
+  '<div id="bodyContent">' +
+  '<div class="iw-subTitle">Sub-Heading</div>' +
+  "<p><b>Uluru</b>, also referred to as <b>Ayers Rock</b>, is a large Heritage Site.</p>" +
+  '<p>Attribution: Uluru, <a href="https://en.wikipedia.org/w/index.php?title=Uluru&oldid=297882194">' +
+  "https://en.wikipedia.org/w/index.php?title=Uluru</a> " +
+  "(last visited June 22, 2009).</p>" +
+  '<div class="iw-subTitle">Contacts :</div>' +
+  '<p>' +
+  '<span class="address">Address: VISTA ALEGRE ATLANTIS, SA 3830-292 Ílhavo - Portugal</span>' + '</br>' +
+  '<span class="Phone">Phone: +351 234 320 600</span>' + '</br>' +
+  '<span class="e-mail">e-mail: geral@vaa.pt </span>' + '</br>' +
+  '<span class="www">www: www.myvistaalegre.com</span>' +
+  '</p>' +
+  "</div>" +
+  "</div>";
+
+var myDraggableMarker;
+
+var type;
+
+function rinitializeMAP(type, locations) {
+  console.log('GET Dynamic locations', locations);
+  type = type
+  let zoom = 3;
   if (google.maps) {
     map = new google.maps.Map(document.getElementById('r_google_map'), {
       zoom: zoom,
       center: new google.maps.LatLng(22.718361, 75.884271)
     });
-    customMarker(locations);
+    if (type === 'rStaticMarkers') {
+      customMarker(staticLocations);
+    } else if (type === 'rDynamicMarkers') {
+      customMarker(locations);
+    } else if (type === 'rInfoWindoMarkers') {
+      rInfoWindoMarkers(infoWindoMarkers);
+    } else if (type === 'rDragAndDropMarkers') {
+      draggableMarkers;
+    }
   }
 }
 
-function customMarker(locations) {
-  console.log("locations", )
-  var infowindow = new google.maps.InfoWindow(),
-    marker, i;
-
+function customMarker(staticLocations) {
   let cityImage = {
     url: '',
     scaledSize: new google.maps.Size(50, 50),
     origin: new google.maps.Point(15, 20),
     anchor: new google.maps.Point(0, 0)
   };
-
-  var finalArray = locations.map(function (obj) {
+  let customMarkerArray = staticLocations.map(function (obj) {
     cityImage.url = obj.marker_image
     marker = new google.maps.Marker({
       position: new google.maps.LatLng(obj.location_lat, obj.location_lng),
       map: map,
       title: obj.title,
       icon: cityImage,
-      // draggable: true
-      // animation: google.maps.Animation.BOUNCE,
+      animation: google.maps.Animation.DROP,
     });
-    google.maps.event.addListener(marker, 'click', (function (marker, i) {
+    google.maps.event.addListener(marker, 'click', (function (marker) {
       return function () {
-        infowindow.setContent(obj.infoWin);
+        // infowindow.setContent(infoWindo);
         infowindow.open(map, marker);
       }
-    })(marker, i));
+    })(marker));
   });
 }
 
-function sandLocationList(type, locations) {
-  if (locations) {
-    customMarker(locations);
-  }
+function rInfoWindoMarkers(infoWindoMarkers) {
+  myInfoWindoMarkers = new google.maps.Marker({
+    position: new google.maps.LatLng(obj.location_lat, obj.location_lng),
+    center: new google.maps.LatLng(22.718361, 75.884271),
+    map: map,
+    animation: google.maps.Animation.DROP,
+  });
+  google.maps.event.addListener(marker, 'click', (function (marker) {
+    return function () {
+      infowindow.setContent(infoWindo);
+      infowindow.open(map, marker);
+    }
+  })(marker));
+}
+
+function draggableMarkers() {
+  myDraggableMarker = new google.maps.Marker({
+    position: new google.maps.LatLng(22.718361, 75.884271),
+    map: map,
+    draggable: true,
+    animation: google.maps.Animation.DROP,
+    title: "Please drag me!"
+  })
 }
