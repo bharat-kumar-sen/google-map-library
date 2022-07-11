@@ -26,16 +26,16 @@ export class ShowMapMarkerComponent implements OnInit {
       this.type = res.rType;
       console.log('First Init=======', this.type);
       if (this.type === 'rStaticMarkers') {
-        console.log('Rajat-Static Markers')
+        console.log('Rajat-Static Markers Typescript')
         this.loadMap();
       } else if (this.type === 'rDynamicMarkers') {
-        console.log('Rajat-Dynamic Markers')
+        console.log('Rajat-Dynamic Markers Typescript')
         this.getLoactionList();
       } else if (this.type === 'rInfoWindoMarkers') {
-        console.log('Rajat-InfoWindo Markers')
+        console.log('Rajat-InfoWindo Markers Typescript')
         this.loadMap();
       } else if (this.type === 'rDragAndDropMarkers') {
-        console.log('Rajat-DragAndDrop Markers')
+        console.log('Rajat-DragAndDrop Markers Typescript')
         this.loadMap();
       }
     });

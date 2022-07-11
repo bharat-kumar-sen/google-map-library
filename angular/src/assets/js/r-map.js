@@ -76,16 +76,16 @@ var infoWindoMarkers = [{
   },
 ]
 
-var infoWindo =
+const infoWindo =
   '<div id="content">' +
   '<div class="map_info_wrapper">' +
   '<a href="">' +
-  '<div class="img_wrapper">' + '<img src="http://maps.marnoto.com/en/5wayscustomizeinfowindow/images/vistalegre.jpg">' + '</div>' +
+  '<div class="img_wrapper">' + '<img src="https://images.unsplash.com/photo-1480714378408-67cf0d13bc1b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8Y2l0eXxlbnwwfHwwfHw%3D&w=1000&q=80">' + '</div>' +
   '</a>' + '</div>' +
-  '<h5 id="title">Heading</h5>' +
+  '<h5 id="title">TechnoJerrys City</h5>' +
   '<div id="bodyContent">' +
-  '<div class="iw-subTitle">Sub-Heading</div>' +
-  "<p><b>Uluru</b>, also referred to as <b>Ayers Rock</b>, is a large Heritage Site.</p>" +
+  '<div class="iw-subTitle">City of Love</div>' +
+  "<p>The internet’s source of freely-usable images Powered by creators everywhere</p>" +
   '<p>Attribution: Uluru, <a href="https://en.wikipedia.org/w/index.php?title=Uluru&oldid=297882194">' +
   "https://en.wikipedia.org/w/index.php?title=Uluru</a> " +
   "(last visited June 22, 2009).</p>" +
@@ -104,7 +104,7 @@ var myDraggableMarker;
 var type;
 
 function rinitializeMAP(type, locations) {
-  console.log('GET Dynamic locations', locations);
+  // console.log('GET Dynamic locations', locations);
   type = type
   let zoom = 3;
   if (google.maps) {
@@ -114,12 +114,14 @@ function rinitializeMAP(type, locations) {
     });
     if (type === 'rStaticMarkers') {
       customMarker(staticLocations);
+      console.log('Rajat-Static Markers javascript', staticLocations);
     } else if (type === 'rDynamicMarkers') {
       customMarker(locations);
     } else if (type === 'rInfoWindoMarkers') {
       rInfoWindoMarkers(infoWindoMarkers);
+      console.log('Rajat-InfoWindo Markers javascript', infoWindoMarkers);
     } else if (type === 'rDragAndDropMarkers') {
-      draggableMarkers;
+      draggableMarkers();
     }
   }
 }
@@ -142,7 +144,7 @@ function customMarker(staticLocations) {
     });
     google.maps.event.addListener(marker, 'click', (function (marker) {
       return function () {
-        // infowindow.setContent(infoWindo);
+        infowindow.setContent(infoWindo);
         infowindow.open(map, marker);
       }
     })(marker));
@@ -150,18 +152,30 @@ function customMarker(staticLocations) {
 }
 
 function rInfoWindoMarkers(infoWindoMarkers) {
-  myInfoWindoMarkers = new google.maps.Marker({
-    position: new google.maps.LatLng(obj.location_lat, obj.location_lng),
-    center: new google.maps.LatLng(22.718361, 75.884271),
-    map: map,
-    animation: google.maps.Animation.DROP,
+  let cityImage = {
+    url: '',
+    scaledSize: new google.maps.Size(50, 50),
+    origin: new google.maps.Point(15, 20),
+    anchor: new google.maps.Point(0, 0)
+  };
+  var infowindow = new google.maps.InfoWindow(), marker;
+  let customMarkerArray = infoWindoMarkers.map(function (infoObj) {
+    // console.log("customMarkerArraycustomMarkerArraycustomMarkerArray", infoWindoMarkers);
+    cityImage.url = infoObj.marker_image
+    marker = new google.maps.Marker({
+      position: new google.maps.LatLng(infoObj.location_lat, infoObj.location_lng),
+      map: map,
+      title: infoObj.title,
+      icon: cityImage,
+      animation: google.maps.Animation.DROP,
+    });
+    google.maps.event.addListener(marker, 'click', (function (marker) {
+      return function () {
+        infowindow.setContent(infoWindo);
+        infowindow.open(map, marker);
+      }
+    })(marker));
   });
-  google.maps.event.addListener(marker, 'click', (function (marker) {
-    return function () {
-      infowindow.setContent(infoWindo);
-      infowindow.open(map, marker);
-    }
-  })(marker));
 }
 
 function draggableMarkers() {
@@ -172,4 +186,7 @@ function draggableMarkers() {
     animation: google.maps.Animation.DROP,
     title: "Please drag me!"
   })
+  // google.maps.event.addListener(dragonMarker, 'dragend', function () {
+  //   geocodePosition();
+  // });
 }
