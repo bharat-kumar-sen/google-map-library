@@ -2,11 +2,15 @@ import { Component, NgZone, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
-import { MapMarkerService } from '../../../../shared-ui';
-declare function sinitializeMAP(): any;
-declare function sendLocationsLIst(param?: any): any;
-// declare function getDragDropLocation(getDraglocationAddress?: any): any;
+import { SMapMarkerService } from '../../../../shared-ui';
+declare function sinitializeMAP(type: any, data?: any): any;
+// declare function sendLocationsLIst(param?: any): any;
 declare var window: any;
+declare var $: any;
+
+class locations {
+  location: any = {};
+}
 
 @Component({
   selector: 'app-show-map-marker',
@@ -18,50 +22,77 @@ export class ShowMapMarkerComponent implements OnInit {
   locationsList: any[] = [];
   type: any = ''
   searchResultLocation: any = ''
+  locationInfo: locations = new locations();
 
   constructor(
-    private mapmarkerService: MapMarkerService,
+    private sMapMarkerService: SMapMarkerService,
     private spinner: NgxSpinnerService,
     private toastr: ToastrService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private ngZone: NgZone,
   ) {
-
-    console.log('this.activatedRoute.snapshot.params', this.activatedRoute.snapshot.paramMap.get('type'));
-    this.type = this.activatedRoute.snapshot.paramMap.get('type');
-    if (this.type && this.type === 'staticMarkers') {
-      sendLocationsLIst('staticMarkers');
-    } else if (this.type && this.type === 'dbMarkers') {
-      this.getLocationsList();
-    } else if (this.type && this.type === 'dragDropMarker') {
-      sendLocationsLIst('dragDropMarker');
-    }
+    this.activatedRoute.params.subscribe((res: any) => {
+      this.type = res.type;
+      console.log(" this.type", this.type)
+      if (this.type && this.type === 'staticMarkers') {
+        this.loadMap('staticMarkers');
+      } else if (this.type && this.type === 'dbMarkers') {
+        this.getLocationsList();
+      } else if (this.type && this.type === 'dragDropMarker') {
+        this.loadMap('dragDropMarker');
+      }
+    });
   }
+
   // tslint:disable-next-line:use-life-cycle-interface
   ngOnInit(): void {
-    window['angularComponentReference'] = { component: this, zone: this.ngZone, loadAngularFunction: (searchResult: any) => this.angularFunctionCalled(searchResult), };
-
-    setTimeout(() => {
-      sinitializeMAP();
-    }, 2000);
+    window['angularComponentReference'] = { component: this, zone: this.ngZone, loadAngularFunction: (currentlocationInfo: any) => this.angularFunctionCalled(currentlocationInfo), };
   }
 
-  angularFunctionCalled(searchResult: any) {
-    console.log('Angular function is called', searchResult);
-    this.searchResultLocation = searchResult;
+  loadMap(type: any) {
+    setTimeout(() => {
+      sinitializeMAP(type);
+    }, 1000);
+  }
 
+  angularFunctionCalled(currentlocationInfo: any) {
+    console.log('Result == ', currentlocationInfo);
+    this.locationInfo.location = currentlocationInfo;
+    this.saveLocationInfo();
   }
 
   getLocationsList() {
-    this.mapmarkerService.getLocationsList().subscribe({
+    this.spinner.show();
+    this.sMapMarkerService.getLocationsList().subscribe({
       next: (dataRes: any) => {
-        this.spinner.show();
         if (dataRes.status === 200) {
           this.locationsList = dataRes.data;
-          // console.log("locationsList", this.locationsList);
-          sendLocationsLIst(this.locationsList);
+          console.log("locationsList", this.locationsList);
+          sinitializeMAP(this.type, this.locationsList);
+          this.toastr.success(dataRes.message, 'Success!');
           this.spinner.hide();
+        }
+      },
+      error: (error: any) => {
+        this.spinner.hide();
+        console.log("error", error);
+        this.toastr.error(error.message, 'Error!');
+      }
+    });
+  }
+
+  saveLocationInfo() {
+    this.spinner.show();
+    // let locationPostData = JSON.parse(JSON.stringify(this.locationInfo));
+    // console.log('this.locationInfo',this.locationInfo);
+    this.sMapMarkerService.saveLocations(this.locationInfo.location).subscribe({
+      next: (dataRes: any) => {
+        if (dataRes.status === 200) {
+          this.spinner.hide();
+          this.toastr.success(dataRes.message, 'Success!');
+          dataRes = dataRes.data;
+          // console.log("dataRes", dataRes);
         }
       },
       error: (error: any) => {

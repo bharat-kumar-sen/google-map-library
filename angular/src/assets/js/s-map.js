@@ -5,7 +5,6 @@ var MapObj, map, map2x, zoom = 10;
 // Data for the markers consisting of a name, a LatLng and a zIndex for the
 // order in which these markers should display on top of each other.
 var locationsMarkers;
-
 var setCenterLatlng;
 
 var singlelocations = [
@@ -55,12 +54,15 @@ const contentString =
   "</div>" +
   "</div>";
 
-function sendLocationsLIst(locations) {
-  type = locations;
-  if (locations == 'staticMarkers') {
+// function sendLocationsLIst(locations) {
+// }
+
+function sinitializeMAP(type, locations) {
+  type = type;
+  if (type == 'staticMarkers') {
     locationsMarkers = staticlocations;
     setCenterLatlng = new google.maps.LatLng(52.956622, 11.223106);
-  } else if (locations == 'dragDropMarker') {
+  } else if (type == 'dragDropMarker') {
     // locationsMarkers = singlelocations;
     setCenterLatlng = new google.maps.LatLng(22.7209, 75.8785);
   }
@@ -68,11 +70,10 @@ function sendLocationsLIst(locations) {
     locationsMarkers = locations;
     setCenterLatlng = new google.maps.LatLng(22.7196, 75.8577);
   }
-}
 
-function sinitializeMAP() {
+
   if (google.maps) {
-    map = new google.maps.Map(document.getElementById('google_map'), {
+    map = new google.maps.Map(document.getElementById('s_google_map'), {
       // styles: mapStyles,
       zoom: 5,
       center: setCenterLatlng,
@@ -81,15 +82,14 @@ function sinitializeMAP() {
          mapTypeControl: false */
     });
     if (type == 'dragDropMarker') {
-      dragDrop(map);
+      dragDrop();
     } else {
-      setMarkers(map);
+      setMarkers();
     }
   }
 }
 
-function setMarkers(map) {  // Display multiple markers on a map
-
+function setMarkers() {  // Display multiple markers on a map
   //Create and open InfoWindow.
   var infowindow = new google.maps.InfoWindow(
     /* {
@@ -120,7 +120,7 @@ function setMarkers(map) {  // Display multiple markers on a map
       title: obj.title,
       // shape: shape,
       animation: google.maps.Animation.DROP,
-      draggable: type == 'dragDropMarker' ? true : false,
+      draggable: false,
       icon: image,//if you comment this out or delete it you will get the default pin icon.
       optimized: false,
     });
@@ -142,7 +142,7 @@ function setMarkers(map) {  // Display multiple markers on a map
 
 //drag and drop marker to get position on map
 var dragonMarker
-function dragDrop(map) {
+function dragDrop() {
   // Place a draggable marker on the map
   dragonMarker = new google.maps.Marker({
     position: setCenterLatlng,
@@ -160,32 +160,50 @@ function dragDrop(map) {
 function geocodePosition() {
   const infowindow = new google.maps.InfoWindow();
   geocoder = new google.maps.Geocoder();
-  geocoder.geocode
-    ({
-      latLng: dragonMarker.getPosition()
-    },
-      function (results, status) {
-        // console.log('results',results);
-        if (status == google.maps.GeocoderStatus.OK) {
-          $("#mapSearchInput").val(results[0].formatted_address);
-          $("#mapErrorMsg").hide(100);
-          // infoWindow.close();
-          infowindow.setContent(results[0].formatted_address);
-          infowindow.open(map, dragonMarker);
-          console.log('results[0].formatted_address', results[0].formatted_address);
-          var searchResult = results[0].formatted_address.replace('Unnamed Road,', '');
-          callAngularFunction(searchResult);
+  geocoder.geocode({ latLng: dragonMarker.getPosition() },
+    function (results, status) {
+      console.log('results', results);
+      if (status == google.maps.GeocoderStatus.OK) {
+        $("#mapSearchInput").val(results[0].formatted_address);
+        $("#mapErrorMsg").hide(100);
+        // infoWindow.close();
+        /* var currentLatitude = dragonMarker.getPosition().lat().toFixed(7);
+        var currentLongitude = dragonMarker.getPosition().lng().toFixed(7); */
+        var currentLatitude = results[0].geometry.location.lat();
+        var currentLongitude = results[0].geometry.location.lng();
+        var currentAddress = results[0].formatted_address;
+        var  value=currentAddress.split(",");
+        count=value.length;
+        country=value[count-1];
+        state=value[count-2];
+        city=value[count-3];
+        // console.log('count ==',count,'country ==',country,'state ==',state,'city ==',city);
+
+        let currentlocationInfo = {
+          location_name: city,
+          location_lat: currentLatitude,
+          location_lng	: currentLongitude,
+          location_address: currentAddress,
+          location_state:state,
+          location_country: country,
         }
-        else {
-          $("#mapErrorMsg").html('Cannot determine address at this location.' + status).show(100);
-        }
+        // console.log('currentlocationInfo == ', currentlocationInfo);
+
+        infowindow.setContent("Latitude: " + currentLatitude + "</br></br>" + "\nLongitude: " + currentLongitude + "</br></br>" + "\nAddress: " + currentAddress);
+
+        infowindow.open(map, dragonMarker);
+        currentlocationInfo.location_address = currentlocationInfo.location_address.replace('Unnamed Road,', '');
+        callAngularFunction(currentlocationInfo);
       }
-    );
+      else {
+        $("#mapErrorMsg").html('Cannot determine address at this location.' + status).show(100);
+      }
+    }
+  );
 }
 
-function callAngularFunction(searchResult) {
-  window.angularComponentReference.zone.run(() => { window.angularComponentReference.loadAngularFunction(searchResult); });
+function callAngularFunction(currentlocationInfo) {
+  window.angularComponentReference.zone.run(() => { window.angularComponentReference.loadAngularFunction(currentlocationInfo); });
 }
-
 
 // window.sinitializeMAP = sinitializeMAP;

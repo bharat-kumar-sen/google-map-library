@@ -6,7 +6,7 @@ import { ApiService } from "./api.service";
 @Injectable({
   providedIn: 'root'
 })
-export class MapMarkerService {
+export class SMapMarkerService {
   users = "users";
   markers = "markers";
   constructor(
@@ -56,8 +56,9 @@ export class MapMarkerService {
     );
   }
 
-  public saveInfo(param: object): Observable<any> {
-    return this.apiService.post(`${this.users}/saveUserInfo`, param).pipe(
+  public saveLocations(param: object): Observable<any> {
+    // console.log('call service == ',param);
+    return this.apiService.post(`${this.markers}/saveLocations`, param).pipe(
       map((data) => {
         return data;
       })

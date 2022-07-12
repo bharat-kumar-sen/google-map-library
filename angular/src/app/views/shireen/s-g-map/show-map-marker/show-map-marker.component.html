@@ -3,17 +3,22 @@
     <h3 class="opacity-50">S Show map and marker</h3>
   </div>
   <div *ngIf="type == 'dragDropMarker'">
-    <input class="form-control" type="text" placeholder="Location Address"
-    value={{searchResultLocation}} style="min-width: 350px;
-    max-width: 500px;">
+    <input class="form-control" type="text" placeholder="Location Address" [(ngModel)]="locationInfo.location.location_address"
+      style="min-width: 350px;max-width: 500px;">
     <!-- <span class="input" role="textbox" contenteditable> {{searchResultLocation}} </span> -->
   </div>
 </div>
+<pre [innerHtml]="locationInfo | json"></pre>
+
 <div class="container-fluid app-user bg-white p-2">
   <div class="table-responsive-lg">
-    <div id="google_map"></div>
+    <div id="s_google_map"></div>
     <!-- <div class="col-sm-12 position-loading max-width-450" id="be-loading">
         <img src="assets/dist/img/map/loader.svg" class="loader-img" alt="Loader">
       </div> -->
   </div>
 </div>
+
+
+<!-- (ngModelChange)="abc(bukkkl)"
+value={{searchResultLocation}} -->
