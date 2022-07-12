@@ -4,7 +4,6 @@ import { ShowMapMarkerComponent } from './show-map-marker/show-map-marker.compon
 
 const routes: Routes = [
   { path: 'add-map-marker/:rType', component: ShowMapMarkerComponent, pathMatch: 'full' },
-  { path: 'add-db-marker/:rType', component: ShowMapMarkerComponent, pathMatch: 'full' }
 ];
 
 @NgModule({

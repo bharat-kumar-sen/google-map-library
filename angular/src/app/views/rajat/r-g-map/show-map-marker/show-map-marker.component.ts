@@ -3,8 +3,8 @@ import { ActivatedRoute } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { RMapMarkerService } from 'src/app/shared-ui/services/r-map-marker.service';
-declare function rinitializeMAP(): any;
-declare function sandLocationList(param?: any): any;
+declare function rinitializeMAP(type: any, location?: any): any;
+// declare function sandLocationList(param: any, data?: any): any;
 
 @Component({
   selector: 'app-show-map-marker',
@@ -22,31 +22,46 @@ export class ShowMapMarkerComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private toaster: ToastrService,
     private activatedRoute: ActivatedRoute) {
-    this.type = this.activatedRoute.snapshot.paramMap.get('rType');
-    // console.log('TYPEEEeeeeeeee',this.type);
-    if (this.type && this.type === 'rStaticMarker') {
-      sandLocationList('rStaticMarker');
-    } else if (this.type && this.type === 'rDynamicMarkers') {
-      this.getLoactionList();
-    }
+    this.activatedRoute.params.subscribe((res: any) => {
+      this.type = res.rType;
+      console.log('First Init=======', this.type);
+      if (this.type === 'rStaticMarkers') {
+        console.log('Rajat-Static Markers Typescript')
+        this.loadMap();
+      } else if (this.type === 'rDynamicMarkers') {
+        console.log('Rajat-Dynamic Markers Typescript')
+        this.getLoactionList();
+      } else if (this.type === 'rInfoWindoMarkers') {
+        console.log('Rajat-InfoWindo Markers Typescript')
+        this.loadMap();
+      } else if (this.type === 'rDragAndDropMarkers') {
+        console.log('Rajat-DragAndDrop Markers Typescript')
+        this.loadMap();
+      }
+    });
   }
 
-  ngOnInit(): void {
+  ngOnInit(): void { }
+
+  loadMap() {
     setTimeout(() => {
-      rinitializeMAP();
-    }, 2000);
+      rinitializeMAP(this.type, location);
+    }, 100);
   }
 
   getLoactionList() {
     this.rMapMarkerService.getLoactionList().subscribe({
       next: (dataRes: any) => {
-        // console.log('DDDDDDDDD',dataRes)
         if (dataRes.status === 200) {
-          this.locationList = dataRes.data;
+          setTimeout(() => {
+          rinitializeMAP(this.type, dataRes.data);
+          }, 500);
+          console.log('Checking Dynamic data=========', dataRes.data);
         }
       },
       error: (error: any) => {
         console.log('Error', error);
+        this.toaster.error(error.message, 'Error!');
       }
     })
   }

@@ -14,7 +14,9 @@ export class AppComponent {
     dragDropMarker: 'dragDropMarker',
   }
   rMenuType: any = {
-    rStaticMarker: 'rStaticMarkers',
+    rStaticMarkers: 'rStaticMarkers',
     rDynamicMarkers: 'rDynamicMarkers',
+    rInfoWindoMarkers: 'rInfoWindoMarkers',
+    rDragAndDropMarkers: 'rDragAndDropMarkers'
   }
 }

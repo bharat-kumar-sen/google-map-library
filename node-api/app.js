@@ -10,10 +10,10 @@ var cookieParser = require("cookie-parser");
 const logger = require('morgan');
 
 
-
 var indexRouter = require("./routes/index");
 var userRouter = require("./routes/users");
 var locationsRouter = require("./routes/locations");
+var rLocationsRouter = require('./routes/r-locationsRouter');
 const dotenv = require("dotenv");
 dotenv.config();
 
@@ -52,6 +52,7 @@ app.use(bodyParser.urlencoded({
 app.use("/", indexRouter);
 app.use("/users", userRouter);
 app.use("/markers", locationsRouter);
+app.use('/rMarkers', rLocationsRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

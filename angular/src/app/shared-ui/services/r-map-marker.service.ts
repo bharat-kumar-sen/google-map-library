@@ -7,7 +7,7 @@ import { ApiService } from './api.service';
 })
 export class RMapMarkerService {
 
-  markers = 'markers';
+  markers = 'rMarkers';
 
   constructor(private apiService: ApiService) { }
 
