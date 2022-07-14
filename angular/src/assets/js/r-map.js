@@ -1,5 +1,8 @@
 var map;
-
+var type;
+var marker;
+var myDraggableMarker;
+var infowindow = new google.maps.InfoWindow();
 var staticLocations = [{
     Id: 1,
     location_name: 'Smith Center',
@@ -33,7 +36,6 @@ var staticLocations = [{
     title: 'San Francisco Location'
   },
 ];
-
 var infoWindoMarkers = [{
     Id: 6,
     location_name: 'France',
@@ -99,12 +101,30 @@ const infoWindo =
   "</div>" +
   "</div>";
 
-var myDraggableMarker;
-
-var type;
+const dragInfoWindo =
+  '<div id="content">' +
+  '<div class="map_info_wrapper">' +
+  '<a href="">' +
+  '<div class="img_wrapper">' + '<img src="https://images.unsplash.com/photo-1480714378408-67cf0d13bc1b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8Y2l0eXxlbnwwfHwwfHw%3D&w=1000&q=80">' + '</div>' +
+  '</a>' + '</div>' +
+  '<h5 id="title">TechnoJerrys City</h5>' +
+  '<div id="bodyContent">' +
+  '<div class="iw-subTitle">City of Love</div>' +
+  "<p>The internet’s source of freely-usable images Powered by creators everywhere</p>" +
+  '<p>Attribution: Uluru, <a href="https://en.wikipedia.org/w/index.php?title=Uluru&oldid=297882194">' +
+  "https://en.wikipedia.org/w/index.php?title=Uluru</a> " +
+  "(last visited June 22, 2009).</p>" +
+  '<div class="iw-subTitle">Contacts :</div>' +
+  '<p>' +
+  '<span class="address">Address: VISTA ALEGRE ATLANTIS, SA 3830-292 Ílhavo - Portugal</span>' + '</br>' +
+  '<span class="Phone">Phone: +351 234 320 600</span>' + '</br>' +
+  '<span class="e-mail">e-mail: geral@vaa.pt </span>' + '</br>' +
+  '<span class="www">www: www.myvistaalegre.com</span>' +
+  '</p>' +
+  "</div>" +
+  "</div>";
 
 function rinitializeMAP(type, locations) {
-  // console.log('GET Dynamic locations', locations);
   type = type
   let zoom = 3;
   if (google.maps) {
@@ -114,12 +134,10 @@ function rinitializeMAP(type, locations) {
     });
     if (type === 'rStaticMarkers') {
       customMarker(staticLocations);
-      console.log('Rajat-Static Markers javascript', staticLocations);
     } else if (type === 'rDynamicMarkers') {
       customMarker(locations);
     } else if (type === 'rInfoWindoMarkers') {
       rInfoWindoMarkers(infoWindoMarkers);
-      console.log('Rajat-InfoWindo Markers javascript', infoWindoMarkers);
     } else if (type === 'rDragAndDropMarkers') {
       draggableMarkers();
     }
@@ -142,12 +160,6 @@ function customMarker(staticLocations) {
       icon: cityImage,
       animation: google.maps.Animation.DROP,
     });
-    google.maps.event.addListener(marker, 'click', (function (marker) {
-      return function () {
-        infowindow.setContent(infoWindo);
-        infowindow.open(map, marker);
-      }
-    })(marker));
   });
 }
 
@@ -158,9 +170,8 @@ function rInfoWindoMarkers(infoWindoMarkers) {
     origin: new google.maps.Point(15, 20),
     anchor: new google.maps.Point(0, 0)
   };
-  var infowindow = new google.maps.InfoWindow(), marker;
+
   let customMarkerArray = infoWindoMarkers.map(function (infoObj) {
-    // console.log("customMarkerArraycustomMarkerArraycustomMarkerArray", infoWindoMarkers);
     cityImage.url = infoObj.marker_image
     marker = new google.maps.Marker({
       position: new google.maps.LatLng(infoObj.location_lat, infoObj.location_lng),
@@ -179,14 +190,53 @@ function rInfoWindoMarkers(infoWindoMarkers) {
 }
 
 function draggableMarkers() {
+  const infowindow = new google.maps.InfoWindow();
   myDraggableMarker = new google.maps.Marker({
     position: new google.maps.LatLng(22.718361, 75.884271),
     map: map,
     draggable: true,
     animation: google.maps.Animation.DROP,
     title: "Please drag me!"
-  })
-  // google.maps.event.addListener(dragonMarker, 'dragend', function () {
-  //   geocodePosition();
-  // });
+  });
+
+  google.maps.event.addListener(myDraggableMarker, 'dragend', function () {
+    dragMarkerPosition(myDraggableMarker);
+  });
+}
+
+function dragMarkerPosition(myDraggableMarker) {
+  new google.maps.Geocoder().geocode({
+      'latLng': myDraggableMarker.getPosition()
+    },
+    function (results, status) {
+      if (status == google.maps.GeocoderStatus.OK) {
+        addressInfo = {
+          location_lat: addresslat = myDraggableMarker.getPosition().lat(),
+          location_lng: addresslng = myDraggableMarker.getPosition().lng(),
+          location_name: results[0].formatted_address,
+          title: results[0].formatted_address,
+          marker_image: 'My Location image'
+        }
+        infowindow.setContent(
+          "Latitude: " +
+          addresslat +
+          "</br>" +
+          "\nLongitude:" +
+          addresslng +
+          "</br>" +
+          "\nAddress:" +
+          results[0].formatted_address
+        );
+        infowindow.open(map, myDraggableMarker);
+        addressInfo.location_name = addressInfo.location_name.replace('Google ke pas eska data ni hai ;-)*,', '');
+        callAngularFunction(addressInfo);
+      }
+    }
+  )
+}
+
+function callAngularFunction(addressInfo) {
+  window.angularComponentReference.zone.run(() => {
+    window.angularComponentReference.loadAngularFunction(addressInfo);
+  });
 }
