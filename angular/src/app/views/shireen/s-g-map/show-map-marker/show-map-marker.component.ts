@@ -4,7 +4,8 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { SMapMarkerService } from '../../../../shared-ui';
 declare function sinitializeMAP(type: any, data?: any): any;
-// declare function sendLocationsLIst(param?: any): any;
+declare function geocodeLatLng(param?: any): any;
+declare function codeAddress(param?: any): any;
 declare var window: any;
 declare var $: any;
 
@@ -22,6 +23,7 @@ export class ShowMapMarkerComponent implements OnInit {
   locationsList: any[] = [];
   type: any = ''
   searchResultLocation: any = ''
+  windowScrolled: boolean;
   locationInfo: locations = new locations();
 
   constructor(
@@ -40,14 +42,27 @@ export class ShowMapMarkerComponent implements OnInit {
       } else if (this.type && this.type === 'dbMarkers') {
         this.getLocationsList();
       } else if (this.type && this.type === 'dragDropMarker') {
-        this.loadMap('dragDropMarker');
+        // this.loadMap('dragDropMarker');
+        this.getLocationsList();
       }
     });
   }
 
+
   // tslint:disable-next-line:use-life-cycle-interface
   ngOnInit(): void {
     window['angularComponentReference'] = { component: this, zone: this.ngZone, loadAngularFunction: (currentlocationInfo: any) => this.angularFunctionCalled(currentlocationInfo), };
+
+    /*     $("html, body").animate(
+          {
+            scrollTop: 0,
+          },
+          600
+        ); */
+  }
+
+  scrollToTop(): void {
+    window.scrollTo(0, 0);
   }
 
   loadMap(type: any) {
@@ -101,6 +116,16 @@ export class ShowMapMarkerComponent implements OnInit {
         this.toastr.error(error.message, 'Error!');
       }
     });
+  }
+
+  onRowClicked(location: any) {
+    // console.log('location ==',location);
+    const latlng = {
+      lat: location.location_lat,
+      lng: location.location_lng,
+    };
+    // geocodeLatLng(latlng);
+    codeAddress(location.location_address)
   }
 
 }

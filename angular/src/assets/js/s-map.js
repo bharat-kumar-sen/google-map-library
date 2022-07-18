@@ -1,7 +1,7 @@
 var liveUser = 0;
 var liveUser2x = 0;
 var type = '';
-var MapObj, map, map2x, zoom = 10;
+var MapObj, map, map2x, zoom = 10, InfoWObj = [];
 // Data for the markers consisting of a name, a LatLng and a zIndex for the
 // order in which these markers should display on top of each other.
 var locationsMarkers;
@@ -158,7 +158,6 @@ function dragDrop() {
 }
 
 function geocodePosition() {
-  const infowindow = new google.maps.InfoWindow();
   geocoder = new google.maps.Geocoder();
   geocoder.geocode({ latLng: dragonMarker.getPosition() },
     function (results, status) {
@@ -169,29 +168,31 @@ function geocodePosition() {
         // infoWindow.close();
         /* var currentLatitude = dragonMarker.getPosition().lat().toFixed(7);
         var currentLongitude = dragonMarker.getPosition().lng().toFixed(7); */
-        var currentLatitude = results[0].geometry.location.lat();
-        var currentLongitude = results[0].geometry.location.lng();
-        var currentAddress = results[0].formatted_address;
-        var  value=currentAddress.split(",");
-        count=value.length;
-        country=value[count-1];
-        state=value[count-2];
-        city=value[count-3];
+        var value = results[0].formatted_address.split(",");
+        count = value.length;
+        country = value[count - 1];
+        state = value[count - 2];
+        city = value[count - 3];
         // console.log('count ==',count,'country ==',country,'state ==',state,'city ==',city);
-
         let currentlocationInfo = {
           location_name: city,
-          location_lat: currentLatitude,
-          location_lng	: currentLongitude,
-          location_address: currentAddress,
-          location_state:state,
+          location_lat: results[0].geometry.location.lat(),
+          location_lng: results[0].geometry.location.lng(),
+          location_address: results[0].formatted_address,
+          location_state: state,
           location_country: country,
         }
-        // console.log('currentlocationInfo == ', currentlocationInfo);
 
-        infowindow.setContent("Latitude: " + currentLatitude + "</br></br>" + "\nLongitude: " + currentLongitude + "</br></br>" + "\nAddress: " + currentAddress);
+        const infowindow = new google.maps.InfoWindow(
+          {
+            content: "Latitude: " + currentlocationInfo.location_lat + "</br></br>" + "\nLongitude: " + currentlocationInfo.location_lng + "</br></br>" + "\nAddress: " + currentlocationInfo.location_address,
+          }
+        );
 
+        closeOtherInfo();
+        InfoWObj[0] = infowindow;
         infowindow.open(map, dragonMarker);
+
         currentlocationInfo.location_address = currentlocationInfo.location_address.replace('Unnamed Road,', '');
         callAngularFunction(currentlocationInfo);
       }
@@ -202,8 +203,99 @@ function geocodePosition() {
   );
 }
 
+function closeOtherInfo() {
+  if (InfoWObj.length > 0) {
+    /* detach the info-window from the marker ... undocumented in the API docs */
+    InfoWObj[0].setContent("dragonMarker", null);
+    /* and close it */
+    InfoWObj[0].close();
+    /* blank the array */
+    InfoWObj.length = 0;
+  }
+}
+
 function callAngularFunction(currentlocationInfo) {
   window.angularComponentReference.zone.run(() => { window.angularComponentReference.loadAngularFunction(currentlocationInfo); });
 }
+
+function geocodeLatLng(latlng) {
+  console.log('latlng==js', latlng);
+  geocoder = new google.maps.Geocoder();
+  const infowindow = new google.maps.InfoWindow();
+
+  geocoder
+    .geocode({ location: latlng })
+    .then((response) => {
+      if (response.results[0]) {
+        // map.setZoom(11);
+        const addressMarker = new google.maps.Marker({
+          position: latlng,
+          map: map,
+          draggable: true,
+        });
+
+        infowindow.setContent(response.results[0].formatted_address);
+        infowindow.open(map, addressMarker);
+      } else {
+        window.alert("No results found");
+      }
+    })
+    .catch((e) => window.alert("Geocoder failed due to: " + e));
+}
+
+function codeAddress(locationAddress) {
+  const infowindow = new google.maps.InfoWindow();
+  geocoder = new google.maps.Geocoder();
+  var address = locationAddress;
+  // console.log('address ==',address);
+  geocoder.geocode({
+    'address': address
+  }, function (results, status) {
+    if (status == google.maps.GeocoderStatus.OK) {
+      map.setCenter(results[0].geometry.location);
+      if (dragonMarker) {
+        dragonMarker.setMap(null);
+        if (infowindow) infowindow.close();
+      }
+      dragonMarker = new google.maps.Marker({
+        map: map,
+        draggable: true,
+        position: results[0].geometry.location
+      });
+      google.maps.event.addListener(dragonMarker, 'dragend', function () {
+        geoPosition(dragonMarker.getPosition());
+      });
+      google.maps.event.addListener(dragonMarker, 'click', function () {
+        if (dragonMarker.formatted_address) {
+          infowindow.setContent(dragonMarker.formatted_address + "<br>coordinates: " + dragonMarker.getPosition().toUrlValue(6));
+        } else {
+          infowindow.setContent(address + "<br>coordinates: " + dragonMarker.getPosition().toUrlValue(6));
+        }
+        infowindow.open(map, dragonMarker);
+      });
+      google.maps.event.trigger(dragonMarker, 'click');
+    } else {
+      alert('Geocode was not successful for the following reason: ' + status);
+    }
+  });
+}
+
+function geoPosition(pos) {
+  console.log('latlng==js', pos);
+  geocoder = new google.maps.Geocoder();
+  const infowindow = new google.maps.InfoWindow();
+  geocoder.geocode({
+    latLng: pos
+  }, function (responses) {
+    if (responses && responses.length > 0) {
+      dragonMarker.formatted_address = responses[0].formatted_address;
+    } else {
+      dragonMarker.formatted_address = 'Cannot determine address at this location.';
+    }
+    infowindow.setContent(dragonMarker.formatted_address + "<br>coordinates: " + dragonMarker.getPosition().toUrlValue(6));
+    infowindow.open(map, dragonMarker);
+  });
+}
+
 
 // window.sinitializeMAP = sinitializeMAP;
