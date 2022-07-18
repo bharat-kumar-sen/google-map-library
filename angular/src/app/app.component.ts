@@ -17,6 +17,7 @@ export class AppComponent {
     rStaticMarkers: 'rStaticMarkers',
     rDynamicMarkers: 'rDynamicMarkers',
     rInfoWindoMarkers: 'rInfoWindoMarkers',
-    rDragAndDropMarkers: 'rDragAndDropMarkers'
+    rDragAndDropMarkers: 'rDragAndDropMarkers',
+    rMarkerCluster: 'rMarkerCluster'
   }
 }

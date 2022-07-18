@@ -19,3 +19,21 @@ exports.getLocationsList = async (req, res) => {
     }
   });
 }
+
+exports.postLocationsList = async (req, res) => {
+  Locations.postLocationsList(req, (error, data) => {
+    if (data === null) {
+      return res.json({
+        status: 404,
+        data: error,
+        message: 'Some error'
+      });
+    } else {
+      return res.json({
+        status: 200,
+        data: data,
+        message: 'Get the locations list successfully.'
+      });
+    }
+  });
+}

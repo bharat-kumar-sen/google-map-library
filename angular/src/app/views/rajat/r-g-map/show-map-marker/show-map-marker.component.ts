@@ -1,11 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, NgZone, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { RMapMarkerService } from 'src/app/shared-ui/services/r-map-marker.service';
 declare function rinitializeMAP(type: any, location?: any): any;
-// declare function sandLocationList(param: any, data?: any): any;
 
+class displayLocations {
+  myDisplayLocations: any = {};
+}
 @Component({
   selector: 'app-show-map-marker',
   templateUrl: './show-map-marker.component.html',
@@ -17,31 +19,37 @@ export class ShowMapMarkerComponent implements OnInit {
 
   type: any = '';
 
+  displayLocationsInfo: displayLocations = new displayLocations()
+
   constructor(
     private rMapMarkerService: RMapMarkerService,
     private spinner: NgxSpinnerService,
     private toaster: ToastrService,
-    private activatedRoute: ActivatedRoute) {
+    private activatedRoute: ActivatedRoute,
+    private ngZone: NgZone) {
     this.activatedRoute.params.subscribe((res: any) => {
       this.type = res.rType;
-      console.log('First Init=======', this.type);
       if (this.type === 'rStaticMarkers') {
-        console.log('Rajat-Static Markers Typescript')
         this.loadMap();
       } else if (this.type === 'rDynamicMarkers') {
-        console.log('Rajat-Dynamic Markers Typescript')
         this.getLoactionList();
       } else if (this.type === 'rInfoWindoMarkers') {
-        console.log('Rajat-InfoWindo Markers Typescript')
         this.loadMap();
       } else if (this.type === 'rDragAndDropMarkers') {
-        console.log('Rajat-DragAndDrop Markers Typescript')
         this.loadMap();
+      } else if (this.type === 'rMarkerCluster') {
+        this.commingSoon();
       }
     });
   }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {
+    window['angularComponentReference'] = {
+      component: this,
+      zone: this.ngZone,
+      loadAngularFunction: (addressInfo: any) => this.postLoactionData(addressInfo)
+    };
+  }
 
   loadMap() {
     setTimeout(() => {
@@ -49,16 +57,29 @@ export class ShowMapMarkerComponent implements OnInit {
     }, 100);
   }
 
+  commingSoon() {
+    console.log('This type is in under development/Production And will Comming soon!');
+  }
+
   getLoactionList() {
     this.rMapMarkerService.getLoactionList().subscribe({
-      next: (dataRes: any) => {
-        if (dataRes.status === 200) {
+      next: (dataReq: any) => {
+        if (dataReq.status === 200) {
           setTimeout(() => {
-          rinitializeMAP(this.type, dataRes.data);
+            rinitializeMAP(this.type, dataReq.data);
           }, 500);
-          console.log('Checking Dynamic data=========', dataRes.data);
         }
       },
+      error: (error: any) => {
+        console.log('Error', error);
+        this.toaster.error(error.message, 'Error!');
+      }
+    })
+  }
+
+  postLoactionData(addressInfoObject: any) {
+    this.displayLocationsInfo.myDisplayLocations = addressInfoObject;
+    this.rMapMarkerService.postLoactionList(addressInfoObject).subscribe({
       error: (error: any) => {
         console.log('Error', error);
         this.toaster.error(error.message, 'Error!');
