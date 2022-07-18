@@ -1,20 +1,41 @@
-<div class="pt-2">
-  <div class="row">
-    <div class="col">
-      <h4 class="opacity-60 container-fluid pt-2">R Show map and marker</h4>
+<div>
+  <div class="myMAPBackground">
+    <div class="row border border-primary">
+      <div class="col">
+        <h4 class="opacity-60 container-fluid pt-1">R Show map and marker</h4>
+      </div>
+      <div class="col input-group" *ngIf="type == 'rDragAndDropMarkers'">
+        <span class="input-group-text" id="basic-addon1">📌</span>
+        <input class="form-control pr-5" type="text" placeholder="Your Drop Location Address Will Show Here"
+          [(ngModel)]="displayLocationsInfo.title">
+      </div>
     </div>
-    <div class="col input-group" *ngIf="type == 'rDragAndDropMarkers'">
-      <span class="input-group-text" id="basic-addon1">📌</span>
-      <input class="form-control pr-5" type="text" placeholder="Your Drop Location Address Will Show Here"
-        [(ngModel)]="displayLocationsInfo.myDisplayLocations.location_name">
+    <div class="container-fluid app-user bg-white p-2">
+      <div class="table-responsive-lg">
+        <div id="r_google_map"></div>
+      </div>
     </div>
   </div>
+  <table class="table table-success table-striped table-bordered border-primary">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Title</th>
+        <th>Address</th>
+        <th>latitude</th>
+        <th>longitude</th>
+        <th>Image</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="cursor-pointer" (click)=moveMarkerTdClickToRecord(tdata) *ngFor="let tdata of dataShowInTable let i = index">
+        <td>{{i+1}}</td>
+        <td>{{tdata.title}}</td>
+        <td>{{tdata.location_name}}</td>
+        <td>{{tdata.location_lat}}</td>
+        <td>{{tdata.location_lng}}</td>
+        <td>{{tdata.marker_image}}</td>
+      </tr>
+    </tbody>
+  </table>
 </div>
-<div class="container-fluid app-user bg-white p-2">
-  <div class="table-responsive-lg">
-    <div id="r_google_map"></div>
-  </div>
-</div>
-<section>
-  <div id="current"></div>
-</section>

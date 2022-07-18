@@ -1,6 +1,7 @@
 var map;
 var type;
 var marker;
+var myDropMarker;
 var myDraggableMarker;
 var infowindow = new google.maps.InfoWindow();
 var staticLocations = [{
@@ -61,14 +62,6 @@ var infoWindoMarkers = [{
     title: "Switzerland"
   },
   {
-    Id: 9,
-    location_name: 'Sweden',
-    location_lat: 58.968180,
-    location_lng: 16.200450,
-    marker_image: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png',
-    title: "Sweden"
-  },
-  {
     Id: 10,
     location_name: 'United Kingdom',
     location_lat: 49.238740,
@@ -76,32 +69,41 @@ var infoWindoMarkers = [{
     marker_image: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png',
     title: "United Kingdom"
   },
+  {
+    Id: 1,
+    location_name: 'Smith Center',
+    location_lat: 39.779823,
+    location_lng: 98.787064,
+    marker_image: 'https://amw-task.amwebtech.org/assets/marker/indore.jpg',
+    title: 'Smith Center Location'
+  },
+  {
+    Id: 2,
+    location_name: 'Chicago',
+    location_lat: 41.8781,
+    location_lng: 87.6298,
+    marker_image: 'https://amw-task.amwebtech.org/assets/marker/bhopal.jpg',
+    title: 'Chicago Location'
+  },
+  {
+    Id: 4,
+    location_name: 'San Diego',
+    location_lat: 32.7157,
+    location_lng: 117.1611,
+    marker_image: 'https://amw-task.amwebtech.org/assets/marker/ujjain.jpg',
+    title: 'San Diego Location'
+  },
+  {
+    Id: 5,
+    location_name: 'San Francisco',
+    location_lat: 37.7749,
+    location_lng: 122.4194,
+    marker_image: 'https://amw-task.amwebtech.org/assets/marker/dewas.jpg',
+    title: 'San Francisco Location'
+  },
 ]
 
 const infoWindo =
-  '<div id="content">' +
-  '<div class="map_info_wrapper">' +
-  '<a href="">' +
-  '<div class="img_wrapper">' + '<img src="https://images.unsplash.com/photo-1480714378408-67cf0d13bc1b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8Y2l0eXxlbnwwfHwwfHw%3D&w=1000&q=80">' + '</div>' +
-  '</a>' + '</div>' +
-  '<h5 id="title">TechnoJerrys City</h5>' +
-  '<div id="bodyContent">' +
-  '<div class="iw-subTitle">City of Love</div>' +
-  "<p>The internet’s source of freely-usable images Powered by creators everywhere</p>" +
-  '<p>Attribution: Uluru, <a href="https://en.wikipedia.org/w/index.php?title=Uluru&oldid=297882194">' +
-  "https://en.wikipedia.org/w/index.php?title=Uluru</a> " +
-  "(last visited June 22, 2009).</p>" +
-  '<div class="iw-subTitle">Contacts :</div>' +
-  '<p>' +
-  '<span class="address">Address: VISTA ALEGRE ATLANTIS, SA 3830-292 Ílhavo - Portugal</span>' + '</br>' +
-  '<span class="Phone">Phone: +351 234 320 600</span>' + '</br>' +
-  '<span class="e-mail">e-mail: geral@vaa.pt </span>' + '</br>' +
-  '<span class="www">www: www.myvistaalegre.com</span>' +
-  '</p>' +
-  "</div>" +
-  "</div>";
-
-const dragInfoWindo =
   '<div id="content">' +
   '<div class="map_info_wrapper">' +
   '<a href="">' +
@@ -140,8 +142,11 @@ function rinitializeMAP(type, locations) {
       rInfoWindoMarkers(infoWindoMarkers);
     } else if (type === 'rDragAndDropMarkers') {
       draggableMarkers();
+    } else if (type === 'rDragMarkerOnPosition') {
+      moveMarkerTdClick();
     }
   }
+
 }
 
 function customMarker(staticLocations) {
@@ -175,6 +180,7 @@ function rInfoWindoMarkers(infoWindoMarkers) {
     cityImage.url = infoObj.marker_image
     marker = new google.maps.Marker({
       position: new google.maps.LatLng(infoObj.location_lat, infoObj.location_lng),
+      center: new google.maps.LatLng(46.552664, 2.422229),
       map: map,
       title: infoObj.title,
       icon: cityImage,
@@ -239,4 +245,37 @@ function callAngularFunction(addressInfo) {
   window.angularComponentReference.zone.run(() => {
     window.angularComponentReference.loadAngularFunction(addressInfo);
   });
+}
+
+function moveMarkerTdClick(addressInfo) {
+  console.log('addressInfoaddressInfo', addressInfo)
+  const infowindow = new google.maps.InfoWindow();
+  if (myDropMarker) {
+    myDropMarker.setMap(null);
+  }
+  if (addressInfo) {
+    myDropMarker = new google.maps.Marker({
+      position: new google.maps.LatLng(addressInfo.location_lat, addressInfo.location_lng),
+      map: map,
+      animation: google.maps.Animation.DROP,
+    });
+    infowindow.setContent(
+      '<div id="content">' +
+      '<div class="map_info_wrapper">' +
+      '<a href="">' +
+      '<div class="img_wrapper">' + '<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQD9YSkJq_hgJvYhMvVatqATlw-IqugNFVDHA&usqp=CAU">' + '</div>' +
+      '</a>' + '</div>' +
+      "</br>" +
+      "Latitude: " +
+      addressInfo.location_lat +
+      "</br>" +
+      "\nLongitude:" +
+      addressInfo.location_lng +
+      "</br>" +
+      "\nAddress:" +
+      addressInfo.title
+    );
+    infowindow.open(map, myDropMarker);
+    addressInfo.location_name = addressInfo.location_name.replace('Google ke pas eska data ni hai ;-)*,', '');
+  }
 }
