@@ -4,22 +4,32 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { RMapMarkerService } from 'src/app/shared-ui/services/r-map-marker.service';
 declare function rinitializeMAP(type: any, location?: any): any;
+declare function moveMarkerTdClick(locations: any): any;
+declare var $: any;
 
-class displayLocations {
-  myDisplayLocations: any = {};
+class displayLocationsTable {
+  id: number = 0;
+  location_name: string = '';
+  title: string = '';
+  location_lat: number = 0;
+  location_lng: number = 0;
+  marker_image: string = '';
 }
 @Component({
   selector: 'app-show-map-marker',
   templateUrl: './show-map-marker.component.html',
   styleUrls: ['./show-map-marker.component.scss']
 })
+
 export class ShowMapMarkerComponent implements OnInit {
 
   locationList: any[] = [];
 
   type: any = '';
 
-  displayLocationsInfo: displayLocations = new displayLocations()
+  dataShowInTable: displayLocationsTable[] = [];
+
+  displayLocationsInfo: any = {};
 
   constructor(
     private rMapMarkerService: RMapMarkerService,
@@ -37,6 +47,8 @@ export class ShowMapMarkerComponent implements OnInit {
         this.loadMap();
       } else if (this.type === 'rDragAndDropMarkers') {
         this.loadMap();
+      } else if (this.type === 'rDragMarkerOnPosition') {
+        this.loadMap();
       } else if (this.type === 'rMarkerCluster') {
         this.commingSoon();
       }
@@ -44,6 +56,7 @@ export class ShowMapMarkerComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.getLoactionList();
     window['angularComponentReference'] = {
       component: this,
       zone: this.ngZone,
@@ -69,6 +82,7 @@ export class ShowMapMarkerComponent implements OnInit {
             rinitializeMAP(this.type, dataReq.data);
           }, 500);
         }
+        this.dataShowInTable = dataReq.data;
       },
       error: (error: any) => {
         console.log('Error', error);
@@ -78,12 +92,22 @@ export class ShowMapMarkerComponent implements OnInit {
   }
 
   postLoactionData(addressInfoObject: any) {
-    this.displayLocationsInfo.myDisplayLocations = addressInfoObject;
+    this.displayLocationsInfo = addressInfoObject;
     this.rMapMarkerService.postLoactionList(addressInfoObject).subscribe({
       error: (error: any) => {
         console.log('Error', error);
         this.toaster.error(error.message, 'Error!');
       }
     })
+  }
+
+  moveMarkerTdClickToRecord(locations: any) {
+    moveMarkerTdClick(locations)
+    $("html, body").animate(
+      {
+        scrollTop: 0,
+      },
+      10
+    );
   }
 }

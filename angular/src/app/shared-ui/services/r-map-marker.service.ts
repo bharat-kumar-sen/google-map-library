@@ -19,7 +19,7 @@ export class RMapMarkerService {
   }
 
   public postLoactionList(param: any): Observable<any> {
-    console.log('In Service', param);
+    // console.log('In Service', param);
     return this.apiService.post(`${this.markers}/postLocationsList`, param).pipe(map((data) => {
       return data;
     }))
