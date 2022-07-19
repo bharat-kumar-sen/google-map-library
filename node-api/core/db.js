@@ -7,6 +7,7 @@ const Knex = require('knex');
 
 // HERE IS START CONNECTION FOR STAGING DATABASE
 const connect = () => {
+  // host: 'localhost',
   const config = {
     user: 'root',
     password: 'root',

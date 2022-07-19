@@ -1,56 +1,101 @@
 var liveUser = 0;
 var liveUser2x = 0;
-
-var MapObj, map, map2x, zoom = 6;
-
+var type = '';
+var MapObj, map, map2x, zoom = 10, InfoWObj = [];
 // Data for the markers consisting of a name, a LatLng and a zIndex for the
 // order in which these markers should display on top of each other.
 var locationsMarkers;
+var setCenterLatlng;
 
-function sendLocationsLIst(locations) {
-  if (locations === 'staticMarkers') {
-    locationsMarkers = staticlocations;
-    console.log("locationsMarkers staticMarkers === 1 ", locationsMarkers);
-  } else {
-    locationsMarkers = locations;
-    console.log("locationsMarkers DbMarkers === 2 ", locationsMarkers);
-  }
-}
-
-var staticlocations = [
-  { Id: 1, location_name: 'Indore', location_lat: 22.7196, location_lng: 75.8577, marker_image: '/assets/marker/indore.jpg', title: "Indore Location" },
-  { Id: 2, location_name: 'Bhopal', location_lat: 23.2599, location_lng: 77.4126, marker_image: '/assets/marker/bhopal.jpg', title: "Bhopal" },
-  { Id: 3, location_name: 'Raisen', location_lat: 23.3327, location_lng: 77.7824, marker_image: '/assets/marker/raisen.jpg', title: "Raisen" },
-  { Id: 4, location_name: 'Ujjain', location_lat: 23.1765, location_lng: 75.7885, marker_image: '/assets/marker/ujjain.jpg', title: "Ujjain" },
-  { Id: 5, location_name: 'Dewas', location_lat: 22.9676, location_lng: 76.0534, marker_image: '/assets/marker/dewas.jpg', title: "Dewas" },
-  { Id: 6, location_name: 'Shajapur', location_lat: 23.4273, location_lng: 76.273, marker_image: '/assets/marker/shajapur.jpg', title: "Shajapur" },
-  { Id: 7, location_name: 'Jabalpur', location_lat: 23.1815, location_lng: 79.9864, marker_image: '/assets/marker/jabalpur.jpg', title: "Jabalpur" },
-  { Id: 8, location_name: 'Raipur', location_lat: 21.25, location_lng: 81.63, marker_image: '/assets/marker/raipur.jpg', title: "Raipur" },
-  { Id: 9, location_name: 'Mumbai', location_lat: 18.5204, location_lng: 73.8567, marker_image: '/assets/marker/mumbai.jpg', title: "Mumbai" },
-  { Id: 10, location_name: 'Pune', location_lat: 18.5204, location_lng: 73.8567, marker_image: '/assets/marker/pune.jpg', title: "Pune" },
-  { Id: 11, location_name: 'Agra', location_lat: 27.1767, location_lng: 78.0081, marker_image: '/assets/marker/agra.jpg', title: "Agra" },
-  { Id: 12, location_name: 'Delhi', location_lat: 28.7041, location_lng: 77.1025, marker_image: '/assets/marker/delhi.jpg', title: "Delhi" },
-  { Id: 13, location_name: 'Jaipur', location_lat: 26.9124, location_lng: 75.7873, marker_image: '/assets/marker/jaipur.jpg', title: "Jaipur" },
-  { Id: 14, location_name: 'Bengaluru', location_lat: 12.9716, location_lng: 77.5946, marker_image: '/assets/marker/banglore.jpg', title: "Bengaluru" }
+var singlelocations = [
+  { Id: 1, location_name: 'Treasure Island Mall', location_lat: 22.7209, location_lng: 75.8785, marker_image: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png', title: "Treasure Island" },
 ];
 
-function sinitializeMAP() {
+var staticlocations = [
+  { Id: 1, location_name: 'Germany', location_lat: 52.956622, location_lng: 11.223106, marker_image: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png', title: "Germany" },
+  { Id: 2, location_name: 'Hamburg', location_lat: 53.55002464, location_lng: 9.999999144, marker_image: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png', title: "Hamburg" },
+  { Id: 3, location_name: 'Berlin', location_lat: 52.52181866, location_lng: 13.40154862, marker_image: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png', title: "Berlin" },
+  { Id: 4, location_name: 'Netherlands', location_lat: 53.272666, location_lng: 7.028446, marker_image: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png', title: "Netherlands" },
+  { Id: 5, location_name: 'Ireland', location_lat: 52.955368, location_lng: -7.800643, marker_image: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png', title: "Ireland" },
+  { Id: 6, location_name: 'France', location_lat: 46.552664, location_lng: 2.422229, marker_image: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png', title: "France" },
+  { Id: 7, location_name: 'Poland', location_lat: 51.624980, location_lng: 20.816150, marker_image: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png', title: "Poland" },
+  { Id: 8, location_name: 'Switzerland', location_lat: 47.361750, location_lng: 7.508110, marker_image: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png', title: "Switzerland" },
+  { Id: 9, location_name: 'Sweden', location_lat: 58.968180, location_lng: 16.200450, marker_image: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png', title: "Sweden" },
+  { Id: 10, location_name: 'United Kingdom', location_lat: 49.238740, location_lng: -2.173634, marker_image: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png', title: "United Kingdom" },
+];
+
+var property_img = "http://maps.marnoto.com/en/5wayscustomizeinfowindow/images/vistalegre.jpg";
+
+// Info Window Content
+const contentString =
+  /* "<div style = 'width:200px;min-height:40px'>" + data.description + "</div>" */
+  /* '<div class=infowindow>'+'<h5>Leeds</h5>'+'<p>388-A , Road no 22, Jubilee Hills, Hyderabad Telangana, INDIA-500033</p>'+'</div>' + */
+
+  '<div id="content">' +
+  '<div class="map_info_wrapper">' +
+  '<a href="">' +
+  '<div class="img_wrapper">' + '<img src="http://maps.marnoto.com/en/5wayscustomizeinfowindow/images/vistalegre.jpg">' + '</div>' +
+  '</a>' + '</div>' +
+  '<h5 id="title">Heading</h5>' +
+  '<div id="bodyContent">' +
+  '<div class="iw-subTitle">Sub-Heading</div>'
+  + "<p><b>Uluru</b>, also referred to as <b>Ayers Rock</b>, is a large Heritage Site.</p>" +
+  '<p>Attribution: Uluru, <a href="https://en.wikipedia.org/w/index.php?title=Uluru&oldid=297882194">' +
+  "https://en.wikipedia.org/w/index.php?title=Uluru</a> " +
+  "(last visited June 22, 2009).</p>" +
+  '<div class="iw-subTitle">Contacts :</div>' +
+  // '<p class="address">Address: VISTA ALEGRE ATLANTIS, SA 3830-292 Ílhavo - Portugal </p>' +
+  '<p>' +
+  '<span class="address">Address: VISTA ALEGRE ATLANTIS, SA 3830-292 Ílhavo - Portugal</span>' + '</br>' +
+  '<span class="Phone">Phone: +351 234 320 600</span>' + '</br>' +
+  '<span class="e-mail">e-mail: geral@vaa.pt </span>' + '</br>' +
+  '<span class="www">www: www.myvistaalegre.com</span>' +
+  '</p>' +
+  "</div>" +
+  "</div>";
+
+// function sendLocationsLIst(locations) {
+// }
+
+function sinitializeMAP(type, locations) {
+  type = type;
+  if (type == 'staticMarkers') {
+    locationsMarkers = staticlocations;
+    setCenterLatlng = new google.maps.LatLng(52.956622, 11.223106);
+  } else if (type == 'dragDropMarker') {
+    // locationsMarkers = singlelocations;
+    setCenterLatlng = new google.maps.LatLng(22.7209, 75.8785);
+  }
+  else {
+    locationsMarkers = locations;
+    setCenterLatlng = new google.maps.LatLng(22.7196, 75.8577);
+  }
+
+
   if (google.maps) {
-    map = new google.maps.Map(document.getElementById('google_map'), {
+    map = new google.maps.Map(document.getElementById('s_google_map'), {
       // styles: mapStyles,
-      zoom: zoom,
-      center: new google.maps.LatLng(22.7196, 75.8577),// The marker, positioned at indore
+      zoom: 5,
+      center: setCenterLatlng,
       mapTypeId: google.maps.MapTypeId.ROADMAP
-      /*mapTypeId: google.maps.MapTypeId.TERRAIN,
-            mapTypeControl: false */
+      /* mapTypeId: google.maps.MapTypeId.TERRAIN,
+         mapTypeControl: false */
     });
-    setMarkers(map);
+    if (type == 'dragDropMarker') {
+      dragDrop();
+    } else {
+      setMarkers();
+    }
   }
 }
 
-function setMarkers(map) {
-  // Display multiple markers on a map
-  var infowindow = new google.maps.InfoWindow(), marker, i;
+function setMarkers() {  // Display multiple markers on a map
+  //Create and open InfoWindow.
+  var infowindow = new google.maps.InfoWindow(
+    /* {
+    content: contentString,
+    maxWidth: 200,} */
+  ), marker, i;
 
   const shape = {
     coords: [1, 1, 1, 20, 18, 20, 18, 1],
@@ -62,68 +107,195 @@ function setMarkers(map) {
     size: new google.maps.Size(71, 71),
     origin: new google.maps.Point(0, 0),
     anchor: new google.maps.Point(17, 34),
-    scaledSize: new google.maps.Size(25, 25)
+    scaledSize: new google.maps.Size(25, 25),
   };
 
   // Loop through our array of markers & place each one on the map
   var finalArray = locationsMarkers.map(function (obj) {
     image.url = obj.marker_image
-    marker = new google.maps.Marker({
+    var marker = new google.maps.Marker({
       position: new google.maps.LatLng(obj.location_lat, obj.location_lng),
+      // position: map.getCenter(),
       map: map,
       title: obj.title,
       // shape: shape,
-      icon: image,
+      animation: google.maps.Animation.DROP,
+      draggable: false,
+      icon: image,//if you comment this out or delete it you will get the default pin icon.
+      optimized: false,
     });
-    // Each marker to have an info window,This event listener calls addMarker() when the map is clicked.
+
+    // Attach click event to the marker ,Each marker to have an info window,This event listener calls addMarker() when the map is clicked.
     google.maps.event.addListener(marker, 'click', (function (marker, i) {
       return function () {
-        infowindow.setContent(obj.location_name);
+        infowindow.setContent(contentString);
+        // infowindow.setContent(obj.location_name);
+        // infoWindow.setContent(marker.getTitle());
         infowindow.open(map, marker);
+        /* map.panTo(this.getPosition());
+           map.setZoom(20); */
       }
     })(marker, i));
   });
+
 }
 
-// window.sinitializeMAP = sinitializeMAP;
+//drag and drop marker to get position on map
+var dragonMarker
+function dragDrop() {
+  // Place a draggable marker on the map
+  dragonMarker = new google.maps.Marker({
+    position: setCenterLatlng,
+    map: map,
+    draggable: true,
+    animation: google.maps.Animation.DROP,
+    title: "Drag me!"
+  });
 
+  google.maps.event.addListener(dragonMarker, 'dragend', function () {
+    geocodePosition();
+  });
+}
 
+function geocodePosition() {
+  geocoder = new google.maps.Geocoder();
+  geocoder.geocode({ latLng: dragonMarker.getPosition() },
+    function (results, status) {
+      console.log('results', results);
+      if (status == google.maps.GeocoderStatus.OK) {
+        $("#mapSearchInput").val(results[0].formatted_address);
+        $("#mapErrorMsg").hide(100);
+        // infoWindow.close();
+        /* var currentLatitude = dragonMarker.getPosition().lat().toFixed(7);
+        var currentLongitude = dragonMarker.getPosition().lng().toFixed(7); */
+        var value = results[0].formatted_address.split(",");
+        count = value.length;
+        country = value[count - 1];
+        state = value[count - 2];
+        city = value[count - 3];
+        // console.log('count ==',count,'country ==',country,'state ==',state,'city ==',city);
+        let currentlocationInfo = {
+          location_name: city,
+          location_lat: results[0].geometry.location.lat(),
+          location_lng: results[0].geometry.location.lng(),
+          location_address: results[0].formatted_address,
+          location_state: state,
+          location_country: country,
+        }
 
-// using array of arrray statis data
-/* var staticlocations = [
-  ['Indore', 22.7196, 75.8577, 'assets/marker/indore.jpg', 14],
-  ['Bhopal', 23.2599, 77.4126, 'assets/marker/bhopal.jpg', 13],
-  ['Raisen', 23.3327, 77.7824, 'assets/marker/raisen.jpg', 12],
-  ['Ujjain', 23.1765, 75.7885, 'assets/marker/ujjain.jpg', 11],
-  ['Dewas', 22.9676, 76.0534, 'assets/marker/dewas.jpg', 10],
-  ['Shajapur', 23.4273, 76.2730, 'assets/marker/shajapur.jpg', 9],
-  ['Jabalpur', 23.1815, 79.9864, 'assets/marker/jabalpur.jpg', 8],
-  ['Raipur', 21.250000, 81.629997, 'assets/marker/raipur.jpg', 7],
-  ['Mumbai', 19.0760, 72.8777, 'assets/marker/mumbai.jpg', 6],
-  ['Pune', 18.5204, 73.8567, 'assets/marker/pune.jpg', 5],
-  ['Agra', 27.1767, 78.0081, 'assets/marker/agra.jpg', 4],
-  ['Delhi', 28.7041, 77.1025, 'assets/marker/delhi.jpg', 3],
-  ['Jaipur', 26.9124, 75.7873, 'assets/marker/jaipur.jpg', 2],
-  ['Bengaluru', 12.9716, 77.5946, 'assets/marker/banglore.jpg', 1],
-]; */
+        const infowindow = new google.maps.InfoWindow(
+          {
+            content: "Latitude: " + currentlocationInfo.location_lat + "</br></br>" + "\nLongitude: " + currentlocationInfo.location_lng + "</br></br>" + "\nAddress: " + currentlocationInfo.location_address,
+          }
+        );
 
-/*   // Loop through our array of markers & place each one on the map
-  for (i = 0; i < staticlocations.length; i++) {
-    image.url = staticlocations[i][3]
-    marker = new google.maps.Marker({
-      position: new google.maps.LatLng(staticlocations[i][1], staticlocations[i][2]),
-      map: map,
-      title: staticlocations[i][0],
-      // shape: shape,
-      // icon: staticlocations[i][3],
-      icon: image,
-    });
+        closeOtherInfo();
+        InfoWObj[0] = infowindow;
+        infowindow.open(map, dragonMarker);
 
-    // Each marker to have an info window,This event listener calls addMarker() when the map is clicked.
-    google.maps.event.addListener(marker, 'click', (function (marker, i) {
-      return function () {
-        infowindow.setContent(staticlocations[i][0]);
-        infowindow.open(map, marker);
+        currentlocationInfo.location_address = currentlocationInfo.location_address.replace('Unnamed Road,', '');
+        callAngularFunction(currentlocationInfo);
       }
-    })(marker, i));
-  } */
+      else {
+        $("#mapErrorMsg").html('Cannot determine address at this location.' + status).show(100);
+      }
+    }
+  );
+}
+
+function closeOtherInfo() {
+  if (InfoWObj.length > 0) {
+    /* detach the info-window from the marker ... undocumented in the API docs */
+    InfoWObj[0].setContent("dragonMarker", null);
+    /* and close it */
+    InfoWObj[0].close();
+    /* blank the array */
+    InfoWObj.length = 0;
+  }
+}
+
+function callAngularFunction(currentlocationInfo) {
+  window.angularComponentReference.zone.run(() => { window.angularComponentReference.loadAngularFunction(currentlocationInfo); });
+}
+
+function geocodeLatLng(latlng) {
+  console.log('latlng==js', latlng);
+  geocoder = new google.maps.Geocoder();
+  const infowindow = new google.maps.InfoWindow();
+
+  geocoder
+    .geocode({ location: latlng })
+    .then((response) => {
+      if (response.results[0]) {
+        // map.setZoom(11);
+        const addressMarker = new google.maps.Marker({
+          position: latlng,
+          map: map,
+          draggable: true,
+        });
+
+        infowindow.setContent(response.results[0].formatted_address);
+        infowindow.open(map, addressMarker);
+      } else {
+        window.alert("No results found");
+      }
+    })
+    .catch((e) => window.alert("Geocoder failed due to: " + e));
+}
+
+function codeAddress(locationAddress) {
+  const infowindow = new google.maps.InfoWindow();
+  geocoder = new google.maps.Geocoder();
+  var address = locationAddress;
+  // console.log('address ==',address);
+  geocoder.geocode({
+    'address': address
+  }, function (results, status) {
+    if (status == google.maps.GeocoderStatus.OK) {
+      map.setCenter(results[0].geometry.location);
+      if (dragonMarker) {
+        dragonMarker.setMap(null);
+        if (infowindow) infowindow.close();
+      }
+      dragonMarker = new google.maps.Marker({
+        map: map,
+        draggable: true,
+        position: results[0].geometry.location
+      });
+      google.maps.event.addListener(dragonMarker, 'dragend', function () {
+        geoPosition(dragonMarker.getPosition());
+      });
+      google.maps.event.addListener(dragonMarker, 'click', function () {
+        if (dragonMarker.formatted_address) {
+          infowindow.setContent(dragonMarker.formatted_address + "<br>coordinates: " + dragonMarker.getPosition().toUrlValue(6));
+        } else {
+          infowindow.setContent(address + "<br>coordinates: " + dragonMarker.getPosition().toUrlValue(6));
+        }
+        infowindow.open(map, dragonMarker);
+      });
+      google.maps.event.trigger(dragonMarker, 'click');
+    } else {
+      alert('Geocode was not successful for the following reason: ' + status);
+    }
+  });
+}
+
+function geoPosition(pos) {
+  console.log('latlng==js', pos);
+  geocoder = new google.maps.Geocoder();
+  const infowindow = new google.maps.InfoWindow();
+  geocoder.geocode({
+    latLng: pos
+  }, function (responses) {
+    if (responses && responses.length > 0) {
+      dragonMarker.formatted_address = responses[0].formatted_address;
+    } else {
+      dragonMarker.formatted_address = 'Cannot determine address at this location.';
+    }
+    infowindow.setContent(dragonMarker.formatted_address + "<br>coordinates: " + dragonMarker.getPosition().toUrlValue(6));
+    infowindow.open(map, dragonMarker);
+  });
+}
+
+
+// window.sinitializeMAP = sinitializeMAP;

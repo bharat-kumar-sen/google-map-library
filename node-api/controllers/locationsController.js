@@ -22,3 +22,20 @@ exports.getLocationsList = async (req, res) => {
     }
   });
 };
+exports.saveLocations = async (req, res) => {
+  Locations.saveLocations(req, (err, data) => {
+    if (data === null) {
+      return res.json({
+        status: 500,
+        message: "Some error occurred!",
+        data: err
+      });
+    } else {
+      return res.json({
+        status: 200,
+        message: 'Save location successfully.',
+        data: data,
+      });
+    }
+  });
+};

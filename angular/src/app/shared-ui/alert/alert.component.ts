@@ -30,7 +30,7 @@ export class AlertComponent implements OnInit, OnDestroy {
 
   cssClass(alert: Alert) {
     if (!alert) {
-      return;
+      return false;
     }
     // return css class based on alert type
     switch (alert.type) {
@@ -43,7 +43,7 @@ export class AlertComponent implements OnInit, OnDestroy {
       case AlertType.Warning:
         return 'alert alert-warning';
     }
-    return
+    return true;
   }
 
 
