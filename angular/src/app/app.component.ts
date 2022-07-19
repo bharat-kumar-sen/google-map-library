@@ -12,6 +12,7 @@ export class AppComponent {
     staticMarker: 'staticMarkers',
     dbMarker: 'dbMarkers',
     dragDropMarker: 'dragDropMarker',
+    clusterMarkers: 'clusterMarkers'
   }
   rMenuType: any = {
     rStaticMarkers: 'rStaticMarkers',

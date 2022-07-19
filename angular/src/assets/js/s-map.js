@@ -5,6 +5,7 @@ var MapObj, map, map2x, zoom = 10, InfoWObj = [];
 // Data for the markers consisting of a name, a LatLng and a zIndex for the
 // order in which these markers should display on top of each other.
 var locationsMarkers;
+var clusterLocationsMarkers;
 var setCenterLatlng;
 
 var singlelocations = [
@@ -66,11 +67,14 @@ function sinitializeMAP(type, locations) {
     // locationsMarkers = singlelocations;
     setCenterLatlng = new google.maps.LatLng(22.7209, 75.8785);
   }
+  else if (type == 'clusterMarkers') {
+    clusterLocationsMarkers = locations;
+    setCenterLatlng = new google.maps.LatLng(-28.024, 140.887);
+  }
   else {
     locationsMarkers = locations;
     setCenterLatlng = new google.maps.LatLng(22.7196, 75.8577);
   }
-
 
   if (google.maps) {
     map = new google.maps.Map(document.getElementById('s_google_map'), {
@@ -83,7 +87,10 @@ function sinitializeMAP(type, locations) {
     });
     if (type == 'dragDropMarker') {
       dragDrop();
-    } else {
+    } else if (type == 'clusterMarkers') {
+      clusterMarkers();
+    }
+    else {
       setMarkers();
     }
   }
@@ -295,6 +302,37 @@ function geoPosition(pos) {
     infowindow.setContent(dragonMarker.formatted_address + "<br>coordinates: " + dragonMarker.getPosition().toUrlValue(6));
     infowindow.open(map, dragonMarker);
   });
+}
+
+function clusterMarkers() {
+  console.log('called cluster');
+  // const markerCluster = new markerClusterer.MarkerClusterer({ map, markers });
+  const infoWindow = new google.maps.InfoWindow({
+    content: "",
+    disableAutoPan: true,
+  });
+  // Create an array of alphabetical characters used to label the markers.
+  const labels = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  // Add some markers to the map.
+  console.log('clusterMarkers', clusterMarkers)
+  const markers = clusterLocationsMarkers.map((position, i) => {
+    const label = labels[i % labels.length];
+    const marker = new google.maps.Marker({
+      position,
+      label,
+    });
+
+    // markers can only be keyboard focusable when they have click listeners
+    // open info window when marker is clicked
+    marker.addListener("click", () => {
+      infoWindow.setContent(label);
+      infoWindow.open(map, marker);
+    });
+    return marker;
+  });
+
+  // Add a marker clusterer to manage the markers.
+  const markerCluster = new markerClusterer.MarkerClusterer({ map, markers });
 }
 
 
