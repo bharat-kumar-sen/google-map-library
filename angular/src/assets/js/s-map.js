@@ -335,5 +335,4 @@ function clusterMarkers() {
   const markerCluster = new markerClusterer.MarkerClusterer({ map, markers });
 }
 
-
 // window.sinitializeMAP = sinitializeMAP;
