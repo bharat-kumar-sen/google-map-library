@@ -357,7 +357,7 @@ function clusterMarkers() {
 
 function polylineMarkers() {
   // console.log('polylineCoordinates', polylineCoordinates)
-  /*   coordinates=[];
+    coordinates=[];
     polylineCoordinates.map((position, i) => {
       coordinate = {
         lat: position.location_lat,
@@ -365,28 +365,61 @@ function polylineMarkers() {
       }
       coordinates.push(coordinate);
       console.log('coordinates',coordinates);
-    }); */
+    });
 
-  const coordinates = [
+/*   const coordinates = [
     { lat: 37.772, lng: -122.214 },
     { lat: 21.291, lng: -157.821 },
     { lat: -18.142, lng: 178.431 },
     { lat: -27.467, lng: 153.027 },
-  ];
+  ]; */
 
-  const flightPath = new google.maps.Polyline({
+   // Define the symbol, using one of the predefined paths ('CIRCLE')
+  // supplied by the Google Maps JavaScript API.
+  const lineSymbol = {
+    path: google.maps.SymbolPath.CIRCLE,
+    scale: 8,
+    strokeColor: "#393",
+  };
+
+  const line = new google.maps.Polyline({
     path: coordinates,
+    icons: [
+      {
+        icon: lineSymbol,
+        offset: "100%",
+      },
+    ],
+    map: map,
     geodesic: true,
     strokeColor: "red",
     strokeOpacity: 1.0,
     strokeWeight: 2,
   });
-  flightPath.setMap(map);
+  // flightPath.setMap(map);
+  animateCircle(line);
+
 }
+  // Use the DOM setInterval() function to change the offset of the symbol
+// at fixed intervals.
+function animateCircle(line) {
+  let count = 0;
+
+  window.setInterval(() => {
+    count = (count + 1) % 200;
+
+    const icons = line.get("icons");
+
+    icons[0].offset = count / 2 + "%";
+    line.set("icons", icons);
+  }, 30);
+}
+
+
 
 function polygonsMarkers() {
   // console.log('polygonsCoordinates', polygonsCoordinates)
-  /*   triangleCoords=[];
+    triangleCoords=[];
     polygonsCoordinates.map((position, i) => {
       coordinate = {
         lat: position.location_lat,
@@ -394,15 +427,14 @@ function polygonsMarkers() {
       }
       triangleCoords.push(coordinate);
     });
-    console.log('triangleCoords',triangleCoords); */
 
   // Define the LatLng coordinates for the polygon's path.
-  const triangleCoords = [
+/*   const triangleCoords = [
     { lat: 25.774, lng: -80.19 },
     { lat: 18.466, lng: -66.118 },
     { lat: 32.321, lng: -64.757 },
     { lat: 25.774, lng: -80.19 },
-  ];
+  ]; */
   // Construct the polygon.
   const bermudaTriangle = new google.maps.Polygon({
     paths: triangleCoords,
