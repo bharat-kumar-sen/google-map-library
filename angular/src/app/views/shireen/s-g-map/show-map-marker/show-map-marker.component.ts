@@ -72,7 +72,6 @@ export class ShowMapMarkerComponent implements OnInit {
       }
       else if (this.type && this.type === 'clusterMarkers') {
         this.getLocationsList();
-        // this.getMarkerClusters();
       }
     });
   }
@@ -80,13 +79,6 @@ export class ShowMapMarkerComponent implements OnInit {
   // tslint:disable-next-line:use-life-cycle-interface
   ngOnInit(): void {
     window['angularComponentReference'] = { component: this, zone: this.ngZone, loadAngularFunction: (currentlocationInfo: any) => this.angularFunctionCalled(currentlocationInfo), };
-
-    /*     $("html, body").animate(
-          {
-            scrollTop: 0,
-          },
-          600
-        ); */
   }
 
   scrollToTop(): void {
@@ -100,7 +92,7 @@ export class ShowMapMarkerComponent implements OnInit {
   }
 
   angularFunctionCalled(currentlocationInfo: any) {
-    console.log('Result == ', currentlocationInfo);
+    console.log('currentlocationInfo == ', currentlocationInfo);
     this.locationInfo.location = currentlocationInfo;
     this.saveLocationInfo();
   }
@@ -114,6 +106,7 @@ export class ShowMapMarkerComponent implements OnInit {
           // this.locationsList = this.clusterLocations;
           // console.log("locationsList", this.locationsList);
           this.spinner.hide();
+          this.locationsList.reverse();
           sinitializeMAP(this.type, this.locationsList);
           this.toastr.success(dataRes.message, 'Success!');
         }
@@ -136,7 +129,8 @@ export class ShowMapMarkerComponent implements OnInit {
           this.spinner.hide();
           this.toastr.success(dataRes.message, 'Success!');
           dataRes = dataRes.data;
-          // console.log("dataRes", dataRes);
+          console.log("dataRes", dataRes);
+          this.locationsList.unshift(this.locationInfo.location);
         }
       },
       error: (error: any) => {
@@ -156,12 +150,5 @@ export class ShowMapMarkerComponent implements OnInit {
     // geocodeLatLng(latlng);
     codeAddress(location.location_address)
   }
-
-  getMarkerClusters() {
-    this.locationsList = this.clusterLocations;
-    setTimeout(() => {
-      sinitializeMAP(this.type, this.locationsList);
-    }, 1000);
-   }
 
 }

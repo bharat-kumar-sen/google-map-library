@@ -320,7 +320,6 @@ function clusterMarkers() {
       lat : position.location_lat,
       lng : position.location_lng
     }
-
     const label = labels[i % labels.length];
     const marker = new google.maps.Marker({
       position,
