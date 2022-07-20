@@ -144,6 +144,8 @@ function rinitializeMAP(type, locations) {
       draggableMarkers();
     } else if (type === 'rDragMarkerOnPosition') {
       moveMarkerTdClick();
+    } else if (type === 'rMarkerCluster') {
+      clusterOfMarkers(locations);
     }
   }
 
@@ -278,4 +280,35 @@ function moveMarkerTdClick(addressInfo) {
     infowindow.open(map, myDropMarker);
     addressInfo.location_name = addressInfo.location_name.replace('Google ke pas eska data ni hai ;-)*,', '');
   }
+}
+
+function clusterOfMarkers(locations) {
+
+  // console.log("locations in MS JS", locations);
+  // console.log('This is Cluster of markers in JS');
+  const labels = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  clusterMarkerArray = locations.map((obj) => {
+    marker = new google.maps.Marker({
+      position: new google.maps.LatLng(obj.location_lat, obj.location_lng),
+      map: map,
+      title: obj.title,
+      animation: google.maps.Animation.DROP,
+    });
+  });
+  const markers = locations.map((position, i) => {
+    const label = labels[i % labels.length];
+    const marker = new google.maps.Marker({
+      position,
+      label
+    });
+    marker.addListener("click", () => {
+      infoWindo.setContent(label);
+      infoWindo.open(map, marker);
+    });
+    return marker;
+  });
+  new MarkerClusterer({
+    markers,
+    map
+  });
 }

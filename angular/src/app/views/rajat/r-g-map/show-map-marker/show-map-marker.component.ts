@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { RMapMarkerService } from 'src/app/shared-ui/services/r-map-marker.service';
+
 declare function rinitializeMAP(type: any, location?: any): any;
 declare function moveMarkerTdClick(locations: any): any;
 declare var $: any;
@@ -50,7 +51,7 @@ export class ShowMapMarkerComponent implements OnInit {
       } else if (this.type === 'rDragMarkerOnPosition') {
         this.loadMap();
       } else if (this.type === 'rMarkerCluster') {
-        this.commingSoon();
+        this.loadMap();
       }
     });
   }
