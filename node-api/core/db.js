@@ -10,7 +10,8 @@ const connect = () => {
   // host: 'localhost',
   const config = {
     user: 'root',
-    password: 'root',
+    // password: 'root',
+    password: '',
     database: 'google_map_library',
     charset: 'utf8mb4',
   };

@@ -5,6 +5,8 @@ var MapObj, map, map2x, zoom = 10, InfoWObj = [];
 // Data for the markers consisting of a name, a LatLng and a zIndex for the
 // order in which these markers should display on top of each other.
 var locationsMarkers;
+var clusterLocationsMarkers;
+var polylinecoordinates;
 var setCenterLatlng;
 
 var singlelocations = [
@@ -65,9 +67,21 @@ function sinitializeMAP(type, locations) {
   } else if (type == 'dragDropMarker') {
     // locationsMarkers = singlelocations;
     setCenterLatlng = new google.maps.LatLng(22.7209, 75.8785);
-  }
-  else {
+  } else if (type == 'clusterMarkers') {
+    clusterLocationsMarkers = locations;
+    setCenterLatlng = new google.maps.LatLng(22.7209, 75.8785);
+    // setCenterLatlng = new google.maps.LatLng(-28.024, 140.887);
+  } else if (type == 'polyline') {
+    polylineCoordinates = locations;
+    setCenterLatlng = new google.maps.LatLng(0, -180);
+    // setCenterLatlng = new google.maps.LatLng(-28.024, 140.887);
+  } else if (type == 'polygons') {
+    polygonsCoordinates = locations;
+    setCenterLatlng = new google.maps.LatLng(24.886, -70.268);
+    // setCenterLatlng = new google.maps.LatLng(-28.024, 140.887);
+  } else {
     locationsMarkers = locations;
+    console.log('dbMarkers', locationsMarkers);
     setCenterLatlng = new google.maps.LatLng(22.7196, 75.8577);
   }
 
@@ -77,12 +91,19 @@ function sinitializeMAP(type, locations) {
       // styles: mapStyles,
       zoom: 5,
       center: setCenterLatlng,
-      mapTypeId: google.maps.MapTypeId.ROADMAP
+      mapTypeId: "terrain",
+      // mapTypeId: google.maps.MapTypeId.ROADMAP
       /* mapTypeId: google.maps.MapTypeId.TERRAIN,
          mapTypeControl: false */
     });
     if (type == 'dragDropMarker') {
       dragDrop();
+    } else if (type == 'clusterMarkers') {
+      clusterMarkers();
+    } else if (type == 'polyline') {
+      polylineMarkers();
+    } else if (type == 'polygons') {
+      polygonsMarkers();
     } else {
       setMarkers();
     }
@@ -297,5 +318,101 @@ function geoPosition(pos) {
   });
 }
 
+function clusterMarkers() {
+  // const markerCluster = new markerClusterer.MarkerClusterer({ map, markers });
+  const infoWindow = new google.maps.InfoWindow({
+    content: "",
+    disableAutoPan: true,
+  });
+  // console.log('clusterLocationsMarkers', clusterLocationsMarkers)
+  // Create an array of alphabetical characters used to label the markers.
+  const labels = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  // Add some markers to the map.
+  const markers = clusterLocationsMarkers.map((position, i) => {
+    position = {
+      lat: position.location_lat,
+      lng: position.location_lng
+    }
+    const label = labels[i % labels.length];
+    const marker = new google.maps.Marker({
+      position,
+      label,
+      // icon: "url to the file",
+      // adjust zIndex to be above other markers
+      // zIndex: Number(google.maps.Marker.MAX_ZINDEX) + count,
+    });
+
+    // markers can only be keyboard focusable when they have click listeners
+    // open info window when marker is clicked
+    marker.addListener("click", () => {
+      infoWindow.setContent(label);
+      infoWindow.open(map, marker);
+    });
+    return marker;
+  });
+
+  // Add a marker clusterer to manage the markers.
+  const markerCluster = new markerClusterer.MarkerClusterer({ map, markers });
+}
+
+function polylineMarkers() {
+  // console.log('polylineCoordinates', polylineCoordinates)
+  /*   coordinates=[];
+    polylineCoordinates.map((position, i) => {
+      coordinate = {
+        lat: position.location_lat,
+        lng: position.location_lng
+      }
+      coordinates.push(coordinate);
+      console.log('coordinates',coordinates);
+    }); */
+
+  const coordinates = [
+    { lat: 37.772, lng: -122.214 },
+    { lat: 21.291, lng: -157.821 },
+    { lat: -18.142, lng: 178.431 },
+    { lat: -27.467, lng: 153.027 },
+  ];
+
+  const flightPath = new google.maps.Polyline({
+    path: coordinates,
+    geodesic: true,
+    strokeColor: "red",
+    strokeOpacity: 1.0,
+    strokeWeight: 2,
+  });
+  flightPath.setMap(map);
+}
+
+function polygonsMarkers() {
+  // console.log('polygonsCoordinates', polygonsCoordinates)
+  /*   triangleCoords=[];
+    polygonsCoordinates.map((position, i) => {
+      coordinate = {
+        lat: position.location_lat,
+        lng: position.location_lng
+      }
+      triangleCoords.push(coordinate);
+    });
+    console.log('triangleCoords',triangleCoords); */
+
+  // Define the LatLng coordinates for the polygon's path.
+  const triangleCoords = [
+    { lat: 25.774, lng: -80.19 },
+    { lat: 18.466, lng: -66.118 },
+    { lat: 32.321, lng: -64.757 },
+    { lat: 25.774, lng: -80.19 },
+  ];
+  // Construct the polygon.
+  const bermudaTriangle = new google.maps.Polygon({
+    paths: triangleCoords,
+    strokeColor: "#FF0000",
+    strokeOpacity: 0.8,
+    strokeWeight: 2,
+    fillColor: "#FF0000",
+    fillOpacity: 0.35,
+  });
+  bermudaTriangle.setMap(map);
+}
 
 // window.sinitializeMAP = sinitializeMAP;
