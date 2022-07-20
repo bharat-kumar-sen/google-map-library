@@ -69,13 +69,15 @@ export class ShowMapMarkerComponent implements OnInit {
         this.getLocationsList();
       } else if (this.type && this.type === 'dragDropMarker') {
         this.getLocationsList();
-      }
-      else if (this.type && this.type === 'clusterMarkers') {
+      } else if (this.type && this.type === 'clusterMarkers') {
+        this.getLocationsList();
+      } else if (this.type && this.type === 'polyline') {
+        this.getLocationsList();
+      } else if (this.type && this.type === 'polygons') {
         this.getLocationsList();
       }
     });
   }
-
   // tslint:disable-next-line:use-life-cycle-interface
   ngOnInit(): void {
     window['angularComponentReference'] = { component: this, zone: this.ngZone, loadAngularFunction: (currentlocationInfo: any) => this.angularFunctionCalled(currentlocationInfo), };
@@ -104,9 +106,9 @@ export class ShowMapMarkerComponent implements OnInit {
         if (dataRes.status === 200) {
           this.locationsList = dataRes.data;
           // this.locationsList = this.clusterLocations;
+          // this.locationsList = this.flightPlanCoordinates;
           // console.log("locationsList", this.locationsList);
           this.spinner.hide();
-          this.locationsList.reverse();
           sinitializeMAP(this.type, this.locationsList);
           this.toastr.success(dataRes.message, 'Success!');
         }
