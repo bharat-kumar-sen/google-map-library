@@ -69,10 +69,12 @@ function sinitializeMAP(type, locations) {
   }
   else if (type == 'clusterMarkers') {
     clusterLocationsMarkers = locations;
-    setCenterLatlng = new google.maps.LatLng(-28.024, 140.887);
+    setCenterLatlng = new google.maps.LatLng(22.7209, 75.8785);
+    // setCenterLatlng = new google.maps.LatLng(-28.024, 140.887);
   }
   else {
     locationsMarkers = locations;
+    console.log('dbMarkers', locationsMarkers);
     setCenterLatlng = new google.maps.LatLng(22.7196, 75.8577);
   }
 
@@ -89,8 +91,7 @@ function sinitializeMAP(type, locations) {
       dragDrop();
     } else if (type == 'clusterMarkers') {
       clusterMarkers();
-    }
-    else {
+    } else {
       setMarkers();
     }
   }
@@ -305,21 +306,28 @@ function geoPosition(pos) {
 }
 
 function clusterMarkers() {
-  console.log('called cluster');
   // const markerCluster = new markerClusterer.MarkerClusterer({ map, markers });
   const infoWindow = new google.maps.InfoWindow({
     content: "",
     disableAutoPan: true,
   });
+  console.log('clusterLocationsMarkers', clusterLocationsMarkers)
   // Create an array of alphabetical characters used to label the markers.
   const labels = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
   // Add some markers to the map.
-  console.log('clusterMarkers', clusterMarkers)
   const markers = clusterLocationsMarkers.map((position, i) => {
+    position = {
+      lat : position.location_lat,
+      lng : position.location_lng
+    }
+
     const label = labels[i % labels.length];
     const marker = new google.maps.Marker({
       position,
       label,
+      // icon: "url to the file",
+      // adjust zIndex to be above other markers
+      // zIndex: Number(google.maps.Marker.MAX_ZINDEX) + count,
     });
 
     // markers can only be keyboard focusable when they have click listeners

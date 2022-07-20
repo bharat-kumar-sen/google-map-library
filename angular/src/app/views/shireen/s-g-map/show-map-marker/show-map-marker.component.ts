@@ -71,7 +71,8 @@ export class ShowMapMarkerComponent implements OnInit {
         this.getLocationsList();
       }
       else if (this.type && this.type === 'clusterMarkers') {
-        this.getMarkerClusters();
+        this.getLocationsList();
+        // this.getMarkerClusters();
       }
     });
   }
@@ -105,15 +106,16 @@ export class ShowMapMarkerComponent implements OnInit {
   }
 
   getLocationsList() {
-    this.spinner.show();
+    // this.spinner.show();
     this.sMapMarkerService.getLocationsList().subscribe({
       next: (dataRes: any) => {
         if (dataRes.status === 200) {
           this.locationsList = dataRes.data;
+          // this.locationsList = this.clusterLocations;
           // console.log("locationsList", this.locationsList);
+          this.spinner.hide();
           sinitializeMAP(this.type, this.locationsList);
           this.toastr.success(dataRes.message, 'Success!');
-          this.spinner.hide();
         }
       },
       error: (error: any) => {
@@ -159,8 +161,7 @@ export class ShowMapMarkerComponent implements OnInit {
     this.locationsList = this.clusterLocations;
     setTimeout(() => {
       sinitializeMAP(this.type, this.locationsList);
-    }, 1500);
-    // sinitializeMAP(this.type, this.locationsList);
+    }, 1000);
    }
 
 }

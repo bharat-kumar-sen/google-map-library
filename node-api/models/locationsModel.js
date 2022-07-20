@@ -17,7 +17,7 @@ var DbConnect = dbConnection.db;
 exports.getLocationsList = (req, cb) => {
   // var data = req.body;
   DbConnect.from('locations').then((result) => {
-    // console.log('result ==', result);
+    console.log('result ==', result);
     if (result) {
       cb(null, result)
     } else {
