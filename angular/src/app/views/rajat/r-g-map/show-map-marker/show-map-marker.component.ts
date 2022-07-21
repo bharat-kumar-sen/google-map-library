@@ -47,17 +47,24 @@ export class ShowMapMarkerComponent implements OnInit {
       } else if (this.type === 'rInfoWindoMarkers') {
         this.loadMap();
       } else if (this.type === 'rDragAndDropMarkers') {
-        this.loadMap();
+        this.getLoactionList();
       } else if (this.type === 'rDragMarkerOnPosition') {
         this.loadMap();
       } else if (this.type === 'rMarkerCluster') {
+        this.getLoactionList();
+      } else if (this.type === 'rPolygonMarkers') {
+        this.loadMap();
+      } else if (this.type === 'rPolylineMarkers') {
+        this.loadMap();
+      } else if (this.type === 'rComplexPolylineMarkers') {
+        this.loadMap();
+      } else if (this.type === 'rMotionPloylineMarker') {
         this.loadMap();
       }
     });
   }
 
   ngOnInit(): void {
-    this.getLoactionList();
     window['angularComponentReference'] = {
       component: this,
       zone: this.ngZone,
@@ -81,9 +88,9 @@ export class ShowMapMarkerComponent implements OnInit {
         if (dataReq.status === 200) {
           setTimeout(() => {
             rinitializeMAP(this.type, dataReq.data);
-          }, 500);
+          }, 1500);
         }
-        this.dataShowInTable = dataReq.data;
+        this.dataShowInTable = dataReq.data.reverse();
       },
       error: (error: any) => {
         console.log('Error', error);
@@ -94,7 +101,10 @@ export class ShowMapMarkerComponent implements OnInit {
 
   postLoactionData(addressInfoObject: any) {
     this.displayLocationsInfo = addressInfoObject;
+    console.log('DataRasDataRas==', this.displayLocationsInfo);
+    this.dataShowInTable.unshift(this.displayLocationsInfo);
     this.rMapMarkerService.postLoactionList(addressInfoObject).subscribe({
+      next: (DataRas) => { },
       error: (error: any) => {
         console.log('Error', error);
         this.toaster.error(error.message, 'Error!');
