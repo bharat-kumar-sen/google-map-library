@@ -45,7 +45,7 @@ var infoWindoMarkers = [{
     location_lat: 46.552664,
     location_lng: 2.422229,
     marker_image: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png',
-    title: "France"
+    title: "India"
   },
   {
     Id: 7,
@@ -53,7 +53,7 @@ var infoWindoMarkers = [{
     location_lat: 51.624980,
     location_lng: 20.816150,
     marker_image: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png',
-    title: "Poland"
+    title: "India"
   },
   {
     Id: 8,
@@ -61,7 +61,7 @@ var infoWindoMarkers = [{
     location_lat: 47.361750,
     location_lng: 7.508110,
     marker_image: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png',
-    title: "Switzerland"
+    title: "India"
   },
   {
     Id: 10,
@@ -77,7 +77,7 @@ var infoWindoMarkers = [{
     location_lat: 39.779823,
     location_lng: 98.787064,
     marker_image: 'https://amw-task.amwebtech.org/assets/marker/indore.jpg',
-    title: 'Smith Center Location'
+    title: 'United Kingdom'
   },
   {
     Id: 2,
@@ -85,7 +85,7 @@ var infoWindoMarkers = [{
     location_lat: 41.8781,
     location_lng: 87.6298,
     marker_image: 'https://amw-task.amwebtech.org/assets/marker/bhopal.jpg',
-    title: 'Chicago Location'
+    title: 'United Kingdom'
   },
   {
     Id: 4,
@@ -93,7 +93,7 @@ var infoWindoMarkers = [{
     location_lat: 32.7157,
     location_lng: 117.1611,
     marker_image: 'https://amw-task.amwebtech.org/assets/marker/ujjain.jpg',
-    title: 'San Diego Location'
+    title: 'USA'
   },
   {
     Id: 5,
@@ -101,9 +101,14 @@ var infoWindoMarkers = [{
     location_lat: 37.7749,
     location_lng: 122.4194,
     marker_image: 'https://amw-task.amwebtech.org/assets/marker/dewas.jpg',
-    title: 'San Francisco Location'
+    title: 'USA'
   },
 ]
+
+var dataFilter = infoWindoMarkers.filter((element) => {
+  return element.title == "India";
+});
+console.log("titleFilter=====", dataFilter);
 
 const infoWindo =
   '<div id="content">' +
@@ -152,7 +157,7 @@ function rinitializeMAP(type, locations) {
       polygonMarkers(locations);
     } else if (type === 'rPolylineMarkers') {
       polylineMarkers(locations);
-    } else if (type === 'rcomplexPolylineMarkers') {
+    } else if (type === 'rComplexPolylineMarkers') {
       complexPolylineMarkers();
     } else if (type === 'rMotionPloylineMarker') {
       motionPloylineMarker()
@@ -446,45 +451,45 @@ function motionPloylineMarker() {
   };
   const line = new google.maps.Polyline({
     path: [{
-      lat: 19.0760,
-      lng: 72.8777
-    },
-    {
-      lat: 23.0225,
-      lng: 72.5714
-    },
-    {
-      lat: 26.9124,
-      lng: 75.7873
-    },
-    {
-      lat: 30.7333,
-      lng: 76.7794
-    },
-    {
-      lat: 26.8467,
-      lng: 80.9462
-    },
-    {
-      lat: 25.5941,
-      lng: 85.1376
-    },
-    {
-      lat: 22.5726,
-      lng: 88.3639
-    },
-    {
-      lat: 21.2514,
-      lng: 81.6296
-    },
-    {
-      lat: 21.1458,
-      lng: 79.0882
-    },
-    {
-      lat: 13.0827,
-      lng: 80.2707
-    },
+        lat: 19.0760,
+        lng: 72.8777
+      },
+      {
+        lat: 23.0225,
+        lng: 72.5714
+      },
+      {
+        lat: 26.9124,
+        lng: 75.7873
+      },
+      {
+        lat: 30.7333,
+        lng: 76.7794
+      },
+      {
+        lat: 26.8467,
+        lng: 80.9462
+      },
+      {
+        lat: 25.5941,
+        lng: 85.1376
+      },
+      {
+        lat: 22.5726,
+        lng: 88.3639
+      },
+      {
+        lat: 21.2514,
+        lng: 81.6296
+      },
+      {
+        lat: 21.1458,
+        lng: 79.0882
+      },
+      {
+        lat: 13.0827,
+        lng: 80.2707
+      },
     ],
     icons: [{
       icon: lineSymbol,

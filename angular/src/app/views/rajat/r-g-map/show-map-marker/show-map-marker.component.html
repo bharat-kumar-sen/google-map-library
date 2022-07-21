@@ -18,6 +18,12 @@
             Poligon</u></h4>
         <h4 *ngIf="type == 'rPolylineMarkers'" class="opacity-60 container-fluid pt-1"><u><b>TechnoJerry</b> Showing The
             Polyline</u></h4>
+        <h4 *ngIf="type == 'rComplexPolylineMarkers'" class="opacity-60 container-fluid pt-1"><u><b>TechnoJerry</b>
+            Showing The
+            Complex Polyline</u></h4>
+        <h4 *ngIf="type == 'rMotionPloylineMarker'" class="opacity-60 container-fluid pt-1"><u><b>TechnoJerry</b>
+            Showing The
+            Motion Polyline</u></h4>
       </div>
       <div class="col input-group" *ngIf="type == 'rDragAndDropMarkers'">
         <span class="input-group-text" id="basic-addon1">📌</span>
@@ -31,6 +37,50 @@
       </div>
     </div>
   </div>
+  <table *ngIf="type == 'rStaticMarkers'" class="table table-worning table-striped table-bordered border-primary">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Title</th>
+        <th>Address</th>
+        <th>latitude</th>
+        <th>longitude</th>
+        <th>Image</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let tdata of staticLocations let i = index">
+        <td>{{i+1}}</td>
+        <td>{{tdata.title}}</td>
+        <td>{{tdata.location_name}}</td>
+        <td>{{tdata.location_lat}}</td>
+        <td>{{tdata.location_lng}}</td>
+        <td>{{tdata.marker_image}}</td>
+      </tr>
+    </tbody>
+  </table>
+  <table *ngIf="type == 'rDynamicMarkers'" class="table table-worning table-striped table-bordered border-primary">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Title</th>
+        <th>Address</th>
+        <th>latitude</th>
+        <th>longitude</th>
+        <th>Image</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let tdata of staticLocations let i = index">
+        <td>{{i+1}}</td>
+        <td>{{tdata.title}}</td>
+        <td>{{tdata.location_name}}</td>
+        <td>{{tdata.location_lat}}</td>
+        <td>{{tdata.location_lng}}</td>
+        <td>{{tdata.marker_image}}</td>
+      </tr>
+    </tbody>
+  </table>
   <table *ngIf="type == 'rDragAndDropMarkers'" class="table table-info table-striped table-bordered border-primary">
     <thead>
       <tr>
