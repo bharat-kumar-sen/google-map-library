@@ -56,10 +56,6 @@ function dragMarkerPosition(myDraggableMarker) {
   new google.maps.Geocoder().geocode({
       'latLng': myDraggableMarker.getPosition(),
       'placeId': myDraggableMarker.getPlace(),
-      'city': myDraggableMarker.getLocality(),
-      'state': myDraggableMarker.getAdminArea(),
-      'country': myDraggableMarker.getCountryName(),
-      'postelCode': myDraggableMarker.getPostalCode(),
     },
     function (results, status) {
       if (status == google.maps.GeocoderStatus.OK) {
@@ -69,9 +65,10 @@ function dragMarkerPosition(myDraggableMarker) {
           placeId: results[0].place_id,
           city: results[0].geometry.location,
           address: results[0].formatted_address,
-          postelCode: myDraggableMarker.getPostalCode(),
+          postelCode: 452001,
           country: 'SomeWare inside the world',
-          countryCode: 91
+          countryCode: 91,
+          state: 'M.P'
         }
         infowindow.setContent(
           "Latitude:- " +
@@ -92,6 +89,7 @@ function dragMarkerPosition(myDraggableMarker) {
         infowindow.open(map, myDraggableMarker);
         // addressInfo.location_name = addressInfo.location_name.replace('Google ke pas eska data ni hai ;-)*,', '');
         callAngularFunction(addressInfo);
+        document.getElementById("myLocationForm").reset();
         searchBox();
       }
     }

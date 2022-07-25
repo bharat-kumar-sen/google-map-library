@@ -12,6 +12,7 @@ class displayLocationsTable {
   placeId: string = '';
   city: string = '';
   address: string = '';
+  state: string = '';
   postelCode: number = 0;
   country: string = '';
   countryCode: number = 0;
@@ -69,6 +70,7 @@ export class CrudLocationsComponent implements OnInit {
 
   postCRUDLoactionData() {
     console.log('Data is post!!!!!!!')
+    this.dataShowInTable.unshift(this.displayLocationsInfo);
     this.rMapMarkerService.postCRUDLoactionList(this.displayLocationsInfo).subscribe({
       next: (DataRas) => { },
       error: (error: any) => {
