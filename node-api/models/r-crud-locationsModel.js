@@ -1,8 +1,9 @@
 var dbConnection = require('../core/rdb');
 var DbConnect = dbConnection.db;
 
-exports.getLocationsList = (res, cb) => {
-  DbConnect.from('locations').then((result) => {
+exports.getCRUDLocationsList = (res, cb) => {
+  DbConnect.from('crud-locations').then((result) => {
+    // console.log('result=====', result);
     if (result) {
       cb(null, result)
     } else {
@@ -13,10 +14,11 @@ exports.getLocationsList = (res, cb) => {
   });
 }
 
-exports.postLocationsList = (req, cb) => {
+exports.postCRUDLocationsList = (req, cb) => {
   var data =  req.body;
   console.log('Data into Model===', data);
-  DbConnect.from('locations').insert(data).then((result) => {
+  DbConnect.from('crud-locations').insert(data).then((result) => {
+    console.log('Post result in model=====', result);
     if (result) {
       cb(null, result)
     } else {

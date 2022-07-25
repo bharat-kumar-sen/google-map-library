@@ -9,15 +9,24 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNavDropdown">
     </div>
+
     <ul class="navbar-nav mr-auto float-right">
+
       <li class="nav-item dropdown">
+
         <a class="nav-link dropdown-toggle" routerLinkActive="router-link-active" id="navbarDropdown3" role="button"
-          data-bs-toggle="dropdown" aria-expanded="false">
-          Rajat
-        </a>
+          data-bs-toggle="dropdown" aria-expanded="false">Rajat</a>
+
         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <li class='dropdown-item'>
+            <a>CRUD Locations</a>
+            <ul>
+              <li><a class="dropdown-item" [routerLink]="['/rajat/crud-map-marker']">First CRUD</a></li>
+            </ul>
+          </li>
           <li><a class="dropdown-item" [routerLink]="['/rajat/add-map-marker', rMenuType.rStaticMarkers]">Show Static
               Markers</a></li>
+
           <li><a class="dropdown-item" [routerLink]="['/rajat/add-map-marker', rMenuType.rDynamicMarkers]">Show Dynamic
               Markers</a></li>
           <li><a class="dropdown-item" [routerLink]="['/rajat/add-map-marker', rMenuType.rInfoWindoMarkers]">Show
@@ -28,11 +37,15 @@
               Place marker on Click</a></li>
           <li><a class="dropdown-item" [routerLink]="['/rajat/add-map-marker', rMenuType.rMarkerCluster]">Create a
               marker cluster.</a></li>
-          <li><a class="dropdown-item" [routerLink]="['/rajat/add-map-marker', rMenuType.rPolygonMarkers]">Show polygon</a></li>
-          <li><a class="dropdown-item" [routerLink]="['/rajat/add-map-marker', rMenuType.rPolylineMarkers]">Show Polyline</a></li>
-          <li><a class="dropdown-item" [routerLink]="['/rajat/add-map-marker', rMenuType.rComplexPolylineMarkers]">Show Complex polygon</a></li>
-          <li><a class="dropdown-item" [routerLink]="['/rajat/add-map-marker', rMenuType.rMotionPloylineMarker]">Show Motion Polyline</a></li>
-          <li><a class="dropdown-item" [routerLink]="['/rajat/add-map-marker']">Show info window for cluster.</a></li>
+          <li><a class="dropdown-item" [routerLink]="['/rajat/add-map-marker', rMenuType.rPolygonMarkers]">Show
+              polygon</a></li>
+          <li><a class="dropdown-item" [routerLink]="['/rajat/add-map-marker', rMenuType.rPolylineMarkers]">Show
+              Polyline</a></li>
+          <li><a class="dropdown-item" [routerLink]="['/rajat/add-map-marker', rMenuType.rComplexPolylineMarkers]">Show
+              Complex polygon</a></li>
+          <li><a class="dropdown-item" [routerLink]="['/rajat/add-map-marker', rMenuType.rMotionPloylineMarker]">Show
+              Motion Polyline</a></li>
+          <!-- <li><a class="dropdown-item" [routerLink]="['/rajat/add-map-marker']">Show info window for cluster.</a></li>
           <li><a class="dropdown-item" [routerLink]="['/rajat/add-map-marker']">Save location in db from map.</a></li>
           <li><a class="dropdown-item" [routerLink]="['/rajat/add-map-marker']">Show infowindow on polygon.</a></li>
           <li><a class="dropdown-item" [routerLink]="['/rajat/add-map-marker']">Use all map, marker, polygon
@@ -44,9 +57,10 @@
           <li><a class="dropdown-item" [routerLink]="['/rajat/add-map-marker']">show/hide markers as layer on checkbox
               event.</a></li>
           <li><a class="dropdown-item" [routerLink]="['/rajat/add-map-marker']">Create routes for multiple
-              locations.</a></li>
+              locations.</a></li> -->
         </ul>
       </li>
+
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" routerLinkActive="router-link-active" id="navbarDropdown2" role="button"
           data-bs-toggle="dropdown" aria-expanded="false">
@@ -80,6 +94,7 @@
               locations.</a></li>
         </ul>
       </li>
+
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" routerLinkActive="router-link-active" id="navbarDropdown1" role="button"
           data-bs-toggle="dropdown" aria-expanded="false">

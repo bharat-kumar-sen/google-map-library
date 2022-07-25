@@ -108,7 +108,7 @@ var infoWindoMarkers = [{
 var dataFilter = infoWindoMarkers.filter((element) => {
   return element.title == "India";
 });
-console.log("titleFilter=====", dataFilter);
+// console.log("titleFilter=====", dataFilter);
 
 const infoWindo =
   '<div id="content">' +

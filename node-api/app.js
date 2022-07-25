@@ -9,11 +9,11 @@ const mongoose = require('mongoose')
 var cookieParser = require("cookie-parser");
 const logger = require('morgan');
 
-
 var indexRouter = require("./routes/index");
 var userRouter = require("./routes/users");
 var locationsRouter = require("./routes/locations");
 var rLocationsRouter = require('./routes/r-locationsRouter');
+var rCRUDLocationsRouter = require('./routes/r-crud-locationsRouter');
 const dotenv = require("dotenv");
 dotenv.config();
 
@@ -24,8 +24,6 @@ app.use(session({
   resave: true,
   saveUninitialized: true
 }));
-
-
 
 // view engine setup
 app.use(bodyParser.json());
@@ -40,7 +38,6 @@ app.use(
   })
 );
 
-
 app.use(express.urlencoded({
   extended: true
 }));
@@ -53,6 +50,7 @@ app.use("/", indexRouter);
 app.use("/users", userRouter);
 app.use("/markers", locationsRouter);
 app.use('/rMarkers', rLocationsRouter);
+app.use('/rCRUDMarkers', rCRUDLocationsRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

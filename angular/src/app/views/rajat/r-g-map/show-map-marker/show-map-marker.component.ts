@@ -7,16 +7,7 @@ import { RMapMarkerService } from 'src/app/shared-ui/services/r-map-marker.servi
 declare function rinitializeMAP(type: any, location?: any): any;
 declare function moveMarkerTdClick(locations: any): any;
 declare var $: any;
-
 class displayLocationsTable {
-  id: number = 0;
-  location_name: string = '';
-  title: string = '';
-  location_lat: number = 0;
-  location_lng: number = 0;
-  marker_image: string = '';
-}
-class displayStaticLocationsTable {
   id: number = 0;
   location_name: string = '';
   title: string = '';
@@ -33,8 +24,6 @@ class displayStaticLocationsTable {
 export class ShowMapMarkerComponent implements OnInit {
 
   locationList: any[] = [];
-
-  // staticLocations: displayStaticLocationsTable = new displayStaticLocationsTable()
 
   staticLocations = [{
     Id: 1,
@@ -145,7 +134,7 @@ export class ShowMapMarkerComponent implements OnInit {
 
   postLoactionData(addressInfoObject: any) {
     this.displayLocationsInfo = addressInfoObject;
-    console.log('DataRasDataRas==', this.displayLocationsInfo);
+    // console.log('DataRasDataRas==', this.displayLocationsInfo);
     this.dataShowInTable.unshift(this.displayLocationsInfo);
     this.rMapMarkerService.postLoactionList(addressInfoObject).subscribe({
       next: (DataRas) => { },
@@ -157,7 +146,7 @@ export class ShowMapMarkerComponent implements OnInit {
   }
 
   moveMarkerTdClickToRecord(locations: any) {
-    moveMarkerTdClick(locations)
+    moveMarkerTdClick(locations);
     $("html, body").animate(
       {
         scrollTop: 0,
