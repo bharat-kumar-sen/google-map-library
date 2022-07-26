@@ -5,7 +5,8 @@ import { ToastrService } from 'ngx-toastr';
 import { RMapMarkerService } from 'src/app/shared-ui/services/r-map-marker.service';
 
 declare function initializeMAP(): any;
-
+declare function moveMarkerTdClick(locations: any): any;
+declare var $: any;
 class displayLocationsTable {
   lat: number = 0;
   lng: number = 0;
@@ -57,7 +58,7 @@ export class CrudLocationsComponent implements OnInit {
     this.rMapMarkerService.getCRUDLoactionList().subscribe({
       next: (dataReq: any) => {
         if (dataReq.status === 200) {
-          console.log('GET Data from service-tp-TS in TS==', dataReq);
+          // console.log('GET Data from service-tp-TS in TS==', dataReq);
         }
         this.dataShowInTable = dataReq.data.reverse();
       },
@@ -84,4 +85,13 @@ export class CrudLocationsComponent implements OnInit {
     console.log('params===', event)
   }
 
+  moveMarkerTdClickToRecord(locations: any) {
+    moveMarkerTdClick(locations);
+    $("html, body").animate(
+      {
+        scrollTop: 0,
+      },
+      10
+    );
+  }
 }

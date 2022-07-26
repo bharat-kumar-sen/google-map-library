@@ -7,8 +7,12 @@ function initializeMAP() {
       center: new google.maps.LatLng(22.718361, 75.884271)
     });
   }
-  draggableMarkers();
+  initFunctions();
+}
+
+function initFunctions() {
   getGooglePlaceId();
+  draggableMarkers();
 }
 
 function getGooglePlaceId() {
@@ -19,24 +23,24 @@ function getGooglePlaceId() {
   };
 
   var service = new google.maps.places.PlacesService(map);
-  // console.log('service===', service);
   service.textSearch(request, callback);
 }
 
 function callback(results, status) {
   if (status == google.maps.places.PlacesServiceStatus.OK) {
-    var marker = new google.maps.Marker({
-      map: map,
+    var idMarkerInfo = new google.maps.Marker({
       place: {
         placeId: results[0].place_id,
         location: results[0].geometry.location
       }
     });
-    // console.log("markerplace==============", place.locations)
   }
 }
 
 function draggableMarkers() {
+  if (myDraggableMarker) {
+    myDraggableMarker.setMap(null);
+  }
   const infowindow = new google.maps.InfoWindow();
   myDraggableMarker = new google.maps.Marker({
     position: new google.maps.LatLng(22.718361, 75.884271),
@@ -50,27 +54,57 @@ function draggableMarkers() {
     dragMarkerPosition(myDraggableMarker);
   });
 }
+var place;
 
-function dragMarkerPosition(myDraggableMarker) {
-  // console.log('myDraggableMarker===', myDraggableMarker);
+function dragMarkerPosition(myDraggableMarker, location) {
   new google.maps.Geocoder().geocode({
       'latLng': myDraggableMarker.getPosition(),
       'placeId': myDraggableMarker.getPlace(),
     },
+
     function (results, status) {
       if (status == google.maps.GeocoderStatus.OK) {
+        var arrAddress = results;
+        var locality = '';
+        var country = '';
+        var zipcode = '';
+        var state = '';
+        var countryCode = '';
+        console.log("results[0]", results[0]);
+        for (var j = 0; j < results[0].address_components.length; j++) {
+          if (results[0].address_components[j].types[0] == "locality") {
+            console.log("town:" + results[0].address_components[j].long_name);
+            locality = results[0].address_components[j].long_name;
+          }
+          if (results[0].address_components[j].types[0] == "country") {
+            console.log("country:" + results[0].address_components[j].long_name);
+            country = results[0].address_components[j].long_name;
+            countryCode = results[0].address_components[j].short_name;
+          }
+          if (results[0].address_components[j].types[0] == "postal_code") {
+            console.log("postalCode:" + results[0].address_components[j].long_name);
+            zipcode = results[0].address_components[j].long_name;
+          }
+          if (results[0].address_components[j].types[0] == "administrative_area_level_1") {
+            console.log("state:" + results[0].address_components[j].long_name);
+            state = results[0].address_components[j].long_name;
+          }
+        }
         addressInfo = {
           lat: addresslat = myDraggableMarker.getPosition().lat(),
           lng: addresslng = myDraggableMarker.getPosition().lng(),
           placeId: results[0].place_id,
-          city: results[0].geometry.location,
+          city: locality,
           address: results[0].formatted_address,
-          postelCode: 452001,
-          country: 'SomeWare inside the world',
-          countryCode: 91,
-          state: 'M.P'
+          postelCode: zipcode,
+          country: country,
+          countryCode: countryCode,
+          state: state
         }
         infowindow.setContent(
+          "\nCiry:-" +
+          locality +
+          "</br>" +
           "Latitude:- " +
           addresslat +
           "</br>" +
@@ -80,17 +114,12 @@ function dragMarkerPosition(myDraggableMarker) {
           "\nPlace ID:-" +
           results[0].place_id +
           "</br>" +
-          // "\nCiry:-" +
-          // results[0].geometry.location +
-          // "</br>" +
           "\nAddress:-" +
           results[0].formatted_address
         );
         infowindow.open(map, myDraggableMarker);
-        // addressInfo.location_name = addressInfo.location_name.replace('Google ke pas eska data ni hai ;-)*,', '');
         callAngularFunction(addressInfo);
-        document.getElementById("myLocationForm").reset();
-        searchBox();
+        // searchBox();
       }
     }
   )
@@ -98,38 +127,70 @@ function dragMarkerPosition(myDraggableMarker) {
 
 function callAngularFunction(addressInfo) {
   // console.log('Looking for addressInfo-----', addressInfo);
-
   window.angularComponentReference.zone.run(() => {
     window.angularComponentReference.loadAngularFunction(addressInfo);
   });
 }
 
-function searchBox() {
-  var searchBox = new google.maps.places.SearchBox(document.getElementById('mySearchBox'));
-  map.controls[google.maps.ControlPosition.TOP_CENTER].push(document.getElementById('mySearchBox'));
-  google.maps.event.addListener(searchBox, 'places_changed', function () {
-    searchBox.set('map', null);
-    var places = searchBox.getPlaces();
-    var bounds = new google.maps.LatLngBounds();
-    var i, place;
-    for (i = 0; place = places[i]; i++) {
-      (function (place) {
-        // console.log('Looking for placesssss-----', place);
-        var marker = new google.maps.Marker({
-          position: place.geometry.location
-        });
-        marker.bindTo('map', searchBox, 'map');
-        google.maps.event.addListener(marker, 'map_changed', function () {
-          if (!this.getMap()) {
-            this.unbindAll();
-          }
-        });
-        bounds.extend(place.geometry.location);
-      }(place));
-    }
-    map.fitBounds(bounds);
-    searchBox.set('map', map);
-    map.setZoom(Math.min(map.getZoom(), 12));
-  });
+// function searchBox() {
+//   var searchBox = new google.maps.places.SearchBox(document.getElementById('mySearchBox'));
+//   map.controls[google.maps.ControlPosition.TOP_CENTER].push(document.getElementById('mySearchBox'));
+//   google.maps.event.addListener(searchBox, 'places_changed', function () {
+//     searchBox.set('map', null);
+//     var places = searchBox.getPlaces();
+//     var bounds = new google.maps.LatLngBounds();
+//     var i, place;
+//     for (i = 0; place = places[i]; i++) {
+//       (function (place) {
+//         // console.log('Looking for placesssss-----', place);
+//         var marker = new google.maps.Marker({
+//           position: place.geometry.location
+//         });
+//         marker.bindTo('map', searchBox, 'map');
+//         google.maps.event.addListener(marker, 'map_changed', function () {
+//           if (!this.getMap()) {
+//             this.unbindAll();
+//           }
+//         });
+//         bounds.extend(place.geometry.location);
+//       }(place));
+//     }
+//     map.fitBounds(bounds);
+//     searchBox.set('map', map);
+//     map.setZoom(Math.min(map.getZoom(), 12));
+//   });
+// }
+// google.maps.event.addDomListener(window, 'load', searchBox);
+
+
+function moveMarkerTdClick(addressInfo) {
+  console.log('addressInfoaddressInfo', addressInfo);
+  const infowindow = new google.maps.InfoWindow();
+  if (myDropMarker) {
+    myDropMarker.setMap(null);
+  }
+  if (addressInfo) {
+    myDropMarker = new google.maps.Marker({
+      position: new google.maps.LatLng(addressInfo.lat, addressInfo.lng),
+      map: map,
+      animation: google.maps.Animation.DROP,
+    });
+    infowindow.setContent(
+      '<div id="content">' +
+      '<div class="map_info_wrapper">' +
+      '<a href="">' +
+      '<div class="img_wrapper">' + '<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQD9YSkJq_hgJvYhMvVatqATlw-IqugNFVDHA&usqp=CAU">' + '</div>' +
+      '</a>' + '</div>' +
+      "</br>" +
+      "Latitude: " +
+      // addresslat +
+      "</br>" +
+      "\nLongitude:" +
+      // addresslng +
+      "</br>" +
+      "\nAddress:"
+      // results[0].formatted_address
+    );
+    infowindow.open(map, myDropMarker);
+  }
 }
-google.maps.event.addDomListener(window, 'load', searchBox);

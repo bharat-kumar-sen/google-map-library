@@ -83,29 +83,29 @@
     <thead>
       <tr>
         <th>ID</th>
+        <th>Address</th>
+        <th>City</th>
+        <th>Postel Code</th>
+        <th>State</th>
+        <th>Country</th>
+        <th>Country Code</th>
         <th>latitude</th>
         <th>longitude</th>
         <th>Google Place ID</th>
-        <th>City</th>
-        <th>Address</th>
-        <th>State</th>
-        <th>Postel Code</th>
-        <th>Country</th>
-        <th>Country Code</th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let tdata of dataShowInTable let i = index">
+      <tr *ngFor="let tdata of dataShowInTable let i = index" (click)=moveMarkerTdClickToRecord(tdata)>
         <td>{{i+1}}</td>
+        <td>{{tdata.address}}</td>
+        <td>{{tdata.city}}</td>
+        <td>{{tdata.postelCode}}</td>
+        <td>{{tdata.state}}</td>
+        <td>{{tdata.country}}</td>
+        <td>{{tdata.countryCode}}</td>
         <td>{{tdata.lat}}</td>
         <td>{{tdata.lng}}</td>
         <td>{{tdata.placeId}}</td>
-        <td>{{tdata.city}}</td>
-        <td>{{tdata.address}}</td>
-        <td>{{tdata.state}}</td>
-        <td>{{tdata.postelCode}}</td>
-        <td>{{tdata.country}}</td>
-        <td>{{tdata.countryCode}}</td>
       </tr>
     </tbody>
   </table>

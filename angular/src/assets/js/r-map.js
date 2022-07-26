@@ -264,7 +264,7 @@ function callAngularFunction(addressInfo) {
 }
 
 function moveMarkerTdClick(addressInfo) {
-  console.log('addressInfoaddressInfo', addressInfo)
+  // console.log('addressInfoaddressInfo', addressInfo)
   const infowindow = new google.maps.InfoWindow();
   if (myDropMarker) {
     myDropMarker.setMap(null);
