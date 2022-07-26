@@ -64,9 +64,33 @@ export class SMapMarkerService {
       })
     );
   }
+  public searchLocationSave(param: object): Observable<any> {
+    // console.log('call service == ',param);
+    return this.apiService.post(`${this.markers}/searchLocationSave`, param).pipe(
+      map((data) => {
+        return data;
+      })
+    );
+  }
+  public deletelocation(param: object): Observable<any> {
+    console.log('call service == ',param);
+    return this.apiService.post(`${this.markers}/deletelocation`, param).pipe(
+      map((data) => {
+        return data;
+      })
+    );
+  }
 
   public getLocationsList(): Observable<any> {
     return this.apiService.get(`${this.markers}/getLocationsList`).pipe(
+      map((data) => {
+        return data;
+      })
+    );
+  }
+
+  public getLocations(): Observable<any> {
+    return this.apiService.get(`${this.markers}/getLocations`).pipe(
       map((data) => {
         return data;
       })
