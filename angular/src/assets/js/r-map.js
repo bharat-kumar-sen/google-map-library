@@ -1,8 +1,10 @@
 var map;
 var type;
+var myPoly;
 var marker;
 var myDropMarker;
 var myDraggableMarker;
+var clusterObj = []
 var infowindow = new google.maps.InfoWindow();
 var staticLocations = [{
     Id: 1,
@@ -43,7 +45,7 @@ var infoWindoMarkers = [{
     location_lat: 46.552664,
     location_lng: 2.422229,
     marker_image: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png',
-    title: "France"
+    title: "India"
   },
   {
     Id: 7,
@@ -51,7 +53,7 @@ var infoWindoMarkers = [{
     location_lat: 51.624980,
     location_lng: 20.816150,
     marker_image: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png',
-    title: "Poland"
+    title: "India"
   },
   {
     Id: 8,
@@ -59,7 +61,7 @@ var infoWindoMarkers = [{
     location_lat: 47.361750,
     location_lng: 7.508110,
     marker_image: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png',
-    title: "Switzerland"
+    title: "India"
   },
   {
     Id: 10,
@@ -75,7 +77,7 @@ var infoWindoMarkers = [{
     location_lat: 39.779823,
     location_lng: 98.787064,
     marker_image: 'https://amw-task.amwebtech.org/assets/marker/indore.jpg',
-    title: 'Smith Center Location'
+    title: 'United Kingdom'
   },
   {
     Id: 2,
@@ -83,7 +85,7 @@ var infoWindoMarkers = [{
     location_lat: 41.8781,
     location_lng: 87.6298,
     marker_image: 'https://amw-task.amwebtech.org/assets/marker/bhopal.jpg',
-    title: 'Chicago Location'
+    title: 'United Kingdom'
   },
   {
     Id: 4,
@@ -91,7 +93,7 @@ var infoWindoMarkers = [{
     location_lat: 32.7157,
     location_lng: 117.1611,
     marker_image: 'https://amw-task.amwebtech.org/assets/marker/ujjain.jpg',
-    title: 'San Diego Location'
+    title: 'USA'
   },
   {
     Id: 5,
@@ -99,9 +101,14 @@ var infoWindoMarkers = [{
     location_lat: 37.7749,
     location_lng: 122.4194,
     marker_image: 'https://amw-task.amwebtech.org/assets/marker/dewas.jpg',
-    title: 'San Francisco Location'
+    title: 'USA'
   },
 ]
+
+var dataFilter = infoWindoMarkers.filter((element) => {
+  return element.title == "India";
+});
+// console.log("titleFilter=====", dataFilter);
 
 const infoWindo =
   '<div id="content">' +
@@ -145,10 +152,17 @@ function rinitializeMAP(type, locations) {
     } else if (type === 'rDragMarkerOnPosition') {
       moveMarkerTdClick();
     } else if (type === 'rMarkerCluster') {
-      clusterOfMarkers(locations);
+      initClusterMarkers(locations);
+    } else if (type === 'rPolygonMarkers') {
+      polygonMarkers(locations);
+    } else if (type === 'rPolylineMarkers') {
+      polylineMarkers(locations);
+    } else if (type === 'rComplexPolylineMarkers') {
+      complexPolylineMarkers();
+    } else if (type === 'rMotionPloylineMarker') {
+      motionPloylineMarker()
     }
   }
-
 }
 
 function customMarker(staticLocations) {
@@ -282,33 +296,216 @@ function moveMarkerTdClick(addressInfo) {
   }
 }
 
-function clusterOfMarkers(locations) {
-
-  // console.log("locations in MS JS", locations);
-  // console.log('This is Cluster of markers in JS');
+function initClusterMarkers(locations) {
   const labels = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-  clusterMarkerArray = locations.map((obj) => {
-    marker = new google.maps.Marker({
-      position: new google.maps.LatLng(obj.location_lat, obj.location_lng),
-      map: map,
-      title: obj.title,
-      animation: google.maps.Animation.DROP,
-    });
-  });
-  const markers = locations.map((position, i) => {
+  const markers = locations.map((obj, i) => {
     const label = labels[i % labels.length];
     const marker = new google.maps.Marker({
-      position,
-      label
+      position: {
+        lat: obj.location_lat,
+        lng: obj.location_lng
+      },
+      label,
     });
     marker.addListener("click", () => {
-      infoWindo.setContent(label);
-      infoWindo.open(map, marker);
+      infowindow.setContent(label);
+      infoWindow.open(map, marker);
     });
     return marker;
   });
-  new MarkerClusterer({
-    markers,
-    map
+  const markerCluster = new markerClusterer.MarkerClusterer({
+    map,
+    markers
   });
+}
+
+function polygonMarkers(locations) {
+  console.log('polygonMarkers---');
+  const triangleCoords = [{
+      lat: 22.852409,
+      lng: 75.666568
+    },
+    {
+      lat: 22.748997,
+      lng: 76.178761
+    },
+    {
+      lat: 22.541899,
+      lng: 75.629341
+    },
+    // { lat: 25.774, lng: -80.19 },
+  ];
+  const bermudaTriangle = new google.maps.Polygon({
+    paths: triangleCoords,
+    strokeColor: "#FF0000",
+    // strokeOpacity: 4.0,
+    strokeWeight: 2,
+    fillColor: "#FF0000",
+    // fillOpacity: 0.35,
+  });
+
+  bermudaTriangle.setMap(map);
+}
+
+function polylineMarkers(locations) {
+  const flightPlanCoordinates = [{
+      lat: 19.0760,
+      lng: 72.8777
+    },
+    {
+      lat: 23.0225,
+      lng: 72.5714
+    },
+    {
+      lat: 26.9124,
+      lng: 75.7873
+    },
+    {
+      lat: 30.7333,
+      lng: 76.7794
+    },
+    {
+      lat: 26.8467,
+      lng: 80.9462
+    },
+    {
+      lat: 25.5941,
+      lng: 85.1376
+    },
+    {
+      lat: 22.5726,
+      lng: 88.3639
+    },
+    {
+      lat: 21.2514,
+      lng: 81.6296
+    },
+    {
+      lat: 21.1458,
+      lng: 79.0882
+    },
+    {
+      lat: 13.0827,
+      lng: 80.2707
+    },
+    // { lat: -31.56391, lng: 147.154312 },
+    // { lat: -33.718234, lng: 150.363181 },
+    // { lat: -33.727111, lng: 150.371124 },
+    // { lat: -33.848588, lng: 151.209834 },
+    // { lat: -33.851702, lng: 151.216968 },
+    // { lat: -34.671264, lng: 150.863657 },
+    // { lat: -35.304724, lng: 148.662905 },
+    // { lat: -36.817685, lng: 175.699196 },
+    // { lat: -36.828611, lng: 175.790222 },
+    // { lat: -37.75, lng: 145.116667 },
+    // { lat: -37.759859, lng: 145.128708 },
+    // { lat: -37.765015, lng: 145.133858 },
+    // { lat: -37.770104, lng: 145.143299 },
+    // { lat: -37.7737, lng: 145.145187 },
+    // { lat: -37.774785, lng: 145.137978 },
+    // { lat: -37.819616, lng: 144.968119 },
+    // { lat: -38.330766, lng: 144.695692 },
+    // { lat: -39.927193, lng: 175.053218 },
+    // { lat: -41.330162, lng: 174.865694 },
+    // { lat: -42.734358, lng: 147.439506 },
+    // { lat: -42.734358, lng: 147.501315 },
+    // { lat: -42.735258, lng: 147.438 },
+    // { lat: -43.999792, lng: 170.463352 }
+  ];
+  const flightPath = new google.maps.Polyline({
+    path: flightPlanCoordinates,
+    geodesic: true,
+    strokeColor: "#FF0000",
+    strokeOpacity: 1.0,
+    strokeWeight: 2,
+  });
+
+  flightPath.setMap(map);
+}
+
+function complexPolylineMarkers() {
+  myPoly = new google.maps.Polyline({
+    strokeColor: "#000000",
+    strokeOpacity: 1.0,
+    strokeWeight: 3,
+  });
+  myPoly.setMap(map);
+  map.addListener("click", addLatLng);
+
+  function addLatLng(event) {
+    const path = myPoly.getPath();
+    path.push(event.latLng);
+    new google.maps.Marker({
+      position: event.latLng,
+      title: "#" + path.getLength(),
+      map: map,
+    });
+  }
+}
+
+function motionPloylineMarker() {
+  const lineSymbol = {
+    path: google.maps.SymbolPath.CIRCLE,
+    scale: 5,
+    strokeColor: "#393",
+  };
+  const line = new google.maps.Polyline({
+    path: [{
+        lat: 19.0760,
+        lng: 72.8777
+      },
+      {
+        lat: 23.0225,
+        lng: 72.5714
+      },
+      {
+        lat: 26.9124,
+        lng: 75.7873
+      },
+      {
+        lat: 30.7333,
+        lng: 76.7794
+      },
+      {
+        lat: 26.8467,
+        lng: 80.9462
+      },
+      {
+        lat: 25.5941,
+        lng: 85.1376
+      },
+      {
+        lat: 22.5726,
+        lng: 88.3639
+      },
+      {
+        lat: 21.2514,
+        lng: 81.6296
+      },
+      {
+        lat: 21.1458,
+        lng: 79.0882
+      },
+      {
+        lat: 13.0827,
+        lng: 80.2707
+      },
+    ],
+    icons: [{
+      icon: lineSymbol,
+      offset: "10%",
+    }, ],
+    map: map,
+  });
+  animateCircle(line);
+
+  function animateCircle(line) {
+    let count = 0;
+    window.setInterval(() => {
+      count = (count + 1) % 200;
+      const icons = line.get("icons");
+      icons[0].offset = count / 1 + "%";
+      line.set("icons", icons);
+    }, 200);
+  }
 }

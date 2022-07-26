@@ -8,19 +8,33 @@ import { ApiService } from './api.service';
 })
 export class RMapMarkerService {
 
-  markers = 'rMarkers';
+  rMarkers = 'rMarkers';
+  rCRUDMarkers = 'rCRUDMarkers';
 
   constructor(private apiService: ApiService) { }
 
   public getLoactionList(): Observable<any> {
-    return this.apiService.get(`${this.markers}/getLocationsList`).pipe(map((data) => {
+    return this.apiService.get(`${this.rMarkers}/getLocationsList`).pipe(map((data) => {
       return data;
     }))
   }
 
   public postLoactionList(param: any): Observable<any> {
-    // console.log('In Service', param);
-    return this.apiService.post(`${this.markers}/postLocationsList`, param).pipe(map((data) => {
+    // console.log('In Locations Service', param);
+    return this.apiService.post(`${this.rMarkers}/postLocationsList`, param).pipe(map((data) => {
+      return data;
+    }))
+  }
+
+  public getCRUDLoactionList(): Observable<any> {
+    return this.apiService.get(`${this.rCRUDMarkers}/getCRUDLocationsList`).pipe(map((data) => {
+      return data;
+    }))
+  }
+
+  public postCRUDLoactionList(param: any): Observable<any> {
+    console.log('In CRUD locations Service', param);
+    return this.apiService.post(`${this.rCRUDMarkers}/postCRUDLocationsList`, param).pipe(map((data) => {
       return data;
     }))
   }

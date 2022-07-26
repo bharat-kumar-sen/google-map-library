@@ -23,5 +23,9 @@ export class AppComponent {
     rDragAndDropMarkers: 'rDragAndDropMarkers',
     rDragMarkerOnPosition: 'rDragMarkerOnPosition',
     rMarkerCluster: 'rMarkerCluster',
+    rPolygonMarkers: 'rPolygonMarkers',
+    rPolylineMarkers: 'rPolylineMarkers',
+    rComplexPolylineMarkers: 'rComplexPolylineMarkers',
+    rMotionPloylineMarker: 'rMotionPloylineMarker',
   }
 }
