@@ -13,12 +13,17 @@ class displayLocationsTable {
   placeId: string = '';
   city: string = '';
   address: string = '';
+  phoneNum: number = 0;
   state: string = '';
   postelCode: number = 0;
   country: string = '';
   countryCode: number = 0;
 }
 
+class updateInfo {
+  address: string = '';
+  phoneNum: number = 0;
+}
 @Component({
   selector: 'app-crud-locations',
   templateUrl: './crud-locations.component.html',
@@ -26,6 +31,7 @@ class displayLocationsTable {
 })
 export class CrudLocationsComponent implements OnInit {
 
+  displayLocationsUpdateInfo: updateInfo = new updateInfo()
   displayLocationsInfo: any = {};
   searchValue: any;
   addressInfo: any;
@@ -50,8 +56,10 @@ export class CrudLocationsComponent implements OnInit {
   }
 
   postLoactionDetailsFromJs(addressInfo: any) {
+    console.log('addressInfo from js to ts into ts=====', addressInfo.id);
     this.displayLocationsInfo = addressInfo;
-    console.log('addressInfo from js to ts into ts=====', addressInfo);
+    this.displayLocationsUpdateInfo = addressInfo;
+    console.log('displayLocationsUpdateInfo====', this.displayLocationsUpdateInfo);
   }
 
   getCRUDLoactionList() {
@@ -82,7 +90,7 @@ export class CrudLocationsComponent implements OnInit {
   }
 
   searchEnteredContent(event: any) {
-    console.log('params===', event)
+    // console.log('params===', event)
   }
 
   moveMarkerTdClickToRecord(locations: any) {
