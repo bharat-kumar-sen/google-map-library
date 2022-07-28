@@ -38,4 +38,11 @@ export class RMapMarkerService {
       return data;
     }))
   }
+
+  public postCRUDLoactionUpdateList(param: any): Observable<any> {
+    console.log('In CRUD locations Service', param);
+    return this.apiService.post(`${this.rCRUDMarkers}/postCRUDLoactionUpdateList`, param).pipe(map((data) => {
+      return data;
+    }))
+  }
 }

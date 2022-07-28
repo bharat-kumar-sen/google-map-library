@@ -111,10 +111,6 @@ export class ShowMapMarkerComponent implements OnInit {
     }, 100);
   }
 
-  commingSoon() {
-    console.log('This type is in under development/Production And will Comming soon!');
-  }
-
   getLoactionList() {
     this.rMapMarkerService.getLoactionList().subscribe({
       next: (dataReq: any) => {

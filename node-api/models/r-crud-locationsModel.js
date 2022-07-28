@@ -15,7 +15,7 @@ exports.getCRUDLocationsList = (res, cb) => {
 }
 
 exports.postCRUDLocationsList = (req, cb) => {
-  var data =  req.body;
+  var data = req.body;
   console.log('Data into Model===', data);
   DbConnect.from('crud-locations').insert(data).then((result) => {
     console.log('Post result in model=====', result);
@@ -25,6 +25,21 @@ exports.postCRUDLocationsList = (req, cb) => {
       cb(true, null);
     }
   }).catch((err) => {
+    cb(err, null);
+  });
+}
+
+exports.postCRUDLocationsList = (req, cd) => {
+  var data = req.body;
+  console.log('CRUD Update Data Into Model', data);
+  DbConnect.from('crud-locations').insert(data).then((result) => {
+    console.log('CRUD Updata result in Model', result);
+    if (result){
+      cd(null, result)
+    } else {
+      cb(true, null);
+    }
+  }).catch((err)=> {
     cb(err, null);
   });
 }

@@ -38,3 +38,22 @@ exports.postCRUDLocationsList = async (req, res) => {
     }
   });
 }
+
+exports.postCRUDLoactionUpdateList = async (req, res) => {
+  Locations.postCRUDLoactionUpdateList(req, (error, data) => {
+    if (data === null) {
+      console.log('POST--Update data into controller===', data);
+      return res.json({
+        status: 404,
+        data: error,
+        message: 'Sonething went wrong'
+      });
+    } else {
+      return res.join({
+        status: 200,
+        data: data,
+        message: 'Update locations data successfully'
+      })
+    }
+  })
+}
