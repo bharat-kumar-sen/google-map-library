@@ -1,144 +1,26 @@
-<div class="d-flex flex-row justify-content-between flex-wrap py-2">
-  <div>
-    <h3 class="opacity-50">S locations crud map and marker</h3>
-  </div>
-</div>
-
-<pre [innerHtml]="locationInfo | json"></pre>
-
-<div class="container-fluid app-user bg-white p-5">
-  <div class="row">
-    <div class="col-md-10 mx-auto">
-      <div class="table-responsive-lg">
-        <div id="s_location_crud_google_map"></div>
-      </div>
-    </div>
-  </div>
-  <div class="row mt-5">
-    <div class="col-md-10 mx-auto">
-      <form>
-        <div class="row mb-3">
-          <label for="pac-input" class="col-sm-2 col-form-label fw-bold">Default Location</label>
-          <div class="col-sm-10">
-            <input type="text" class="form-control" placeholder="Search Box" name="defaultAddress"
-              [(ngModel)]="locationInfo.location.default_address" id="defaultAddress">
-          </div>
-        </div>
-        <div class="row mb-3">
-          <label for="" class="col-sm-2 col-form-label fw-bold">Coordinates</label>
-          <div class="col-sm-10">
-            <div class="row">
-              <div class="col">
-                <input type="text" id="lat" name="lat" class="form-control" placeholder="Latitude" aria-label="First name"
-                  readonly [(ngModel)]="locationInfo.location.location_lat">
-              </div>
-              <div class="col">
-                <input type="text" id="lang" name="lang" class="form-control" placeholder="Longitute" aria-label="Last name"
-                  readonly [(ngModel)]="locationInfo.location.location_lng">
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="row mb-3">
-          <label for="placeId" class="col-sm-2 col-form-label fw-bold">Google Place ID</label>
-          <div class="col-sm-10">
-            <input type="text" id="placeId" name="placeId" class="form-control" placeholder="Place ID" readonly
-              [(ngModel)]="locationInfo.location.place_Id">
-          </div>
-        </div>
-        <!--   <div class="row mb-3">
-          <label for="storeCode" class="col-sm-2 col-form-label fw-bold">Store Code</label>
-          <div class="col-sm-10">
-            <input type="text" class="form-control" id="storeCode">
-          </div>
-        </div> -->
-        <div class="row mb-3">
-          <label for="Lname" class="col-sm-2 col-form-label fw-bold">Name</label>
-          <div class="col-sm-10">
-            <input type="text" class="form-control" id="Lname" name="Lname" [(ngModel)]="locationInfo.location.name" placeholder="Name">
-          </div>
-        </div>
-        <div class="row mb-3">
-          <label for="address" class="col-sm-2 col-form-label fw-bold">Address</label>
-          <div class="col-sm-10">
-            <input type="text" class="form-control" id="address" name="address" placeholder="Address"
-              [(ngModel)]="locationInfo.location.address" readonly>
-          </div>
-        </div>
-        <div class="row mb-3">
-          <label for="phoneNumber" class="col-sm-2 col-form-label fw-bold">Phone Number</label>
-          <div class="col-sm-10">
-            <input type="text" class="form-control" id="phoneNumber" name="phoneNumber" placeholder="Phone"
-              [(ngModel)]="locationInfo.location.phoneNum">
-          </div>
-        </div>
-        <div class="row mb-3">
-          <label for="internationalPhone" class="col-sm-2 col-form-label fw-bold">International Phone</label>
-          <div class="col-sm-10">
-            <input type="text" class="form-control" id="internationalPhone" name="InternationalPhone" placeholder="International Phone"
-              [(ngModel)]="locationInfo.location.InternationalPhone">
-          </div>
-        </div>
-        <div class="row mb-3">
-          <label for="state" class="col-sm-2 col-form-label fw-bold">State</label>
-          <div class="col-sm-10">
-            <input type="text" id="state" name="state" class="form-control" placeholder="State"   [(ngModel)]="locationInfo.location.state" readonly>
-          </div>
-        </div>
-        <div class="row mb-3">
-          <label for="inputCity" class="col-sm-2 col-form-label fw-bold">City</label>
-          <div class="col-sm-10">
-            <input type="text" class="form-control" id="inputCity" name="inputCity" placeholder="City" [(ngModel)]="locationInfo.location.city" readonly>
-          </div>
-        </div>
-        <div class="row mb-3">
-          <label for="postalCode" class="col-sm-2 col-form-label fw-bold">Postal Code</label>
-          <div class="col-sm-10">
-            <input type="text" class="form-control" id="postalCode" name="postalCode"
-            placeholder="Postal Code" [(ngModel)]="locationInfo.location.postal_code" readonly>
-          </div>
-        </div>
-        <div class="row mb-3">
-          <label for="country" class="col-sm-2 col-form-label fw-bold">Country</label>
-          <div class="col-sm-10">
-            <input type="text" id="country" class="form-control" name="country"
-            placeholder="Country"
-              [(ngModel)]="locationInfo.location.country" readonly>
-          </div>
-        </div>
-        <div class="row mb-3">
-          <label for="countryCode" class="col-sm-2 col-form-label fw-bold">Country code</label>
-          <div class="col-sm-10">
-            <input type="text" class="form-control" id="countryCode" name="countryCode"
-            placeholder="Country Code"
-              [(ngModel)]="locationInfo.location.country_code" readonly>
-          </div>
-        </div>
-        <button type="submit" class="btn btn-primary" (click)="saveLocationInfo()">
-          {{locationInfo.location.id ? 'Edit' : 'Save' }}
-        </button>
-        <button type="button" class="btn bg-danger delete ms-2" *ngIf="locationInfo.location.id"
-        (click)="deleteLocation()">
-          <i class="far fa-trash-alt"></i>
-        </button>
-      </form>
-    </div>
-  </div>
-
-</div>
-
 <div class="container-fluid">
-  <div class="container mt-5">
-    <div class="row">
-      <div class="col-md-12">
-        <h4 class="opacity-50">Locations List</h4>
+  <div class="container mt-1">
+    <div class="d-flex flex-row flex-wrap">
+      <div class="col-12">
+        <h4 class="opacity-50">S locations crud map and marker</h4>
         <hr />
       </div>
     </div>
   </div>
-  <div class="container bg-white py-3 dataDisplaySection">
+</div>
+<div class="container-fluid">
+  <div class="container mt-1">
+    <pre [innerHtml]="locationInfo | json"></pre>
+    <div class="d-flex justify-content-end mb-3">
+      <div>
+        <button class="btn btn-sm btn-primary ms-3" (click)="showAddEditModal()"><i class="fas fa-plus me-2"></i>Add
+          New</button>
+      </div>
+    </div>
+  </div>
+  <div class="container bg-white py-1 dataDisplaySection">
     <!-- <table [dtOptions]="dtOptions" datatable [dtTrigger]="dtTrigger" -->
-    <div class="row mt-5">
+    <div class="row">
       <div class="col-md-12 mx-auto">
         <div class="table-responsive">
           <table id="table" class="table table-bordered table-hover table-striped">
@@ -162,7 +44,7 @@
               </tr>
             </thead>
             <tbody class="text-wrap">
-              <tr *ngFor="let location of locationsList; let i=index" (click)="onRowClicked(location);scrollToTop()">
+              <tr *ngFor="let location of locationsList; let i=index">
                 <th scope="row">{{i+1}}</th>
                 <th scope="row">{{location.id}}</th>
                 <td>{{location.name}}</td>
@@ -182,9 +64,10 @@
                 <!-- <td>{{location.createdAt | date:'d/M/yyyy'}}</td> -->
                 <td class="text-center">
                   <div class="d-flex justify-content-center">
-                    <button type="button" class="btn btn-sm bg-success edit me-1">
+                    <button type="button" class="btn btn-sm bg-success edit me-1" (click)="showAddEditModal(location);scrollToTop()">
                       <i class="far fa-edit"></i></button>
-                    <button type="button" class="btn btn-sm bg-danger delete">
+                    <button type="button" class="btn btn-sm bg-danger delete"
+                      (click)="showLocationDeleteModal(location);scrollToTop()">
                       <i class="far fa-trash-alt"></i>
                     </button>
                   </div>
@@ -197,3 +80,160 @@
     </div>
   </div>
 </div>
+
+<div bsModal #showAddEditLocationModal="bs-modal" id="my-modal" class="modal fade" tabindex="-1" role="dialog"
+  aria-labelledby="myModalLabel" aria-hidden="true" [config]="{backdrop: 'static',  keyboard: false, animated: true}">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">{{locationInfo.location._id ? 'Edit' : 'Add'}} Location</h4>
+        <button type="button" class="close" aria-label="Close" (click)="closeModel()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row align-items-center">
+          <div class="col-11 mx-auto">
+            <div class="row mb-3">
+              <label for="defaultAddress" class="col-sm-2 col-form-label fw-bold">Default Location</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" placeholder="Search Box" name="defaultAddress"
+                  [(ngModel)]="locationInfo.location.default_address" id="defaultAddress">
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-11 mx-auto">
+                <div class="table-responsive-lg">
+                  <div id="s_location_crud_google_map"></div>
+                </div>
+              </div>
+            </div>
+            <div class="row my-3">
+              <label for="" class="col-sm-2 col-form-label fw-bold">Coordinates</label>
+              <div class="col-sm-10">
+                <div class="row">
+                  <div class="col">
+                    <input type="text" id="lat" name="lat" class="form-control" placeholder="Latitude"
+                      aria-label="First name" readonly [(ngModel)]="locationInfo.location.location_lat">
+                  </div>
+                  <div class="col">
+                    <input type="text" id="lang" name="lang" class="form-control" placeholder="Longitute"
+                      aria-label="Last name" readonly [(ngModel)]="locationInfo.location.location_lng">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row mb-3">
+              <label for="placeId" class="col-sm-2 col-form-label fw-bold">Google Place ID</label>
+              <div class="col-sm-10">
+                <input type="text" id="placeId" name="placeId" class="form-control" placeholder="Place ID" readonly
+                  [(ngModel)]="locationInfo.location.place_Id">
+              </div>
+            </div>
+            <!--   <div class="row mb-3">
+            <label for="storeCode" class="col-sm-2 col-form-label fw-bold">Store Code</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" id="storeCode">
+            </div>
+          </div> -->
+            <div class="row mb-3">
+              <label for="Lname" class="col-sm-2 col-form-label fw-bold">Name</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" id="Lname" name="Lname" [(ngModel)]="locationInfo.location.name"
+                  placeholder="Name">
+              </div>
+            </div>
+            <div class="row mb-3">
+              <label for="address" class="col-sm-2 col-form-label fw-bold">Address</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" id="address" name="address" placeholder="Address"
+                  [(ngModel)]="locationInfo.location.address" readonly>
+              </div>
+            </div>
+            <div class="row mb-3">
+              <label for="phoneNumber" class="col-sm-2 col-form-label fw-bold">Phone Number</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" id="phoneNumber" name="phoneNumber" placeholder="Phone"
+                  [(ngModel)]="locationInfo.location.phoneNum">
+              </div>
+            </div>
+            <div class="row mb-3">
+              <label for="internationalPhone" class="col-sm-2 col-form-label fw-bold">International Phone</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" id="internationalPhone" name="InternationalPhone"
+                  placeholder="International Phone" [(ngModel)]="locationInfo.location.InternationalPhone">
+              </div>
+            </div>
+            <div class="row mb-3">
+              <label for="state" class="col-sm-2 col-form-label fw-bold">State</label>
+              <div class="col-sm-10">
+                <input type="text" id="state" name="state" class="form-control" placeholder="State"
+                  [(ngModel)]="locationInfo.location.state" readonly>
+              </div>
+            </div>
+            <div class="row mb-3">
+              <label for="inputCity" class="col-sm-2 col-form-label fw-bold">City</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" id="inputCity" name="inputCity" placeholder="City"
+                  [(ngModel)]="locationInfo.location.city" readonly>
+              </div>
+            </div>
+            <div class="row mb-3">
+              <label for="postalCode" class="col-sm-2 col-form-label fw-bold">Postal Code</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" id="postalCode" name="postalCode" placeholder="Postal Code"
+                  [(ngModel)]="locationInfo.location.postal_code" readonly>
+              </div>
+            </div>
+            <div class="row mb-3">
+              <label for="country" class="col-sm-2 col-form-label fw-bold">Country</label>
+              <div class="col-sm-10">
+                <input type="text" id="country" class="form-control" name="country" placeholder="Country"
+                  [(ngModel)]="locationInfo.location.country" readonly>
+              </div>
+            </div>
+            <div class="row mb-3">
+              <label for="countryCode" class="col-sm-2 col-form-label fw-bold">Country code</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" id="countryCode" name="countryCode" placeholder="Country Code"
+                  [(ngModel)]="locationInfo.location.country_code" readonly>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer border-top-0 justify-content-start">
+        <button type="submit" class="btn btn-primary" (click)="saveLocationInfo()">
+          {{locationInfo.location.id ? 'Edit' : 'Save' }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div bsModal #deleteLocationModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true" [config]="{backdrop: 'static', keyboard: false, animated: true}">
+  <div class="modal-dialog modal-dialog-centered" role="document" modal-lg>
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title"><i class="fa fa-trash"></i> Delete Location</h4>
+        <button type="button" class="close" (click)="closeModel()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <h4>Are you sure want to delete this Location?</h4>
+        <p>
+          <b>Location Name :</b> {{locationInfo.location.name}}
+          <br />
+          <b>Location Address :</b> {{locationInfo.location.address}}
+        </p>
+      </div>
+      <div class="modal-footer border-top-0 d-flex justify-content-start">
+        <button type="button" class="btn btn-default me-1" (click)="closeModel()">Close</button>
+        <button type="button" class="btn btn-danger" (click)="deleteLocation()">Delete</button>
+      </div>
+    </div>
+  </div>
+</div>
+

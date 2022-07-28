@@ -1,5 +1,6 @@
-import { Component, NgZone, OnInit } from '@angular/core';
+import { Component, NgZone, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ModalDirective } from 'ngx-bootstrap/modal';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { SMapMarkerService } from 'src/app/shared-ui';
@@ -27,6 +28,10 @@ export class LocationsCrudComponent implements OnInit {
   searchResultLocation: any = ''
   windowScrolled: boolean;
   locationInfo: locations = new locations();
+  @ViewChild('showAddEditLocationModal', { static: false })
+  public showAddEditLocationModal: any = ModalDirective;
+  @ViewChild('deleteLocationModal', { static: false })
+  public deleteLocationModal: any = ModalDirective;
 
   constructor(
     private sMapMarkerService: SMapMarkerService,
@@ -52,6 +57,7 @@ export class LocationsCrudComponent implements OnInit {
   // tslint:disable-next-line:use-life-cycle-interface
   ngOnInit(): void {
     window['angularComponentReference'] = { component: this, zone: this.ngZone, loadAngularFunction: (currentlocationInfo: any) => this.angularFunctionCalled(currentlocationInfo), };
+
   }
 
   scrollToTop(): void {
@@ -59,11 +65,12 @@ export class LocationsCrudComponent implements OnInit {
   }
 
   angularFunctionCalled(currentlocationInfo: any) {
-    console.log('currentlocationInfo == ', currentlocationInfo);
+    // console.log('currentlocationInfo == ', currentlocationInfo);
     if (this.locationInfo.location.id) {
       currentlocationInfo.id = this.locationInfo.location.id
     }
     // this.locationInfo.location = {...currentlocationInfo};
+    // this.regionsInfo = Object.assign({}, regionsInfoValue);
     this.locationInfo.location = JSON.parse(JSON.stringify(currentlocationInfo));
   }
 
@@ -77,32 +84,6 @@ export class LocationsCrudComponent implements OnInit {
           this.spinner.hide();
           slocationinitializeMAP(this.type, this.locationsList);
           this.toastr.success(dataRes.message, 'Success!');
-        }
-      },
-      error: (error: any) => {
-        this.spinner.hide();
-        console.log("error", error);
-        this.toastr.error(error.message, 'Error!');
-      }
-    });
-  }
-
-  saveLocationInfo() {
-    this.spinner.show();
-    console.log('this.locationInfo', this.locationInfo);
-    let locationPostData = JSON.parse(JSON.stringify(this.locationInfo.location));
-    delete locationPostData.default_address;
-    this.sMapMarkerService.searchLocationSave(locationPostData).subscribe({
-      next: (dataRes: any) => {
-        if (dataRes.status === 200) {
-          this.spinner.hide();
-          this.toastr.success(dataRes.message, 'Success!');
-          dataRes = dataRes.data;
-          console.log("dataRes", dataRes);
-          // this.locationsList.unshift(this.locationInfo.location);
-          this.locationInfo.location = "";
-          this.getLocationsList();
-
         }
       },
       error: (error: any) => {
@@ -127,26 +108,80 @@ export class LocationsCrudComponent implements OnInit {
     }
   }
 
-  deleteLocation() {
-    let locationDelete = this.locationInfo.location;
-    console.log('locationDelete==', locationDelete);
+  closeModel() {
+    this.showAddEditLocationModal.hide();
+    this.deleteLocationModal.hide();
+  }
+
+  showAddEditModal(location?: any) {
+    // console.log('onRowClicked ==', location);
+    // console.log('location.address ==', location.address);
+    if (location && location.id) {
+      const latlng = {
+        lat: location.location_lat,
+        lng: location.location_lng,
+      };
+      // geocodeLatLng(latlng);
+      codeAddress(location.address)
+      this.angularFunctionCalled(location)
+    }
+    this.showAddEditLocationModal.show();
+  }
+
+  showLocationDeleteModal(location: any) {
+    this.locationInfo.location = location;
+    this.deleteLocationModal.show();
+  }
+
+  saveLocationInfo() {
     this.spinner.show();
-    this.sMapMarkerService.deletelocation(locationDelete).subscribe({
+    console.log('this.locationInfo', this.locationInfo);
+    let locationPostData = JSON.parse(JSON.stringify(this.locationInfo.location));
+    delete locationPostData.default_address;
+    this.sMapMarkerService.searchLocationSave(locationPostData).subscribe({
       next: (dataRes: any) => {
         if (dataRes.status === 200) {
           this.spinner.hide();
+          this.toastr.success(dataRes.message, 'Success!');
+          dataRes = dataRes.data;
+          console.log("dataRes", dataRes);
+          // this.locationsList.unshift(this.locationInfo.location);
           this.locationInfo.location = "";
+          this.closeModel();
           this.getLocationsList();
-          this.toastr.success('Location deleted successfully.', 'Success');
         }
       },
       error: (error: any) => {
         this.spinner.hide();
-        this.toastr.error(
-          'There are some server error. Please check connection.',
-          'Error'
-        );
+        console.log("error", error);
+        this.toastr.error(error.message, 'Error!');
       }
     });
+  }
+
+  deleteLocation() {
+    this.spinner.show();
+    let locationDelete = this.locationInfo.location;
+    // console.log('locationDelete==', locationDelete);
+    this.spinner.show();
+     this.sMapMarkerService.deletelocation(locationDelete).subscribe({
+       next: (dataRes: any) => {
+         if (dataRes.status === 200) {
+           this.closeModel();
+           this.spinner.hide();
+           this.locationInfo.location = "";
+           this.getLocationsList();
+           this.toastr.success('Location deleted successfully.', 'Success');
+         }
+       },
+       error: (error: any) => {
+         this.closeModel();
+         this.spinner.hide();
+         this.toastr.error(
+           'There are some server error. Please check connection.',
+           'Error'
+         );
+       }
+     });
   }
 }

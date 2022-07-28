@@ -73,7 +73,6 @@ export class SMapMarkerService {
     );
   }
   public deletelocation(param: object): Observable<any> {
-    console.log('call service == ',param);
     return this.apiService.post(`${this.markers}/deletelocation`, param).pipe(
       map((data) => {
         return data;
