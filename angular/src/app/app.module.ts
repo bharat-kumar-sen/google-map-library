@@ -18,7 +18,7 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
     HttpClientModule,
     BrowserAnimationsModule,
     NgxSpinnerModule.forRoot({ type: 'ball-scale-multiple' }),
-    SharedUiModule,
+    // SharedUiModule,
     AppRoutingModule,
     ToastrModule.forRoot({
       positionClass: 'toast-bottom-right',

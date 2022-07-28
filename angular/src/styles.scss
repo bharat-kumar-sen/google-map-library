@@ -42,4 +42,33 @@
   line-height: 18px;
   font-weight: 400;
 }
+.table {
+  width: 100% !important;
+}
+.table-bordered
+{
+  border: 1px solid #e1e6f1 !important;
+}
+
+table.dataTable.no-footer {
+  margin-bottom: -3px;
+  // margin-bottom: 25px;
+}
+
+table.dataTable {
+  // border-collapse: separate !important;
+}
+
+table.dataTable tbody th,
+table.dataTable tbody td {
+  padding: 3px 10px;
+}
+
+.dataTables_wrapper .dataTables_filter {
+  padding-bottom: 7px;
+}
+.dataTables_wrapper.no-footer .dataTables_scrollBody {
+  border: none !important;
+}
+
 

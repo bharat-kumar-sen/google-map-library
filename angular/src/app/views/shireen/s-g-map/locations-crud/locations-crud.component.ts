@@ -1,8 +1,10 @@
 import { Component, NgZone, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { DataTableDirective } from 'angular-datatables';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
+import { Subject } from 'rxjs';
 import { SMapMarkerService } from 'src/app/shared-ui';
 declare function slocationinitializeMAP(type?: any, data?: any): any;
 declare function codeAddress(param?: any): any;
@@ -28,6 +30,10 @@ export class LocationsCrudComponent implements OnInit {
   searchResultLocation: any = ''
   windowScrolled: boolean;
   locationInfo: locations = new locations();
+  @ViewChild(DataTableDirective, { static: false })
+  datatableElement: any = DataTableDirective;
+  dtOptions: DataTables.Settings = {};
+  dtTrigger: Subject<any> = new Subject();
   @ViewChild('showAddEditLocationModal', { static: false })
   public showAddEditLocationModal: any = ModalDirective;
   @ViewChild('deleteLocationModal', { static: false })
@@ -58,6 +64,19 @@ export class LocationsCrudComponent implements OnInit {
   ngOnInit(): void {
     window['angularComponentReference'] = { component: this, zone: this.ngZone, loadAngularFunction: (currentlocationInfo: any) => this.angularFunctionCalled(currentlocationInfo), };
 
+    this.dtOptions = {
+      responsive: true,
+      scrollX: true,
+      scrollY: '350px',
+      scrollCollapse: true,
+      columnDefs: [
+        {
+          targets: 12,
+          orderable: false,
+          searchable: false,
+        },
+      ],
+    };
   }
 
   scrollToTop(): void {
@@ -74,16 +93,26 @@ export class LocationsCrudComponent implements OnInit {
     this.locationInfo.location = JSON.parse(JSON.stringify(currentlocationInfo));
   }
 
+  ngAfterViewInit(): void {
+    this.dtTrigger.next('');
+  }
+
   getLocationsList() {
     this.spinner.show();
     this.sMapMarkerService.getLocations().subscribe({
       next: (dataRes: any) => {
         if (dataRes.status === 200) {
-          this.locationsList = dataRes.data;
-          // console.log("locationsList", this.locationsList);
           this.spinner.hide();
-          slocationinitializeMAP(this.type, this.locationsList);
-          this.toastr.success(dataRes.message, 'Success!');
+          this.datatableElement.dtInstance.then(
+            (dtInstance: DataTables.Api) => {
+              dtInstance.destroy();
+              this.dtTrigger.next('');
+              this.locationsList = dataRes.data;
+              // console.log("locationsList", this.locationsList);
+              slocationinitializeMAP(this.type, this.locationsList);
+              this.toastr.success(dataRes.message, 'Success!');
+            }
+          );
         }
       },
       error: (error: any) => {
@@ -164,24 +193,24 @@ export class LocationsCrudComponent implements OnInit {
     let locationDelete = this.locationInfo.location;
     // console.log('locationDelete==', locationDelete);
     this.spinner.show();
-     this.sMapMarkerService.deletelocation(locationDelete).subscribe({
-       next: (dataRes: any) => {
-         if (dataRes.status === 200) {
-           this.closeModel();
-           this.spinner.hide();
-           this.locationInfo.location = "";
-           this.getLocationsList();
-           this.toastr.success('Location deleted successfully.', 'Success');
-         }
-       },
-       error: (error: any) => {
-         this.closeModel();
-         this.spinner.hide();
-         this.toastr.error(
-           'There are some server error. Please check connection.',
-           'Error'
-         );
-       }
-     });
+    this.sMapMarkerService.deletelocation(locationDelete).subscribe({
+      next: (dataRes: any) => {
+        if (dataRes.status === 200) {
+          this.closeModel();
+          this.spinner.hide();
+          this.locationInfo.location = "";
+          this.getLocationsList();
+          this.toastr.success('Location deleted successfully.', 'Success');
+        }
+      },
+      error: (error: any) => {
+        this.closeModel();
+        this.spinner.hide();
+        this.toastr.error(
+          'There are some server error. Please check connection.',
+          'Error'
+        );
+      }
+    });
   }
 }

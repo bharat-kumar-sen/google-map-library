@@ -12,6 +12,7 @@ import { CharacterOnlyDirective } from './directives/onlycharacter.directive';
 import { DisabledDirective } from './directives/disabled.directive';
 import { AlertComponent } from './alert';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { DataTablesModule } from 'angular-datatables';
 import { LoadingComponent } from './loading/loading.component';
 import {} from './loading/loading.component';
 import { GrdFilterPipe } from './filters-pipes/grd-filter.pipe';
@@ -30,8 +31,9 @@ const SHARED_MODULES: any = [
   CommonModule,
   FormsModule,
   RouterModule,
-  BsDropdownModule.forRoot(),
   ModalModule,
+  DataTablesModule,
+  BsDropdownModule.forRoot(),
   BsDropdownModule.forRoot(),
 ];
 @NgModule({

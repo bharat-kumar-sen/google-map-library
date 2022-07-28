@@ -31,19 +31,20 @@
               "node_modules/bootstrap/dist/css/bootstrap.css",
               "node_modules/font-awesome/css/font-awesome.css",
               "node_modules/ngx-toastr/toastr.css",
+              "node_modules/datatables.net-dt/css/jquery.dataTables.css",
               "node_modules/ngx-bootstrap/datepicker/bs-datepicker.css",
               "node_modules/ngx-spinner/animations/ball-scale-multiple.css",
               "src/styles.scss"
             ],
             "scripts": [
-              "node_modules/jquery/dist/jquery.min.js",
+              "node_modules/jquery/dist/jquery.js",
               "src/assets/js/jquery.min.js",
               "src/assets/js/b-map.js",
               "src/assets/js/s-map.js",
               "src/assets/js/s-locations-crud.js",
               "src/assets/js/r-map.js",
-
               "src/assets/js/MapLibrary.js",
+              "node_modules/datatables.net/js/jquery.dataTables.js",
               "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"
             ]
           },
