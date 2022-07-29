@@ -112,7 +112,7 @@ export class LocationsCrudComponent implements OnInit {
 
   angularFunctionCalled(currentlocationInfo: any) {
     if (this.locationInfo.location.id) {
-      console.log('currentlocationInfo ==00 ', currentlocationInfo);
+      // console.log('currentlocationInfo ==00 ', currentlocationInfo);
       currentlocationInfo.id = this.locationInfo.location.id
     }
     this.locationInfo.location = {...currentlocationInfo};
@@ -144,7 +144,6 @@ export class LocationsCrudComponent implements OnInit {
       },
       error: (error: any) => {
         this.spinner.hide();
-        console.log("error", error);
         this.toastr.error(error.message, 'Error!');
       }
     });
@@ -158,7 +157,7 @@ export class LocationsCrudComponent implements OnInit {
   showAddEditModal(location?: any) {
     if (location && location.id) {
       location = JSON.parse(JSON.stringify(location));
-      console.log('olocation.id ==', location.id);
+      // console.log('olocation.id ==', location.id);
       const latlng = {
         lat: location.location_lat,
         lng: location.location_lng,
@@ -180,14 +179,11 @@ export class LocationsCrudComponent implements OnInit {
     const self = this;
     const ObjectKeys = Object.keys(this.requiredValidation);
     let postData = JSON.parse(JSON.stringify(self.locationInfo.location));
-    console.log('postData== ',postData);
     const found = ObjectKeys.filter((obj: any) => {
-      console.log('obj== ',obj);
       return !postData[obj];
     });
     this.spinner.show();
     if (found.length) {
-      console.log('found== ',found);
       this.alertService.clear();
       this.alertService.error('*Please Fill Fields that are mandatory.');
       this.spinner.hide();
@@ -201,7 +197,7 @@ export class LocationsCrudComponent implements OnInit {
           this.spinner.hide();
           this.toastr.success(dataRes.message, 'Success!');
           dataRes = dataRes.data;
-          console.log("dataRes", dataRes);
+          // console.log("dataRes", dataRes);
           // this.locationsList.unshift(this.locationInfo.location);
           this.locationInfo.location = "";
           this.closeModel();
@@ -210,7 +206,6 @@ export class LocationsCrudComponent implements OnInit {
       },
       error: (error: any) => {
         this.spinner.hide();
-        console.log("error", error);
         this.toastr.error(error.message, 'Error!');
       }
     });

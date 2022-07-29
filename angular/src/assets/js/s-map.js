@@ -42,8 +42,7 @@ const contentString =
   '<div id="bodyContent">' +
   '<div class="iw-subTitle">Sub-Heading</div>'
   + "<p><b>Uluru</b>, also referred to as <b>Ayers Rock</b>, is a large Heritage Site.</p>" +
-  '<p>Attribution: Uluru, <a href="https://en.wikipedia.org/w/index.php?title=Uluru&oldid=297882194">' +
-  "https://en.wikipedia.org/w/index.php?title=Uluru</a> " +
+  '<p>Attribution: Uluru, <a href="https://en.wikipedia.org/w/index.php?title=Uluru&oldid=297882194">' + "https://en.wikipedia.org/w/index.php?title=Uluru</a> " +
   "(last visited June 22, 2009).</p>" +
   '<div class="iw-subTitle">Contacts :</div>' +
   // '<p class="address">Address: VISTA ALEGRE ATLANTIS, SA 3830-292 Ílhavo - Portugal </p>' +
