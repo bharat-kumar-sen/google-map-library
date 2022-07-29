@@ -114,13 +114,7 @@ function searchLocation(place) {
       scaledSize: new google.maps.Size(35, 35)
     }));
   }
-  /*   dragonMarker.setIcon(({
-      url: place.icon,
-      size: new google.maps.Size(71, 71),
-      origin: new google.maps.Point(0, 0),
-      anchor: new google.maps.Point(17, 34),
-      scaledSize: new google.maps.Size(35, 35)
-    })); */
+
   dragonMarker.setPosition(place.geometry.location);
   dragonMarker.setVisible(true);
 
