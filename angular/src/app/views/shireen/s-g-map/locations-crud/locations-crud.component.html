@@ -10,7 +10,7 @@
 </div>
 <div class="container-fluid">
   <div class="container mt-1">
-    <!-- <pre [innerHtml]="locationInfo | json"></pre> -->
+    <pre [innerHtml]="locationInfo | json"></pre>
     <div class="d-flex justify-content-end mb-3">
       <div>
         <button class="btn btn-sm btn-primary ms-3" (click)="showAddEditModal()"><i class="fas fa-plus me-2"></i>Add
@@ -129,19 +129,19 @@
                   [(ngModel)]="locationInfo.location.place_Id">
               </div>
             </div>
-            <!--   <div class="row mb-3">
-            <label for="storeCode" class="col-sm-2 col-form-label fw-bold">Store Code</label>
-            <div class="col-sm-10">
-              <input type="text" class="form-control" id="storeCode">
-            </div>
-          </div> -->
             <div class="row mb-3">
               <label for="Lname" class="col-sm-2 col-form-label fw-bold">Name</label>
               <div class="col-sm-10">
                 <input type="text" class="form-control" id="Lname" name="Lname" [(ngModel)]="locationInfo.location.name"
-                  placeholder="Name">
+                  maxlength="2" required placeholder="Name">
+                <!-- <div *ngIf="invalidError.Lname.invalid && (invalidError.Lname.dirty || invalidError.Lname.touched)" class="alert alert-danger mt-1">
+                  <div *ngIf="invalidError.Lname.errors.required">Location Name is required</div>
+                  <div *ngIf="invalidError.Lname.errors.minlength">Location Name should be atleast 3 characters</div>
+                  <div *ngIf="invalidError.Lname.errors.maxlength">Location Name max 50 characters.</div>
+                </div> -->
               </div>
             </div>
+
             <div class="row mb-3">
               <label for="address" class="col-sm-2 col-form-label fw-bold">Address</label>
               <div class="col-sm-10">
@@ -163,6 +163,7 @@
                   placeholder="International Phone" [(ngModel)]="locationInfo.location.InternationalPhone">
               </div>
             </div>
+
             <div class="row mb-3">
               <label for="state" class="col-sm-2 col-form-label fw-bold">State</label>
               <div class="col-sm-10">
@@ -201,6 +202,7 @@
           </div>
         </div>
       </div>
+      <app-alert></app-alert>
       <div class="modal-footer border-top-0 justify-content-start">
         <button type="submit" class="btn btn-primary" (click)="saveLocationInfo()">
           {{locationInfo.location.id ? 'Edit' : 'Save' }}
@@ -229,7 +231,7 @@
         </p>
       </div>
       <div class="modal-footer border-top-0 d-flex justify-content-start">
-        <button type="button" class="btn btn-default me-1" (click)="closeModel()">Close</button>
+        <button type="button" class="btn btn-secondary me-1" (click)="closeModel()">Close</button>
         <button type="button" class="btn btn-danger" (click)="deleteLocation()">Delete</button>
       </div>
     </div>

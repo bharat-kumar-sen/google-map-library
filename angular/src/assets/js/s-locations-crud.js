@@ -90,7 +90,7 @@ function getMorePlaceDetails(placeData) {
 }
 
 function searchLocation(place) {
-  console.log('place',place)
+  // console.log('place', place)
   if (!place.geometry || !place.geometry.location) {
     // User entered the name of a Place that was not suggested and
     // pressed the Enter key, or the Place Details request failed.
@@ -105,17 +105,28 @@ function searchLocation(place) {
     map.setCenter(place.geometry.location);
     map.setZoom(17);
   }
-  dragonMarker.setIcon(({
-    url: place.icon,
-    size: new google.maps.Size(71, 71),
-    origin: new google.maps.Point(0, 0),
-    anchor: new google.maps.Point(17, 34),
-    scaledSize: new google.maps.Size(35, 35)
-  }));
+  if (place.icon) {
+    dragonMarker.setIcon(({
+      url: place.icon,
+      size: new google.maps.Size(71, 71),
+      origin: new google.maps.Point(0, 0),
+      anchor: new google.maps.Point(17, 34),
+      scaledSize: new google.maps.Size(35, 35)
+    }));
+  }
+  /*   dragonMarker.setIcon(({
+      url: place.icon,
+      size: new google.maps.Size(71, 71),
+      origin: new google.maps.Point(0, 0),
+      anchor: new google.maps.Point(17, 34),
+      scaledSize: new google.maps.Size(35, 35)
+    })); */
   dragonMarker.setPosition(place.geometry.location);
   dragonMarker.setVisible(true);
 
-  infowindow.setContent('<div><strong>' + place.name + '</strong><br>' + place.place_id + '<br>' + place.formatted_address);
+  infowindow.setContent('<div><strong>' + place.name + '</strong><br>' + place.place_id + '<br>' + place.formatted_address + '<br>'+
+  '<b class="text-primary"> URL : '+'<a href="https://en.wikipedia.org/w/index.php?title=Uluru&oldid=297882194">' + place.url +
+  '</a>' + '</b>');
   infowindow.open(map, dragonMarker);
 
   // Location details

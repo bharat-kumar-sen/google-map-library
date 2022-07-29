@@ -5,7 +5,7 @@ import {
 } from '@angular/core';
 import { CommonModule, TitleCasePipe } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { NumberOnlyDirective } from './directives/onlynumber.directive';
 import { CharacterOnlyDirective } from './directives/onlycharacter.directive';
@@ -30,6 +30,7 @@ const SHARED_COMPONENTS: any = [
 const SHARED_MODULES: any = [
   CommonModule,
   FormsModule,
+  ReactiveFormsModule,
   RouterModule,
   ModalModule,
   DataTablesModule,
