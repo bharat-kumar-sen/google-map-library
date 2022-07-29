@@ -47,17 +47,6 @@ export class LocationsCrudComponent implements OnInit {
     private router: Router,
     private ngZone: NgZone,
   ) {
-    /*   this.activatedRoute.params.subscribe((res: any) => {
-        this.type = res.type;
-        console.log(" this.type", this.type)
-        if (this.type && this.type === 'staticMarkers') {
-          this.loadMap('staticMarkers');
-        } else if (this.type && this.type === 'dbMarkers') {
-          this.getLocationsList();
-        } else if (this.type && this.type === 'dragDropMarker') {
-          this.getLocationsList();
-        }
-      }); */
     this.getLocationsList();
   }
   // tslint:disable-next-line:use-life-cycle-interface
@@ -84,13 +73,13 @@ export class LocationsCrudComponent implements OnInit {
   }
 
   angularFunctionCalled(currentlocationInfo: any) {
-    // console.log('currentlocationInfo == ', currentlocationInfo);
     if (this.locationInfo.location.id) {
+      console.log('currentlocationInfo ==00 ', currentlocationInfo);
       currentlocationInfo.id = this.locationInfo.location.id
     }
     // this.locationInfo.location = {...currentlocationInfo};
-    // this.regionsInfo = Object.assign({}, regionsInfoValue);
     this.locationInfo.location = JSON.parse(JSON.stringify(currentlocationInfo));
+    // console.log('currentlocationInfo == 22', this.locationInfo.location);
   }
 
   ngAfterViewInit(): void {
@@ -123,35 +112,21 @@ export class LocationsCrudComponent implements OnInit {
     });
   }
 
-  onRowClicked(location: any) {
-    // console.log('onRowClicked ==', location);
-    // console.log('location.address ==', location.address);
-    if (location && location.id) {
-      const latlng = {
-        lat: location.location_lat,
-        lng: location.location_lng,
-      };
-      // geocodeLatLng(latlng);
-      codeAddress(location.address)
-      this.angularFunctionCalled(location)
-    }
-  }
-
   closeModel() {
     this.showAddEditLocationModal.hide();
     this.deleteLocationModal.hide();
   }
 
   showAddEditModal(location?: any) {
-    // console.log('onRowClicked ==', location);
-    // console.log('location.address ==', location.address);
     if (location && location.id) {
+      location = JSON.parse(JSON.stringify(location));
+      console.log('olocation.id ==', location.id);
       const latlng = {
         lat: location.location_lat,
         lng: location.location_lng,
       };
-      // geocodeLatLng(latlng);
-      codeAddress(location.address)
+      // codeAddress(location.address)
+      codeAddress(latlng)
       this.angularFunctionCalled(location)
     }
     this.showAddEditLocationModal.show();
@@ -164,7 +139,6 @@ export class LocationsCrudComponent implements OnInit {
 
   saveLocationInfo() {
     this.spinner.show();
-    console.log('this.locationInfo', this.locationInfo);
     let locationPostData = JSON.parse(JSON.stringify(this.locationInfo.location));
     delete locationPostData.default_address;
     this.sMapMarkerService.searchLocationSave(locationPostData).subscribe({
@@ -191,7 +165,6 @@ export class LocationsCrudComponent implements OnInit {
   deleteLocation() {
     this.spinner.show();
     let locationDelete = this.locationInfo.location;
-    // console.log('locationDelete==', locationDelete);
     this.spinner.show();
     this.sMapMarkerService.deletelocation(locationDelete).subscribe({
       next: (dataRes: any) => {

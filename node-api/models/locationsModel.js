@@ -16,9 +16,7 @@ var DbConnect = dbConnection.db;
  */
 exports.getLocationsList = (req, cb) => {
   // var data = req.body;
-  // DbConnect.from('locations').then((result) => {
   DbConnect.from('locations').orderBy('createdAt', 'desc').then((result) => {
-    console.log('result ==', result);
     if (result) {
       cb(null, result)
     } else {
@@ -33,7 +31,6 @@ exports.getLocations = (req, cb) => {
   // var data = req.body;
   // DbConnect.from('locations').then((result) => {
   DbConnect.from('locationsDataTable').orderBy('createdAt', 'desc').then((result) => {
-    console.log('result ==', result);
     if (result) {
       cb(null, result)
     } else {
@@ -48,9 +45,7 @@ exports.saveLocations = (req, cb) => {
   // get data add to the table called drap_drop_location..
   var data = req.body;
   console.log('data == ', data);
-  // DbConnect.from('drap_drop_location').insert(data).then((result) => {
   DbConnect.from('locations').insert(data).then((result) => {
-    console.log('result ==', result);
     if (result) {
       cb(null, result)
     } else {
@@ -64,10 +59,8 @@ exports.saveLocations = (req, cb) => {
 exports.searchLocationSave = (req, cb) => {
   // get data add to the table called drap_drop_location..
   var data = req.body;
-  console.log('data == ', data);
   if(data.id) {
     DbConnect.from('locationsDataTable').where({id: data.id}).update(data).then((result) => {
-      console.log('result ==', result);
       if (result) {
         cb(null, result)
       } else {
@@ -77,9 +70,8 @@ exports.searchLocationSave = (req, cb) => {
       cb(err, null);
     });
   } else {
-    // DbConnect.from('drap_drop_location').insert(data).then((result) => {
       DbConnect.from('locationsDataTable').insert(data).then((result) => {
-        console.log('result ==', result);
+        // console.log('result ==', result);
         if (result) {
           cb(null, result)
         } else {
@@ -94,9 +86,7 @@ exports.searchLocationSave = (req, cb) => {
   exports.deletelocation = (req, cb) => {
     // get data add to the table called drap_drop_location..
     var data = req.body;
-    console.log('data == ', data);
     DbConnect.from('locationsDataTable').where({id: data.id}).delete(data).then((result) => {
-      console.log('result ==', result);
       if (result) {
         cb(null, result)
       } else {
